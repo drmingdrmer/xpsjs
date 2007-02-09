@@ -22,7 +22,7 @@ new Module("net.xp.util.dom.Create",
 	
 	allNodesFromHtml : function (html, doc){
 		var e = this.tempNode(doc);
-		e.innerHTML = html;		
+		e.innerHTML = html;
 		
 		return e.childNodes;
 	},
@@ -32,9 +32,9 @@ new Module("net.xp.util.dom.Create",
 	},
 	
 	createIframe : function (option, doc){
-		option.id = option.id != null ? option.id : "iframe";
+		option.id = option.id !== null ? option.id : "iframe";
 		option.name = option.name || option.id;
-		option.transparent = option.transparent != null ? option.transparent : false; 
+		option.transparent = option.transparent !== null ? option.transparent : false; 
 		var html = "<iframe id='"+option.id+"' "
 				 + "name='"+option.name+"' "
 				 + "allowTransparency='"+option.transparent+"' "
