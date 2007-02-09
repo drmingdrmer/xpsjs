@@ -23,7 +23,7 @@ return {
 
 	_uu : function (){
 		var m = this._($name);
-		m.urlUtil = m.urlUtil || Module.get("net.xp.util.URL");
+		m.urlUtil = m.urlUtil || Module.get("net.xp.util.URL").newInst();
 		return m.urlUtil;
 	},
 
@@ -60,19 +60,19 @@ return {
 		
 		var ifmHost = this;
 		var src = option.src;
+
+		//invoked when real content loaded
+		var onIfmLoad = function (){
+			ifmHost.removeIframeOnload(ifm,onIfmLoad);
+			
+			var comp = (ifm.contentWindow.component = ifc.newInst());
+		}
+
 		//invoked when blank page set.
 		var onInit = function (){
 			ifm.contentWindow.location.href = src;
 			ifmHost.removeIframeOnload(ifm,onInit);
 			ifmHost.setIframeOnload(ifm, onIfmLoad);
-		}
-		
-		//invoked when real content loaded 
-		var onIfmLoad = function (){
-			ifmHost.removeIframeOnload(ifm,onIfmLoad);
-			
-			var comp = (ifm.contentWindow.component = ifc.newInst());
-			
 		}
 		
 		this.setIframeOnload(ifm, onInit);
