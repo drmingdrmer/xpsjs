@@ -1,3 +1,0 @@
-window.$str = {
-	trim:function (){}
-}
