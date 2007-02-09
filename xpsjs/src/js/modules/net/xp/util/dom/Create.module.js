@@ -7,7 +7,7 @@ new Module("net.xp.util.dom.Create",
 [
 	"net.xp.core.ModuleVars",
 	"net.xp.dom.DocRelative"
-],{
+],function ($this,$name){ return {
 
 	createNode : function (name, attr, doc){
 		attr = attr || {};
@@ -15,8 +15,6 @@ new Module("net.xp.util.dom.Create",
 		for (var i in attr) n.setAttribute(i, attr[i]);
 		return n;
 	},
-	
-	
 		
 	tempNode : function (doc){
 		return this.createNode("div",null,doc);
@@ -40,8 +38,8 @@ new Module("net.xp.util.dom.Create",
 		var html = "<iframe id='"+option.id+"' "
 				 + "name='"+option.name+"' "
 				 + "allowTransparency='"+option.transparent+"' "
-				 + "scr='"+Loader.getBlankPageUrl()+"'></iframe>";
+				 + "scr='"+Loader.getBlankPageUrl()+"'><\/iframe>";
 		return this.nodeFromHtml(html, doc);
-	},
+	}
 	
-})
+}})
