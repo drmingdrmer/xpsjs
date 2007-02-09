@@ -2,6 +2,8 @@
  * 
  * @author xp yanbo@staff.sina.com.cn | drdr.xp@gmail.com
  * TODO add command utilities.
+ * TODO inject JS, CSS
+ * TODO listen onload event
  */
 
 Module.require([
@@ -18,7 +20,6 @@ new Module("net.xp.dom.IframeComponentHost",
 		var urlUtil = Module.get("net.xp.util.URL").newInst();
 		this.$sv(arguments,"url",urlUtil);
 	},
-	
 	
 	_getIframeSet : function (isByName){
 		isByName = isByName != false;
