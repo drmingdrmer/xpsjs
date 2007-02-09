@@ -9,7 +9,7 @@ Module.require([
 ]);
 new Module("net.xp.dom.IframeComponentHost",
 [
-	"net.xp.core.ModuleVars",
+	"net.xp.core.Core",
 	"net.xp.dom.WindowRelative",
 	"net.xp.dom.event.IframeOnload",
 	"net.xp.util.dom.Create"
