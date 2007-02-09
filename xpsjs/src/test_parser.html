@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<script src="js/Loader.js"></script>
+<script>
+	var initPrototype = function (){
+		function log(i){
+			document.getElementById("log").innerHTML += i+"\n";
+		}
+		window.log = log;
+		$module.log = log;
+
+		Array.prototype.each = function (insp){
+			for (var i=0; i<this.length; i++){
+				insp(i,this[i]);
+			}
+		}
+		Array.prototype.toString = function (){
+			var str = "[";
+			this.each(function (i,n){
+				str += "" + n+", ";
+			})
+			return str + "]";
+		}
+		Object.prototype.each = function (insp){
+			for (var i in this){
+				if (this.constructor.prototype[i] != null) continue;
+				insp(i,this[i]);
+			}
+		}
+		Object.prototype.toString = function (){
+			var s = "[\n";
+			this.each(function (n,v){
+				if (typeof v == "object") s+=" " + n +"=[object]";
+				else s += "	" + n + " = " + v + "\n";
+			});
+			return s + "]";
+		}
+
+		$module.Array.prototype.toString = Array.prototype.toString;
+		$module.Array.prototype.each = Array.prototype.each;
+		$module.Object.prototype.toString = Object.prototype.toString;
+		$module.Object.prototype.each = Object.prototype.each;
+	}
+
+	var job = function (){
+		
+
+		var doc = document;
+		var sm = Module.get("net.xp.str.Parser");
+		var inst = sm.newInst();
+
+
+		inst.setList([
+			["invalid", /^(\s|\t|\r|\n)+/, null],
+			["id", /^[_$A-Za-z]+\w*/, null],
+			//["number",/^\d+(\.\d+)?/,null],
+			//["operator",/^\+|\-|\*|\/|\&|\^|\|/,null],
+			//["string", "\"", /([^\"]|\\\")*/, "\"", null],
+			["idList", "$id", ","]
+			//["params", "(", "$idList", ")", null],
+			//["blocker", "{", "", "}", null],
+			//["functionDef", "function", "$invalid", "$id", "$params", "$blocker", null],
+			//["functionCall","$id","(","",")",null]
+		]);
+
+
+		inst.setParseString("ab,c");
+		//inst.setParseString("function xp(a,b,c){}");
+
+		var match = inst.parse(0);
+		inst.logStep("--->");
+		inst.logTrace(match);
+		//inst.parseNextOuterList(inst.getNextValidCharPosition(0));
+		//inst.logStep("--->");
+		//inst.parseNextOuterList(inst.getNextValidCharPosition(0));
+
+	}
+	function foo(){
+		new Loader({
+			onLoaderInited : function (){
+				initPrototype();
+				var ldr = Loader.instance;
+				ldr.loadJS("Module.js");
+				ldr.loadModules(["net.xp.str.Parser"]);
+			},
+			
+			onFinishLoad : job
+		})
+	}
+</script>
+<script>
+	
+</script>
+</head>
+<body onload = "foo();">
+	<div id = "log" style="overflow:scroll; white-space:pre; width:800px;height:100px; border:1px solid #000; font-size:12px;"></div>
+	<div id="o">
+		<span id="s1"><div id="ss1"></div></span>
+		<div id="i1">
+			<div id="j1">a</div>
+		</div>
+		<div id="i2"></div>
+	</div>
+	
+</body>
+</html>

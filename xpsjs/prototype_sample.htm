@@ -1,0 +1,46 @@
+<html>
+<head>
+<script src="lib/prototype/prototype.js" type="text/javascript"></script>
+</head>
+
+<body>
+<h3>Prototype Example</h3>
+Sample from: <a href="http://www.sergiopereira.com/articles/prototype.js.html#Enumerating" target="_window">http://www.sergiopereira.com/articles/prototype.js.html#Enumerating</a>
+
+<p>
+
+It's very common for all the elements in your array to be of the same kind, with the same properties and methods. 
+Let's see how we can take advantage of iterator functions with our new souped-up arrays.
+Now let's kick it up another notch. See how we can filter out items in arrays, 
+then retrieve just a desired member from each element.
+<p>
+
+<script>
+	function showLocalLinks(paragraph){
+		paragraph = $(paragraph);
+		var links = $A(paragraph.getElementsByTagName('a'));
+		//find links that do not start with 'http'
+		var localLinks = links.findAll( function(link){
+			var start = link.href.substring(0,4);
+			return start !='http';
+		});
+		//now the link texts
+		var texts = localLinks.pluck('innerHTML');
+		//get them in a single string
+		var result = texts.inspect();
+		document.getElementById("results").innerHTML = result;
+	}
+
+</script>
+<p id="someText">
+	This <a href="http://othersite.com/page.html">text</a> has 
+	a <a href="#localAnchor">lot</a> of 
+	<a href="#otherAnchor">links</a>. Some are 
+	<a href="http://wherever.com/page.html">external</a>
+	and some are <a href="#someAnchor">local</a>
+</p>
+<input type=button value="Find Local Links" onclick="showLocalLinks('someText')">
+<p>
+<div id="results">[Results Area]</div>
+</body>
+</html>

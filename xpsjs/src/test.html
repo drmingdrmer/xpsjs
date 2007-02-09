@@ -1,0 +1,90 @@
+<head>
+	<style>
+		div#o1{
+			border-top:0px solid #ddd;
+			border-right:20px solid #ddf;
+			border-bottom:20px solid transparent;
+			border-left:00px solid #f00;
+			width:0px;
+			height:0px;
+		}
+		div{
+			margin:auto;
+			text-align:center;
+			border:0px solid #000;
+			line-height:0px;
+			font-size:0px;
+		}
+		div#o{
+			width:500px;
+			height:500px;
+			border:0px solid #000;
+			position:absolute;
+			top:10px;
+			left:100px;
+		}
+		div#p{
+			width:498px;
+			height:498px;
+			border:0px solid #000;
+			position:absolute;
+			top:11px;
+			left:101px;
+		}
+
+	</style>
+	<script>
+		var IE = navigator.appName=="Microsoft Internet Explorer";
+		function $(id){
+			return document.getElementById(id);
+		}
+
+		function setWidth(e,w,b){
+			if (IE) e.style.width = w + 2*b +"px";
+			else e.style.width = w+"px";
+		}
+		function job(){
+			var l = 20;
+			var arc = Math.acos(1-1/l);
+			var splMin = 1/arc*Math.PI/2;
+			var spl = Math.floor(splMin);
+
+			var o = $("o");
+			var w0 = 500;
+			var h0 = 500;
+
+			for (var i=0;i<spl;i++){
+
+				var cw = Math.sin(Math.PI/2*((i)/spl))*l;
+				var w = Math.sin(Math.PI/2*((i+1)/spl))*l - cw;
+				var h = Math.cos(Math.PI/2*((i+1)/spl))*l;
+				var bh = Math.cos(Math.PI/2*((i)/spl))*l - h;
+
+				var dv = document.createElement("div");
+				o.appendChild(dv);
+
+				setWidth(dv,w0-2*l+2*cw,w);
+				dv.style.borderBottom = bh + "px solid #777";
+				dv.style.borderLeft = dv.style.borderRight = w + "px solid transparent";
+
+
+			}
+
+
+
+		
+
+		}
+	</script>
+</head>
+
+<body style="background-color:#aaa;" onload="job();">
+	<div id="o">
+	</div>
+	<div id="p">
+		
+	</div>
+
+	
+</body>
+

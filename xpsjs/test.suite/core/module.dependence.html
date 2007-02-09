@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>JsUnit Assertion Tests</title>
+<link rel="stylesheet" type="text/css" href="../css/jsUnitStyle.css">
+<script language="JavaScript" type="text/javascript" src="../../jsunit/app/jsUnitCore.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../src/js/Loader.js"></script>
+
+<script language="JavaScript" type="text/javascript">
+
+	function setUp() {
+		
+	}
+	function setUpPage() {
+		var ins = new Loader({
+			holders		: "",
+			finishInit	: loadjs
+		});
+	}
+	
+	function loadjs(){
+		var ins = Loader.instance;
+		
+		ins.loadJS("Module.js");
+		ins.loadModules([
+			"net.xp.Empty",
+			"net.xp.SampleMore"
+		]);
+		ins.loadJS("../../test.suite/finish.js");
+	}
+	
+	function tearDown() {
+	  
+	}
+	
+	function testRequiredModuleMethod(){
+		var m = Module.get("net.xp.Sample");
+		var sm = Module.get("net.xp.SampleMore");
+		var ins = sm.newInst();
+		assertTrue("sm.sampleMethod", sm.sampleMethod != null);
+		assertTrue("ins.sampleMethod not null", ins.sampleMethod != null);
+		assertEquals("ins.sampleMethod", sm.sampleMethod, ins.sampleMethod);
+		assertNotEquals("overridable method 'ovf'", m.ovf, sm.ovf);
+		
+		try{
+			var tempModule = new Module("temp",["net.xp.Sample"],{
+				novf : function (){
+					
+				}
+			});
+			fail("expect an error but not");
+		}catch (e){}
+	}
+	
+	function test_unharmfull_to_object(){
+		//TODO
+	}
+	
+	
+	
+
+
+</script>
+</head>
+
+<body>
+<div id="sampleDiv"><div id="anotherDiv"></div></div>
+<div id="anotherDiv"></div>
+
+</body>
+</html>

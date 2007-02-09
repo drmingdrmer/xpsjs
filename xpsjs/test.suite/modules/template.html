@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>JsUnit Assertion Tests</title>
+<link rel="stylesheet" type="text/css" href="../css/jsUnitStyle.css">
+<script language="JavaScript" type="text/javascript" src="../../jsunit/app/jsUnitCore.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../src/js/Loader.js"></script>
+
+<script language="JavaScript" type="text/javascript">
+
+	function setUp() {
+		
+	}
+	function setUpPage() {
+		var ins = new Loader({
+			holders		: "",
+			finishInit	: loadjs
+		});
+	}
+	
+	function loadjs(){
+		var ins = Loader.instance;
+		
+		ins.loadJS("Module.js");
+		ins.loadModule("net.xp.Sample");
+		ins.loadJS("../../test.suite/finish.js");
+	}
+	
+	function tearDown() {
+	  
+	}
+	
+
+
+</script>
+</head>
+
+<body>
+<div id="sampleDiv"><div id="anotherDiv"></div></div>
+<div id="anotherDiv"></div>
+
+</body>
+</html>
