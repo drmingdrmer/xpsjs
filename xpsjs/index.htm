@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<title>test suite index</title>
+		<script>
+			function init(){
+				var testRunner = "../jsunit/testRunner.html";
+				var base = "H:\\;projects\\;js\\;xp\\xpj.v.01";
+				
+				var as = document.getElementsByTagName("a");
+				for (var i=0;i<as.length;i++){
+					var a = as[i];					
+					a.href=testRunner+"?testPage="+base+"\\"+a.innerHTML+"&autoRun=true&showTestFrame=50";
+				}
+			}
+		</script>
+	</head>
+	<body onload="init();">
+		<ul>
+			<li><a href="">\test.suite\suite.html</a></li>
+			
+			<li><a href="">\test.suite\core\loader.html</a></li>
+			
+			<li><a href="">\test.suite\core\module.basic.html</a></li>
+			
+			<li><a href="">\test.suite\core\module.load.html</a></li>
+			
+			<li><a href="">\test.suite\core\module.dependence.html</a></li>
+
+			<li><a href="">\test.suite\modules\m.net.xp.core.ModuleVars.html</a></li>
+			
+			<li><a href="">\test.suite\modules\m.net.xp.core.HashCode.html</a></li>
+		</ul>
+	</body>
+</html>
