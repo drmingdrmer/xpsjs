@@ -5,14 +5,16 @@
  */
 new Module("net.xp.util.dom.Create",
 [
-	"net.xp.core.ModuleVars",
+	"net.xp.core.Core",
 	"net.xp.dom.DocRelative"
 ],function ($this,$name){ return {
 
 	createNode : function (name, attr, doc){
 		attr = attr || {};
 		var n = this.$Doc(doc).createElement(name);
-		for (var i in attr) n.setAttribute(i, attr[i]);
+		for (var i in attr)
+			if (typeof arrt[i] != "function" && Object.prototype[i] == null)
+				n.setAttribute(i, attr[i]);
 		return n;
 	},
 		
@@ -23,7 +25,6 @@ new Module("net.xp.util.dom.Create",
 	allNodesFromHtml : function (html, doc){
 		var e = this.tempNode(doc);
 		e.innerHTML = html;
-		
 		return e.childNodes;
 	},
 	
@@ -34,7 +35,9 @@ new Module("net.xp.util.dom.Create",
 	createIframe : function (option, doc){
 		option.id = option.id !== null ? option.id : "iframe";
 		option.name = option.name || option.id;
-		option.transparent = option.transparent !== null ? option.transparent : false; 
+		option.transparent = option.transparent !== null
+				? option.transparent
+				: false; 
 		var html = "<iframe id='"+option.id+"' "
 				 + "name='"+option.name+"' "
 				 + "allowTransparency='"+option.transparent+"' "

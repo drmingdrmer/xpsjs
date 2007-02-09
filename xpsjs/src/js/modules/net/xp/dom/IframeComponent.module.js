@@ -8,7 +8,9 @@ new Module("net.xp.dom.IframeComponent",
 [
 	"net.xp.core.ModuleVars",
 	"net.xp.dom.WindowRelative"
-],{
+],function ($this,$name){
+	
+return {
 	
 	
 	
@@ -46,7 +48,7 @@ new Module("net.xp.dom.IframeComponent",
 	 * @param {Object} cmd
 	 * @param {Object} params
 	 */
-	doCommand : function (cmd, params){
+	doCommand : function (cmd, params,$overridable){
 		
 	}
-})
+}})
