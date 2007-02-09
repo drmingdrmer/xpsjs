@@ -15,16 +15,22 @@ new Module("net.xp.dom.IframeComponentHost",
 	"net.xp.dom.WindowRelative",
 	"net.xp.dom.event.IframeOnload",
 	"net.xp.util.dom.Create"
-],{
+],function ($this,$name){
+return {
+
 	_$initialize : function (){
-		var urlUtil = Module.get("net.xp.util.URL").newInst();
-		this.$sv(arguments,"url",urlUtil);
 	},
-	
+
+	_uu : function (){
+		var m = this._($name);
+		m.urlUtil = m.urlUtil || Module.get("net.xp.util.URL");
+		return m.urlUtil;
+	},
+
 	_getIframeSet : function (isByName){
-		isByName = isByName != false;
-		
-		var m = this.$m(arguments);
+		isByName = !!isByName;
+
+		var m = this._($name);
 		m.byId = m.byId || {};
 		m.byName = m.byName || {};
 		
@@ -76,4 +82,4 @@ new Module("net.xp.dom.IframeComponentHost",
 	}
 	
 	
-})
+}})
