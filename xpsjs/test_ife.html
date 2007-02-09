@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+
+<script>
+
+
+	var initPrototype = function (){
+		function log(i){
+			document.getElementById("log").innerHTML += i+"\n";
+		}
+		window.log = log;
+
+		Array.prototype.each = function (insp){
+			for (var i=0; i<this.length; i++){
+				insp(i,this[i]);
+			}
+		}
+		Array.prototype.toString = function (){
+			var str = " <Array : "+this.length+" [";
+			this.each(function (i,n){
+				str += "" + n+", ";
+			})
+			return str + "]>";
+		}
+		Object.prototype.each = function (insp){
+			for (var i in this){
+				if (this.constructor.prototype[i] != null) continue;
+				insp(i,this[i]);
+			}
+		}
+		Object.prototype.toString = function (){
+			var s = "[\n";
+			this.each(function (n,v){
+				s += "	" + n + " = " + v + "\n";
+			});
+			return s + "]";
+		}
+	}
+
+	function $(id){
+		return document.getElementById(id);
+	}
+	
+	function foo(){
+		initPrototype();
+		
+		var ifm = $("ifm");
+		
+		ifm.setAttribute("name","xp");
+		
+		ifm.name="abc";
+		//alert(xp);
+		alert(tif);
+	}
+</script>
+<script>
+	
+</script>
+</head>
+<body onload = "foo();">
+	<iframe id="ifm" name="tif" src = "blank.html"></iframe>
+	<div id = "log" style="overflow:scroll; white-space:pre; width:800px;height:100px; border:1px solid #000; font-size:12px;"></div>
+	<div id="o">
+		<span id="s1"><div id="ss1"></div></span>
+		<div id="i1">
+			<div id="j1">a</div>
+		</div>
+		<div id="i2"></div>
+	</div>
+	
+</body>
+</html>
