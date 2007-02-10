@@ -1,17 +1,19 @@
-var x = new Module("net.xp.dom.event.IframeOnload",
-[],{
+/**
+ * TODO replace $util reference.
+ */
+new Module("net.xp.dom.event.IframeOnload",
+[
+],function ($this, $name){
+return {
    	/**
 	* !!NOTE that this module is harmful. to set onload event may overwrite your original event handler.
 	*/
 	setIframeOnload : function (ifm, func){			
 		if ($util.$IE){
-			ifm.__id = Math.random()+"";
 			var thiz = this;
 			ifm.onreadystatechange = function (){
 				var s = ifm.readyState;
-				thiz.alertD(ifm.__id+"--ready code : "+s);
 				if (s == "complete"){
-					thiz.alertD(ifm.contentWindow.document.body.innerHTML);
 					func();
 				}
 			}
@@ -30,4 +32,4 @@ var x = new Module("net.xp.dom.event.IframeOnload",
 			throw new Error ("do not support other browser yet.");
 		}
 	}
-});
+}});
