@@ -6,12 +6,31 @@
  */
 new Module("net.xp.dom.IframeComponent",
 [
-	"net.xp.core.ModuleVars",
+	"net.xp.core.Core",
 	"net.xp.dom.WindowRelative"
 ],function ($this,$name){
 	
 return {
-	
+
+	getIframe : function (){
+		var m = this._($name);
+		return m.iframe;
+	},
+
+	setIframe : function (iframe){
+		var m = this._($name);
+		m.iframe = iframe;
+	},
+
+	getHost : function (){
+		var m = this._($name);
+		return m.host;
+	},
+
+	setHost : function (host){
+		var m = this._($name);
+		m.host = host;
+	},
 	
 	
 	/**
@@ -20,25 +39,16 @@ return {
 	 * @param {Object} params
 	 */
 	callCommand : function (cmd, params){
-		
-	},
-	
-	/**
-	 * invoked by IframeCompHost
-	 * @param {Object} iframe
-	 * @param {Object} iframeWin
-	 * @param {Object} hostWin
-	 */
-	_initIframeComp : function (iframe, iframeWin, hostWin){
-		
-		
+		this.getHost().runCommand(cmd,params || []);
 	},
 	
 	/**
 	 * when iframe component load finished, host window invoke this method to inform I.C. to start to work
 	 */
-	runIframeComp : function (){
-		
+	run : function (){
+		//noinspection JSUnresolvedVariable
+		var startupFunc = this.$Win().startup;
+		if (startupFunc) startupFunc.apply(this.$Win(),[this.getHost(),this]);
 	},
 	
 	
@@ -48,7 +58,14 @@ return {
 	 * @param {Object} cmd
 	 * @param {Object} params
 	 */
-	doCommand : function (cmd, params,$overridable){
+	doCommand : function (cmd, params){
+		var win = this.$Win();
+		var cmdFunc = win[cmd];
+		if (cmdFunc !== null){
+			cmdFunc.apply(this.$Win(),params || []);
+		} else {
+			throw new Error ("no command with the name : "+cmd);
+		}
 		
 	}
 }})
