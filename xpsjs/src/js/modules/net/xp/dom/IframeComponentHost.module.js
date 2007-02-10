@@ -7,7 +7,8 @@
  */
 
 Module.require([
-	"net.xp.util.URL"
+	"net.xp.util.URL",
+	"net.xp.control.Runnable"
 ]);
 //noinspection ObjectAllocationIgnored
 new Module("net.xp.dom.IframeComponentHost",
@@ -22,10 +23,14 @@ return {
 	_$initialize : function (){
 	},
 
-	_uu : function (){
+	_urlUtil : function (){
 		var m = this._($name);
 		m.urlUtil = m.urlUtil || Module.get("net.xp.util.URL").newInst();
 		return m.urlUtil;
+	},
+
+	_ifCmp : function (){
+		return Module.get("net.xp.dom.IframeComponent");
 	},
 
 	_getIframeCollection : function (isByName){
@@ -38,7 +43,7 @@ return {
 		return isByName ? m.byName : m.byId;
 	},
 	
-	_appendIframeCompToCollection : function (option,ifm){
+	_addIframeCompToCollection : function (option,ifm){
 		this._getIframeCollection(false)[option.id] = ifm;
 		this._getIframeCollection(true)[option.name] = ifm;
 	},
@@ -50,12 +55,19 @@ return {
 			return this._getIframeCollection(false)[opt.id];
 		}
 	},
-	
+
+	/**
+	 * @param {Object} option contains infomation needed to create an iframe.<br>
+	 * 		option.id
+	 * 		option.name
+	 * 		option.transparent
+	 * 		option.src
+	 */
 	createIframeComp : function(option){
 		var doc = this.$WDoc();
 		var ifm = this.createIframe(option, doc);
 		
-		var ifc = Module.get("net.xp.dom.IframeComponent");
+		var ifc = this._ifCmp();
 		
 		
 		var ifmHost = this;
@@ -64,7 +76,7 @@ return {
 		//invoked when real content loaded
 		var onIfmLoad = function (){
 			ifmHost.removeIframeOnload(ifm,onIfmLoad);
-			//TODO 
+			//TODO finish it
 			var comp = (ifm.contentWindow.component = ifc.newInst());
 		}
 
@@ -77,15 +89,57 @@ return {
 		
 		this.setIframeOnload(ifm, onInit);
 		
-		this._appendIframeCompToCollection(option, ifm);
+		this._addIframeCompToCollection(option, ifm);
 		return ifm;
 	},
 
-	registerCommand : function (cmd){
-		if (typeof cmd == "function"){
-			
-		}
+	makeIframeComp : function (iframe){
+		var doc = iframe.ownerDocument;
+		var ifc = this._ifCmp();
+
+	},
+
+
+
+/*-----------------------------------------------------------------------*\
+
+
+
+
+\*-----------------------------------------------------------------------*/
+
+	registerDefaultCommand : function(){
+		this.registerCommand("load",function (name,src){
+			this.getIframeComp({name:name}).$Win().location.href = src;
+		});
 		
+	},
+	
+	registerCommand : function (name,cmd){
+		var m = this._($name);
+		if (m[name])
+			throw new Error("the command name already exists : " + name);
+		
+		if (typeof cmd == "function"){
+			var thiz = this;
+			m[name] = function (){
+				cmd.apply(thiz,arguments);
+			}
+		} else if (Module.get("net.xp.control.Runnable").compatableTo(cmd)) {
+			m[name] = function (){
+				cmd.run();
+			}
+		}
+		return m.name;
+	},
+
+	getCommand : function (name){
+		var m = this._($name);
+		return m[name] || function (){};
+	},
+
+	runCommand : function (cmdName,params){
+		this.getCommand(cmdName).apply(null);
 	}
 	
 	
