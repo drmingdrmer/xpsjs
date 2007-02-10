@@ -87,10 +87,8 @@ var p = {
 			ifm.contentWindow.Loader = loader.getHostWin().Loader;
 			loader.inLoadingHolders--;
 			if (loader.inLoadingHolders === 0) {
-				//noinspection JSUnresolvedVariable
-				if (loader.config.runLoad) { //noinspection JSUnresolvedFunction
-					loader.config.runLoad();
-				}
+				//noinspection JSUnresolvedVariable,JSUnresolvedFunction
+				loader.config.runLoad && loader.config.runLoad();
 			}
 		}
 		if (ifm.addEventListener) {
@@ -233,10 +231,9 @@ var p = {
 			return;
 		}
 		this.inLoading = false;
-		//noinspection JSUnresolvedVariable
-		if (this.config.onLoadFinish) { //noinspection JSUnresolvedFunction
-			this.config.onLoadFinish();
-		}
+		//noinspection JSUnresolvedVariable,JSUnresolvedFunction
+		this.config.onLoadFinish &&	this.config.onLoadFinish();
+
 	}
 }
 
