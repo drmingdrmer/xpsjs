@@ -1,6 +1,6 @@
 new Module("net.xp.util.dom.$",
 [
-	"net.xp.dom.DocRelative"
+	"net.xp.dom.WindowRelative"
 ],{
 	$ : function (id, doc){
 		return this.$Doc(doc).getElementById(id);
