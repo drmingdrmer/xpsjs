@@ -25,8 +25,8 @@ var x = new Module("net.xp.dom.WindowRelative",
 		return win || this.getWorkingWin();
 	},
 	
-	$WDoc : function (win){
-		return this.$Win(win).document;
+	$Doc : function (doc){
+		return doc || this.$Win().document;
 	},
 	
 	setDomain : function (){
