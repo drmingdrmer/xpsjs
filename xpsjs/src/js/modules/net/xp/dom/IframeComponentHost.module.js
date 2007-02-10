@@ -1,9 +1,6 @@
 /**
  * 
  * @author xp yanbo@staff.sina.com.cn | drdr.xp@gmail.com
- * TODO add command utilities.
- * TODO inject JS, CSS
- * TODO listen onload event
  * TODO auto resize
  */
 
@@ -17,6 +14,7 @@ new Module("net.xp.dom.IframeComponentHost",
 	"net.xp.core.Core",
 	"net.xp.dom.WindowRelative",
 	"net.xp.dom.event.IframeOnload",
+	"net.xp.util.dom.$",
 	"net.xp.util.dom.CSS",
 	"net.xp.util.dom.Create"
 ],function ($this,$name){
@@ -24,17 +22,29 @@ return {
 
 	_$initialize : function (){
 	},
-
+	
+	/**
+	 * get url util manipulating url
+	 */
 	_urlUtil : function (){
 		var m = this._($name);
 		m.urlUtil = m.urlUtil || Module.get("net.xp.util.URL").newInst();
 		return m.urlUtil;
 	},
 
-	_ifCmp : function (){
-		return Module.get("net.xp.dom.IframeComponent");
+	/**
+	 * create of get the created iframe component class
+	 */
+	_getIfCompClz : function (){
+		var m = this._($name);
+		m.compClass = m.compClass || Module.get("net.xp.dom.IframeComponent").clz();
+		return m.compClass;
 	},
-
+	
+	/**
+	 * get a collection assign to this host of iframe components.
+	 * @param {Object} isByName
+	 */
 	_getIframeCollection : function (isByName){
 		isByName = !!isByName;
 
@@ -45,11 +55,21 @@ return {
 		return isByName ? m.byName : m.byId;
 	},
 	
-	_addIframeCompToCollection : function (option,ifm){
-		this._getIframeCollection(false)[option.id] = ifm;
-		this._getIframeCollection(true)[option.name] = ifm;
+	/**
+	 * add iframe component to collection. & indexed by name or id.<br>
+	 * name is prefered.
+	 * @param {Object} option
+	 * @param {Object} ifmComp
+	 */
+	_addIframeCompToCollection : function (option,ifmComp){
+		this._getIframeCollection(false)[option.id] = ifmComp;
+		this._getIframeCollection(true)[option.name] = ifmComp;
 	},
 	
+	/**
+	 * get ifarme component by name or id
+	 * @param {Object} opt
+	 */
 	getIframeComp : function (opt){
 		if (opt.name){
 			return this._getIframeCollection(true)[opt.name];
@@ -69,55 +89,80 @@ return {
 		var doc = this.$Doc();
 		var ifm = this.createIframe(option, doc);
 
-		var ifc = this._ifCmp();
+		var ifCompClz = this._getIfCompClz();
+		var comp = new ifCompClz();
 
-
-		var ifmHost = this;
+		var thiz = this;
 		var src = option.src;
 
-		//invoked when real content loaded
-		var onIfmLoad = function () {
-			ifmHost.removeIframeOnload(ifm, onIfmLoad);
-			//TODO finish it
-			var comp = (ifm.contentWindow.component = ifc.newInst());
+		//invoked when blank page set.
+		var init = function () {
+			comp.init(thiz, ifm, option.name || option.id, option.css, option.js);
+
+			src && (ifm.contentWindow.location.href = src);
+			thiz.removeIframeOnload(ifm, init);
+			thiz.setIframeOnload(ifm, function(){
+				thiz.responseToIframeRefresh(comp);
+			});
 		}
-
-		if (option.src !== null) {
-			//invoked when blank page set.
-			var onInit = function () {
-				ifm.contentWindow.location.href = src;
-				ifmHost.removeIframeOnload(ifm, onInit);
-				ifmHost.setIframeOnload(ifm, onIfmLoad);
-			}
-
-			this.setIframeOnload(ifm, onInit);
-		}
+		this.setIframeOnload(ifm, init);
 
 
-		this._addIframeCompToCollection(option, ifm);
-		return ifm;
+		this._addIframeCompToCollection(option, comp);
+		return comp;
 	},
 
-	makeIframeComp : function (iframe){
+	/**
+	 * make existed iframe to an iframe component.
+	 * @param {Object} iframe
+	 * @param {Object} option
+	 */
+	makeIframeComp : function (iframe,option){
 		var doc = iframe.ownerDocument;
-		var ifc = this._ifCmp();
+		var ifCompClz = this._getIfCompClz();
+
+		var thiz = this;
+		var comp = new ifCompClz();
+		comp.init(this,iframe,iframe.name || iframe.id,option.css,option.js);
+		this.setIframeOnload(iframe,function (){
+			thiz.responseToIframeRefresh(comp);
+		})
 	},
 
 	/**
 	 * onload handler of iframe component
 	 * @param {Object} comp
 	 */
-	responseToIframeOnload : function (comp){
+	responseToIframeRefresh : function (comp){
+		comp.$Win().component = comp;
 		this.injectCSS(comp);
 		this.injectJS(comp);
 	},
-
+	
+	/**
+	 * inject css style that already exists in host window to iframe component's window.
+	 * @param {Object} comp
+	 */
 	injectCSS : function (comp){
-
+		var cssId = comp.getCSS();
+		if (!cssId) return;
+		
+		var cssText = this.getAllRulesText(cssId);
+		var styleNodeText = "<style>"
+				+ cssText
+				+ "<\/style>";
+		var styleNode = this.nodeFromHtml(styleNodeText);
+		this.$n("head", comp.$Doc()).appendChild(styleNode);
 	},
-
+	
+	/**
+	 * inject a piece of javascript to component's window.
+	 * @param {Object} comp
+	 */
 	injectJS : function (comp){
-
+		var js = comp.getJS();
+		if (!js) return;
+		comp.$Win().eval(js);
 	},
 
 
@@ -127,13 +172,26 @@ command methods
 
 \*-----------------------------------------------------------------------*/
 
+	/**
+	 * register predefined command for iframe component.
+	 */
 	registerDefaultCommand : function(){
+		
+		//inform a named component to load a url.
 		this.registerCommand("load",function (name,src){
 			this.getIframeComp({name:name}).$Win().location.href = src;
 		});
 		
 	},
 	
+	/**
+	 * add a command.
+	 * a command can be a single function or a Runnable instance.<br>
+	 * function command will be call with this component assigned as this reference.  
+	 * 
+	 * @param {Object} name
+	 * @param {Object} cmd
+	 */
 	registerCommand : function (name,cmd){
 		var m = this._($name);
 		if (m[name])
@@ -152,11 +210,20 @@ command methods
 		return m.name;
 	},
 
+	/**
+	 * 
+	 * @param {Object} name
+	 */
 	getCommand : function (name){
 		var m = this._($name);
 		return m[name] || function (){};
 	},
-
+	
+	/**
+	 * 
+	 * @param {Object} cmdName
+	 * @param {Object} params
+	 */
 	runCommand : function (cmdName,params){
 		this.getCommand(cmdName).apply(null);
 	}
