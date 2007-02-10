@@ -84,6 +84,7 @@ return {
 	 * 		option.name
 	 * 		option.transparent
 	 * 		option.src
+	 * 		option.fixSize
 	 */
 	createIframeComp : function(option) {
 		var doc = this.$Doc();
@@ -115,7 +116,10 @@ return {
 	/**
 	 * make existed iframe to an iframe component.
 	 * @param {Object} iframe
-	 * @param {Object} option
+	 * @param {Object} option contains infomation needed to create an iframe.<br>
+	 * 		option.css
+	 * 		option.js
+	 * 		option.fixSize
 	 */
 	makeIframeComp : function (iframe,option){
 		var doc = iframe.ownerDocument;
