@@ -22,19 +22,29 @@ return {
 		this.setWorkingWin(iframe.contentWindow);
 	},
 
-	getName : function (){
+	getHost : function (){
 		var m = this._($name);
-		return m.name;
+		return m.host;
 	},
-	
+
 	getIframe : function (){
 		var m = this._($name);
 		return m.iframe;
 	},
 
-	getHost : function (){
+	getName : function (){
 		var m = this._($name);
-		return m.host;
+		return m.name;
+	},
+	
+	getCSS : function (){
+		var m = this._($name);
+		return m.css;
+	},
+
+	getJS : function (){
+		var m = this._($name);
+		return m.js;
 	},
 
 	
