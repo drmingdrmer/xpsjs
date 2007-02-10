@@ -116,7 +116,7 @@ new Module("net.xp.str.Parser",
 	clz.List.prototype = {
 		match : function (i){
 			var preMatch = this.parserData.getMatch(i,this);
-			if (preMatch != null) return preMatch;
+			if (preMatch !== null) return preMatch;
 
 			var str = this.parserData.getString();
 			
