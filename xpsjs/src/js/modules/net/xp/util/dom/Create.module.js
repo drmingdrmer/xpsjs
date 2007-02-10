@@ -13,7 +13,7 @@ new Module("net.xp.util.dom.Create",
 		attr = attr || {};
 		var n = this.$Doc(doc).createElement(name);
 		for (var i in attr)
-			if (typeof arrt[i] != "function" && Object.prototype[i] == null)
+			if (typeof attr[i] != "function" && Object.prototype[i] === null)
 				n.setAttribute(i, attr[i]);
 		return n;
 	},
@@ -32,6 +32,15 @@ new Module("net.xp.util.dom.Create",
 		return this.allNodesFromHtml(html, doc)[0];
 	},
 	
+	/**
+	 * 
+	 * @param {Object} option contains infomation needed to create an iframe.<br>
+	 * 		option.id
+	 * 		option.name
+	 * 		option.transparent
+	 * @param {Object} doc
+	 * @return {HTMLElement} iframe instance
+	 */
 	createIframe : function (option, doc){
 		option.id = option.id !== null ? option.id : "iframe";
 		option.name = option.name || option.id;
