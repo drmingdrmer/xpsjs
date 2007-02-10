@@ -6,7 +6,7 @@
 new Module("net.xp.util.dom.Create",
 [
 	"net.xp.core.Core",
-	"net.xp.dom.DocRelative"
+	"net.xp.dom.WindowRelative"
 ],function ($this,$name){ return {
 
 	createNode : function (name, attr, doc){
