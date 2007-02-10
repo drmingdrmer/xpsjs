@@ -88,8 +88,8 @@ var p = {
 			loader.inLoadingHolders--;
 			if (loader.inLoadingHolders === 0) {
 				//noinspection JSUnresolvedVariable
-				if (loader.config.onLoaderInited) { //noinspection JSUnresolvedFunction
-					loader.config.onLoaderInited();
+				if (loader.config.runLoad) { //noinspection JSUnresolvedFunction
+					loader.config.runLoad();
 				}
 			}
 		}

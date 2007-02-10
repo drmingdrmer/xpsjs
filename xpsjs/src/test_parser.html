@@ -78,7 +78,7 @@
 	}
 	function foo(){
 		new Loader({
-			onLoaderInited : function (){
+			runLoad : function (){
 				initPrototype();
 				var ldr = Loader.instance;
 				ldr.loadJS("Module.js");

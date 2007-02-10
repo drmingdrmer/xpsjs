@@ -4,6 +4,7 @@
  * TODO add command utilities.
  * TODO inject JS, CSS
  * TODO listen onload event
+ * TODO auto resize
  */
 
 Module.require([
@@ -63,32 +64,35 @@ return {
 	 * 		option.transparent
 	 * 		option.src
 	 */
-	createIframeComp : function(option){
-		var doc = this.$WDoc();
+	createIframeComp : function(option) {
+		var doc = this.$Doc();
 		var ifm = this.createIframe(option, doc);
-		
+
 		var ifc = this._ifCmp();
-		
-		
+
+
 		var ifmHost = this;
 		var src = option.src;
 
 		//invoked when real content loaded
-		var onIfmLoad = function (){
-			ifmHost.removeIframeOnload(ifm,onIfmLoad);
+		var onIfmLoad = function () {
+			ifmHost.removeIframeOnload(ifm, onIfmLoad);
 			//TODO finish it
 			var comp = (ifm.contentWindow.component = ifc.newInst());
 		}
 
-		//invoked when blank page set.
-		var onInit = function (){
-			ifm.contentWindow.location.href = src;
-			ifmHost.removeIframeOnload(ifm,onInit);
-			ifmHost.setIframeOnload(ifm, onIfmLoad);
+		if (option.src !== null) {
+			//invoked when blank page set.
+			var onInit = function () {
+				ifm.contentWindow.location.href = src;
+				ifmHost.removeIframeOnload(ifm, onInit);
+				ifmHost.setIframeOnload(ifm, onIfmLoad);
+			}
+
+			this.setIframeOnload(ifm, onInit);
 		}
-		
-		this.setIframeOnload(ifm, onInit);
-		
+
+
 		this._addIframeCompToCollection(option, ifm);
 		return ifm;
 	},
@@ -96,15 +100,29 @@ return {
 	makeIframeComp : function (iframe){
 		var doc = iframe.ownerDocument;
 		var ifc = this._ifCmp();
+	},
+
+	/**
+	 * onload handler of iframe component
+	 * @param {Object} comp
+	 */
+	responseToIframeOnload : function (comp){
+		this.injectCSS(comp);
+		this.injectJS(comp);
+	},
+
+	injectCSS : function (comp){
+
+	},
+
+	injectJS : function (comp){
 
 	},
 
 
-
 /*-----------------------------------------------------------------------*\
 
-
-
+command methods
 
 \*-----------------------------------------------------------------------*/
 

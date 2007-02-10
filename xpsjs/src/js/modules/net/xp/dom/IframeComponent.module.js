@@ -11,15 +11,25 @@ new Module("net.xp.dom.IframeComponent",
 ],function ($this,$name){
 	
 return {
+	init : function (host,iframe,name,css,js){
+		var m = this._($name);
+		m.host = host;
+		m.iframe = iframe;
+		m.name = name;
+		m.css = css;
+		m.js = js;
 
+		this.setWorkingWin(iframe.contentWindow);
+	},
+
+	getName : function (){
+		var m = this._($name);
+		return m.name;
+	},
+	
 	getIframe : function (){
 		var m = this._($name);
 		return m.iframe;
-	},
-
-	setIframe : function (iframe){
-		var m = this._($name);
-		m.iframe = iframe;
 	},
 
 	getHost : function (){
@@ -27,11 +37,6 @@ return {
 		return m.host;
 	},
 
-	setHost : function (host){
-		var m = this._($name);
-		m.host = host;
-	},
-	
 	
 	/**
 	 * invoke an command of host window.
