@@ -17,6 +17,7 @@ new Module("net.xp.dom.IframeComponentHost",
 	"net.xp.core.Core",
 	"net.xp.dom.WindowRelative",
 	"net.xp.dom.event.IframeOnload",
+	"net.xp.util.dom.CSS",
 	"net.xp.util.dom.Create"
 ],function ($this,$name){
 return {
