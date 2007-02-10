@@ -210,7 +210,7 @@ var p = {
 	},
 
 /**
- * add a trigger to notify loader that a script load finished by invoking Loader.onFinishLoadOne
+ * add a trigger to notify loader that a script load finished by invoking Loader.onLoadFinishOne
  * @param {Object} winName
  * @param {Object} msg
  */
@@ -234,8 +234,8 @@ var p = {
 		}
 		this.inLoading = false;
 		//noinspection JSUnresolvedVariable
-		if (this.config.onFinishLoad) { //noinspection JSUnresolvedFunction
-			this.config.onFinishLoad();
+		if (this.config.onLoadFinish) { //noinspection JSUnresolvedFunction
+			this.config.onLoadFinish();
 		}
 	}
 }
