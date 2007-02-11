@@ -1,24 +1,25 @@
-var x = new Module("net.xp.dom.WindowRelative",
+new Module("net.xp.dom.WindowRelative",
 [
-	"net.xp.core.ModuleVars"
-],{
+	"net.xp.core.Core"
+],function ($this, $name){
+return {
 	_$initialize : function (){
 		this.setDefaultWorkingWin(Module.getHostWin());
 		
 	},
 	
 	setDefaultWorkingWin : function (win){
-		var g = this.$g(arguments);
+		var g = this.__($name);
 		g.win = win;
 	},
 	
 	setWorkingWin : function (win){
-		var m = this.$m(arguments);
+		var m = this._($name);
 		m.win = win;
 	},
 	
 	getWorkingWin : function (){
-		return this.$m(arguments).win || this.$g(arguments).win;
+		return this._($name).win || this.__($name).win;
 	},
 	
 	$Win : function (win){
@@ -37,4 +38,4 @@ var x = new Module("net.xp.dom.WindowRelative",
 		
 	}
 	
-});
+}});

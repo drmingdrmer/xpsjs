@@ -62,7 +62,7 @@ return {
 			}
 		}
 		xhr.open(option.method, url, true);
-		if (option.header !== null) {
+		if (option.header != null) {
 			for (var i in option.header) {
 
 				xhr.setRequestHeader(i, option.header[i]);
@@ -77,7 +77,7 @@ return {
 		this._($name).status = "finished";
 		var status = xhr.status;
 		this.finish(xhr);
-		if (status === 0 || status >= 200 && status < 300) {
+		if (status == 0 || status >= 200 && status < 300) {
 			this.success(xhr);
 		} else {
 			this.fail(xhr);

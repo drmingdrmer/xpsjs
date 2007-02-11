@@ -5,7 +5,7 @@ new Module("net.xp.core.Enumerable",
 {
 
 	_$initialize : function (){
-		this._$g.inited = true;
+		
 	},
 
 	each : function (inspector){

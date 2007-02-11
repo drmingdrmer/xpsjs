@@ -28,7 +28,7 @@ new Module("net.xp.core.ModuleVars",[],{
 	
 	$g : function (arg){
 		var name = arg.callee.getModule()._name;
-		_$g = (Module[name] = (Module[name] || {}));
+		var _$g = (Module[name] = (Module[name] || {}));
 		return _$g;
 	},
 	

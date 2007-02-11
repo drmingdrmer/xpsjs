@@ -1,15 +1,18 @@
 var x = new Module("net.xp.util.URL",
-[],{
+[
+	"net.xp.core.Core"
+],function ($this, $name){
+return {
 	_$initialize : function (){
 		this.setDefaultBase(Loader.instance.getBase());
 	},
 	
 	getUrl : function (){
-		return this._$m.url;
+		return this._($name).url;
 	},
 	
 	setUrl : function (url){
-		this._$m.url = url;
+		this._($name).url = url;
 	},
 	
 	parseUrlParam : function (url){
@@ -85,4 +88,4 @@ var x = new Module("net.xp.util.URL",
 	setDefaultBase : function (base){
 		this.$g(arguments).base = base;	
 	}
-});
+}});

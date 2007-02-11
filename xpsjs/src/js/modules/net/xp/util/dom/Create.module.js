@@ -13,7 +13,7 @@ new Module("net.xp.util.dom.Create",
 		attr = attr || {};
 		var n = this.$Doc(doc).createElement(name);
 		for (var i in attr)
-			if (typeof attr[i] != "function" && Object.prototype[i] === null)
+			if (typeof attr[i] != "function" && Object.prototype[i] == null)
 				n.setAttribute(i, attr[i]);
 		return n;
 	},
@@ -42,15 +42,17 @@ new Module("net.xp.util.dom.Create",
 	 * @return {HTMLElement} iframe instance
 	 */
 	createIframe : function (option, doc){
-		option.id = option.id !== null ? option.id : "iframe";
+
 		option.name = option.name || option.id;
-		option.transparent = option.transparent !== null
+		option.id = option.id != null ? option.id : option.name;
+		
+		option.transparent = option.transparent != null
 				? option.transparent
 				: false; 
 		var html = "<iframe id='"+option.id+"' "
 				 + "name='"+option.name+"' "
 				 + "allowTransparency='"+option.transparent+"' "
-				 + "scr='"+Loader.getBlankPageUrl()+"'><\/iframe>";
+				 + "scr='"+Module.loader.getBlankPageUrl()+"'><\/iframe>";
 		return this.nodeFromHtml(html, doc);
 	}
 	

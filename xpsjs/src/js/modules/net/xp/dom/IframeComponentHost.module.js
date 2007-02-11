@@ -1,14 +1,18 @@
 /**
  * 
  * @author xp yanbo@staff.sina.com.cn | drdr.xp@gmail.com
- * TODO auto resize
  */
-
+/**
+ * evnets:
+ * 		onInit
+ *		onLoad
+ */
 Module.require([
 	"net.xp.util.URL",
-	"net.xp.control.Runnable"
+	"net.xp.control.Runnable",
+	"net.xp.dom.IframeComponent"
 ]);
-//noinspection ObjectAllocationIgnored
+//noinspection ObjectAllocationIgnorede
 new Module("net.xp.dom.IframeComponentHost",
 [
 	"net.xp.core.Core",
@@ -16,8 +20,10 @@ new Module("net.xp.dom.IframeComponentHost",
 	"net.xp.dom.event.IframeOnload",
 	"net.xp.util.dom.$",
 	"net.xp.util.dom.CSS",
-	"net.xp.util.dom.Create"
-],function ($this,$name){
+	"net.xp.util.dom.Create",
+	"net.xp.event.EventDispatcher"
+],
+function ($this,$name){
 return {
 
 	_$initialize : function (){
@@ -98,13 +104,18 @@ return {
 
 		//invoked when blank page set.
 		var init = function () {
-			comp.init(thiz, ifm, option.name || option.id, option.css, option.js);
+			comp.init(thiz, ifm, option.name || option.id, option.css,
+					option.js, option.fixSize);
 
 			src && (ifm.contentWindow.location.href = src);
 			thiz.removeIframeOnload(ifm, init);
-			thiz.setIframeOnload(ifm, function(){
+			thiz.setIframeOnload(ifm, function() {
 				thiz.responseToIframeRefresh(comp);
 			});
+			thiz.dispatchEvent({
+				type : "onInit",
+				comp : comp
+			})
 		}
 		this.setIframeOnload(ifm, init);
 
@@ -121,14 +132,15 @@ return {
 	 * 		option.js
 	 * 		option.fixSize
 	 */
-	makeIframeComp : function (iframe,option){
+	makeIframeComp : function (iframe, option) {
 		var doc = iframe.ownerDocument;
 		var ifCompClz = this._getIfCompClz();
 
 		var thiz = this;
 		var comp = new ifCompClz();
-		comp.init(this,iframe,iframe.name || iframe.id,option.css,option.js);
-		this.setIframeOnload(iframe,function (){
+		comp.init(this, iframe, iframe.name || iframe.id, option.css,
+				option.js, option.fixSize);
+		this.setIframeOnload(iframe, function () {
 			thiz.responseToIframeRefresh(comp);
 		})
 	},
@@ -141,6 +153,10 @@ return {
 		comp.$Win().component = comp;
 		this.injectCSS(comp);
 		this.injectJS(comp);
+		comp.addAutoSize();
+		this.dispatchEvent({
+			type : "onLoad",
+			comp : comp});
 	},
 	
 	/**

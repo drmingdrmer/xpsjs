@@ -38,6 +38,7 @@ window.Module = function (name, modules, hash) {
 	Module.tryToInit();
 	//try to mix
 };
+Module.inited = "inited";
 Module.loader = Loader.instance;
 //noinspection JSUnresolvedVariable
 Module.moduleRoot = $module;
@@ -61,7 +62,7 @@ Module.assignModuleInstToName = function (name, module) {
 };
 
 Module.isOverridable = function (func) {
-	if (func === null) return true;
+	if (func == null) return true;
 	//var reg = ;
 	return /^function[^\(]*?\(([^\)]*?\,)*\s*\$overridable\)/.test(func.toString());
 };
@@ -92,31 +93,35 @@ Module.require = function (modules) {
 Module.tryToInit = function () {
 	try {
 		for (var i in Module.initQueue) {
-			if (Module.initQueue[i] !== null)
+			if (Module.initQueue[i] != Module.inited)
 				Module.initModule(i);
 		}
 	} catch (e) {
+		//alert(e);
 	}
 };
 /**
  * mix needed module to this module. runs recersively.
  */
 Module.initModule = function (name) {
+	//alert("init:"+name);
 	var module = Module.get(name);
-	if (module === null) throw new Error(name + " hasnt loaded yet");
+	if (module == null) throw new Error(name + " hasnt loaded yet");
 
 	//try to mix needed module to itself.
 	var md = module._requiredModules;
-
 	for (var i = 0; i < md.length; i++) {
-		if (Module.initQueue[md[i]] !== null)
+		if (Module.initQueue[md[i]] != Module.inited)
 			Module.initModule(md[i]);
 		Module.get(md[i]).mixTo(module);
-
+		md.splice(i--,1);
 	}
-	module._$initialize();
-	Module.initQueue[name] = null;
-	//remove this module from init queue.
+	//alert("$init : "+module._name);
+	try{
+		module._$initialize();
+	}catch (e){	alert("_$initialize error : "+e); }
+
+	Module.initQueue[name] = Module.inited;
 };
 
 var o = {
@@ -124,6 +129,7 @@ var o = {
 	},
 
 	mixTo : function (t) {
+		//alert("mix from "+ this._name+" to "+t._name);
 		var isFunc = t instanceof Function;
 		if (!isFunc && (t.constructor != Module))
 			throw new Error("Module can only be mixed to Function or Module");
@@ -131,17 +137,23 @@ var o = {
 		if (isFunc)	t = t.prototype;
 
 		for (var i in this) {
-			if (typeof(this[i]) != "function" || Module.prototype[i] !== null) continue;
-			if (t[i] === null) t[i] = this[i]; else if (t[i] != this[i] && !this[i].isOverridable())
+			if (typeof(this[i]) != "function" || Module.prototype[i] != null) continue;
+			if (t[i] == null)
+				t[i] = this[i];
+			else if (t[i] != this[i] && !this[i].isOverridable()){
+				alert("err");
 				throw new Error("memeber already exists : " + i + " in : " + (t._name || t.constructor) + " from : " + this._name);
+
+			}
+
 		}
 	},
 
 	compatableTo : function (obj) {
-		if (obj === null) return false;
+		if (obj == null) return false;
 		if (typeof(obj) == "function") obj = obj.prototype;
 		for (var i in this) {
-			if (this[i].__$isModuleMethod && Module.prototype[i] === null) {
+			if (this[i].__$isModuleMethod && Module.prototype[i] == null) {
 				if (typeof(obj[i]) != "function") {
 					//alert(i + ":" + obj[i]);
 					return false;

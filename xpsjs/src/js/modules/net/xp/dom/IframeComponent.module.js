@@ -11,13 +11,14 @@ new Module("net.xp.dom.IframeComponent",
 ],function ($this,$name){
 	
 return {
-	init : function (host,iframe,name,css,js){
+	init : function (host,iframe,name,css,js,fixSize){
 		var m = this._($name);
 		m.host = host;
 		m.iframe = iframe;
 		m.name = name;
 		m.css = css;
 		m.js = js;
+		m.fixSize = !!fixSize;
 
 		this.setWorkingWin(iframe.contentWindow);
 	},
@@ -46,6 +47,28 @@ return {
 		var m = this._($name);
 		return m.js;
 	},
+
+	isFixSize : function (){
+		return this._($name).fixSize;
+	},
+
+
+	addAutoSize : function (){
+		if (this.isFixSize()) return;
+		var ifm = this.getIframe();
+		var win = this.$Win();
+		var doc = this.$Doc();
+		var _e = doc.documentElement;
+		_e = _e.scrollHeight ? _e : doc.body;
+
+
+		win.setInterval(function(){
+			ifm.style.height = _e.scrollHeight + "px";
+			ifm.style.width = _e.scrollWidth + "px";
+		},500);
+	},
+
+
 
 	
 	/**
@@ -76,7 +99,7 @@ return {
 	doCommand : function (cmd, params){
 		var win = this.$Win();
 		var cmdFunc = win[cmd];
-		if (cmdFunc !== null){
+		if (cmdFunc != null){
 			cmdFunc.apply(this.$Win(),params || []);
 		} else {
 			throw new Error ("no command with the name : "+cmd);

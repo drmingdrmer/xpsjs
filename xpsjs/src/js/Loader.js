@@ -71,13 +71,13 @@ var p = {
 
 	createHolder : function (name) {
 		var doc = this.getHostDoc();
-		if (this.$(name) !== null) {
+		if (this.$(name) != null) {
 			this.config.holders[name] = this.$(name).contentWindow;
 			return;
 		}
 
 		var e = doc.createElement("div");
-		e.innerHTML = "<iframe id='" + name + "' name='" + name + "' " + "src='" + this.config.path.base + "/blank.html'" + " style='display : none;'" + "><\/iframe>";
+		e.innerHTML = "<iframe id='" + name + "' name='" + name + "' " + "src='" + this.config.path.base + "/blank.html'" + " style='display : block;'" + "><\/iframe>";
 		var ifm = e.firstChild;
 		doc.body.appendChild(ifm);
 		this.config.holders[name] = ifm.contentWindow;
@@ -86,7 +86,7 @@ var p = {
 		var onloadFunc = function () {
 			ifm.contentWindow.Loader = loader.getHostWin().Loader;
 			loader.inLoadingHolders--;
-			if (loader.inLoadingHolders === 0) {
+			if (loader.inLoadingHolders == 0) {
 				//noinspection JSUnresolvedVariable,JSUnresolvedFunction
 				loader.config.runLoad && loader.config.runLoad();
 			}
@@ -103,7 +103,7 @@ var p = {
 	_preInit: function (h) {
 		this.initBaseUrl();
 		for (var i in this.config.holders) { //noinspection PointlessBooleanExpressionJS
-			if (this.config.holders[i] === true) this.createHolder(i);
+			if (this.config.holders[i] == true) this.createHolder(i);
 		}
 	},
 
@@ -144,8 +144,8 @@ var p = {
 
 	getWinByName : function (winName) {
 		var win = this.config.holders[winName];
-		if (win === null) win = this.hostWin[winName];
-		if (win === null) win = this.getHostWin();
+		if (win == null) win = this.hostWin[winName];
+		if (win == null) win = this.getHostWin();
 		return win;
 	},
 
@@ -154,7 +154,7 @@ var p = {
 		hash = hash || {url : null, script : ""};
 
 		var scriptElement = doc.createElement("script");
-		if (hash.url !== null) scriptElement.src = hash.url; else if (hash.script !== null) scriptElement.innerHTML = hash.script;
+		if (hash.url != null) scriptElement.src = hash.url; else if (hash.script != null) scriptElement.innerHTML = hash.script;
 
 		this.$n("head", doc)[0].appendChild(scriptElement);
 		return scriptElement;
@@ -238,4 +238,4 @@ var p = {
 }
 
 var pr = Loader.prototype;
-for (var i in p) if (pr[i] === null) pr[i] = p[i];
+for (var i in p) if (pr[i] == null) pr[i] = p[i];
