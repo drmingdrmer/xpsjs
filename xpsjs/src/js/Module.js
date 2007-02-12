@@ -130,9 +130,11 @@ var o = {
 
 	mixTo : function (t) {
 		//alert("mix from "+ this._name+" to "+t._name);
-		var isFunc = t instanceof Function;
-		if (!isFunc && (t.constructor != Module))
+		var isFunc = typeof t == "function";
+		if (!isFunc && (t.constructor != Module)){
+			alert("illegal mix target : " + t);
 			throw new Error("Module can only be mixed to Function or Module");
+		}
 
 		if (isFunc)	t = t.prototype;
 
@@ -141,7 +143,7 @@ var o = {
 			if (t[i] == null)
 				t[i] = this[i];
 			else if (t[i] != this[i] && !this[i].isOverridable()){
-				alert("err");
+				
 				throw new Error("memeber already exists : " + i + " in : " + (t._name || t.constructor) + " from : " + this._name);
 
 			}
@@ -163,14 +165,29 @@ var o = {
 		return true;
 	},
 
-	newInst : function (constr) {
-		var clazz = this.clz(constr);
-		return new clazz();
+
+	_$defaultConstructor : function (){
+	},
+
+	newInst : function (obj) {
+		if (obj instanceof Array){//treat as construct parameters
+			var clazz = this.clz();
+
+			//a hach to create new instance.
+			var dele = function (){};
+			dele.prototype = clazz.prototype;
+			var inst = new dele();//invoke pseudo constructor
+			clazz.apply(inst,obj);// invoke real constructor.
+			return inst;
+
+		} else {
+			var clazz = this.clz(obj);
+			return new clazz();
+		}
 	},
 
 	clz : function (obj) {
-		obj = obj || (function () {
-		});
+		obj = obj || this._$defaultConstructor;
 		var constr;
 		if (typeof(obj) == "object") {
 			constr = function () {

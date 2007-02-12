@@ -28,7 +28,13 @@ return {
 
 	_$initialize : function (){
 	},
-	
+
+	_$defaultConstructor : function (win){
+		this.setWorkingWin(win);
+		this.registerDefaultCommand();
+	},
+
+
 	/**
 	 * get url util manipulating url
 	 */
@@ -94,19 +100,20 @@ return {
 	 */
 	createIframeComp : function(option) {
 		var doc = this.$Doc();
+		
 		var ifm = this.createIframe(option, doc);
-
 		var ifCompClz = this._getIfCompClz();
 		var comp = new ifCompClz();
 
 		var thiz = this;
 		var src = option.src;
 
-		//invoked when blank page set.
-		var init = function () {
-			comp.init(thiz, ifm, option.name || option.id, option.css,
+
+		comp.init(thiz, ifm, option.name || option.id, option.css,
 					option.js, option.fixSize);
 
+		//invoked when blank page set.
+		var init = function () {
 			src && (ifm.contentWindow.location.href = src);
 			thiz.removeIframeOnload(ifm, init);
 			thiz.setIframeOnload(ifm, function() {
@@ -116,6 +123,7 @@ return {
 				type : "onInit",
 				comp : comp
 			})
+
 		}
 		this.setIframeOnload(ifm, init);
 

@@ -8,7 +8,7 @@ new Module("net.xp.browser.BrowserDetect",
 		var ua = navigator.userAgent;
 		g.$IE = (navigator.appName == "Microsoft Internet Explorer");
 		g.$IE5 = g.$IE && (ua.indexOf('MSIE 5') != -1);
-		g.$IE5_0 = g.$IE && (ua.indexOf('MSIE 5.0') != -1);
+		g["$IE5.0"] = g.$IE && (ua.indexOf('MSIE 5.0') != -1);
 		g.$IE6 = g.$IE && (ua.indexOf('MSIE 6') != -1);
 		g.$IE7 = g.$IE && (ua.indexOf('MSIE 7') != -1);
 		g.$Gecko = ua.indexOf('Gecko') != -1;
