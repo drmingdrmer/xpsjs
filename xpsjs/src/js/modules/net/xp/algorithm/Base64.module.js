@@ -1,9 +1,55 @@
 new Module("net.xp.algorithm.Base64",
 [
-    "net.xp.core.Core"
+    "net.xp.core.Core",
+	"net.xp.math.Math"
 ],function ($this,$name){return {
 	_$initialize : function (){
+		var g = this.__($name);
+		g.table = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+		g.deTable = {};
+		for (var i = 0; i < g.table.length; i++) {
+			var chr = g.table.charAt(i);
+			g.deTable[chr] = i;
+		}
 	},
+
+	getTable : function (){
+		var g = this.__($name);
+		return g.table;
+	},
+
+	getDeTable : function (){
+		var g = this.__($name);
+		return g.deTable;
+	},
+
+
+
+	encode : function (arr){
+		var table = this.getTable();
+		var r = "";
+		var cache = 0;
+		var position = -1;
+		for (var i=0; i<arr.length; ++i){
+			var v = this.$I(arr[i]);
+			if (v > 255) throw new Error("value is large than 255 at : "+i);
+
+			cache = (cache << 8) + v;
+			position += 8;
+
+			while (position >= 6){
+				var c = cache >> (position - 6);
+				r += table.charAt(c);
+			}
+		}
+
+		//TODO
+	},
+
+	decode : function (arr){
+
+	},
+
 
 	encode_base64 : function ( what )
 	{

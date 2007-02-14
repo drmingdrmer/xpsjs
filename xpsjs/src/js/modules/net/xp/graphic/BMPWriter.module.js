@@ -1,19 +1,22 @@
 new Module("net.xp.graphic.BMPWriter",
 [
-    "net.xp.core.Core"
+    "net.xp.core.Core",
+	"net.xp.data.Map",
+	"net.xp.graphic.Color"
 ],function ($this,$name){return {
 	_$initialize : function (){
 	},
 
-	setSize : function (o){
-
+	setPixel : function (x, y, color) {
+		color = this.formalizeColor(color);
+		this.setCell(x,y,color);
 	},
 
-	setPixel : function (position, color){
-
+	setRange : function (x, y, w, h, map) {
+		
 	},
 
-	toArray : function (){
+	toArray : function () {
 
 	}
 }});

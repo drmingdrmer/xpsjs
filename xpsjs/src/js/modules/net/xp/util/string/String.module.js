@@ -41,6 +41,9 @@ new Module("net.xp.util.string.String",
 	//html manipulation
 	escapeStr : function (str){
 		var t = document.getElementById("_$convertTextarea");
+
+		//notice that the document might be of the window Modules loaded to,
+		//not the window the Module wokring in.
 		if (!t && document.body){
 			var t = document.createElement("textarea");
 			t.id = "_$convertTextarea";
