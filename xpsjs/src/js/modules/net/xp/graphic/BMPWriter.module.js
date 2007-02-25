@@ -7,9 +7,39 @@ new Module("net.xp.graphic.BMPWriter",
 	_$initialize : function (){
 	},
 
+	_getColorTable : function (){
+		var m = this._($name);
+		return m.colorTable || this._getNewColorTable();
+	},
+
+	_getNewColorTable : function (){
+		var m = this._($name);
+		m.colorTable = {};
+		m.colorArray = [];
+		return m.colorTable;
+	},
+
+	_getColorArray : function (){
+		var m = this._($name);
+		return m.colorArray;
+	},
+
+	
+
+
+
+
+
+
+
+
 	setPixel : function (x, y, color) {
 		color = this.formalizeColor(color);
 		this.setCell(x,y,color);
+	},
+
+	getPixel : function (x,y){
+		return this.getCell(x,y);
 	},
 
 	setRange : function (x, y, w, h, map) {
@@ -69,7 +99,7 @@ new Module("net.xp.graphic.BMPWriter",
 		data.push(this.toBinaryArray(this.getBitsPerPixel(),2));
 		
 		//image data size
-		data.push(this.toBinaryArray(this.getImageSize()));
+		data.push(this.toBinaryArray(this.getImageDataSize()));
 		
 		//pixels per meter x
 		data.push(0,0,0,0);
@@ -94,7 +124,7 @@ new Module("net.xp.graphic.BMPWriter",
 	
 	writeData : function (data){
 		var pixelLength = this.getBitsPerPixel()/8;
-		var bits = this.getBits();
+		var bits = this.getImageDataBits();
 		for (var y=bits.length-1; y>=0; y--){
 			var raw = bits[y];
 			while (raw.length % 4 !=0 ) raw.push(0);
@@ -113,11 +143,68 @@ new Module("net.xp.graphic.BMPWriter",
 	
 	
 	prepareData : function (){
-		
+		var m = this._($name);
+		this.prepareColor();
+
+		this.calculateSizes();
 	},
 	
-	
-	
+	prepareColor : function (){
+		var ar = this.getMapArray();
+		var h = this.getHeight();
+		var w = this.getWidth();
+		var ct = this._getNewColorTable();
+		var ca = this._getColorArray();
+		var index = 0;
+		for (var y=0; y<h; y++){
+			for (var x=0; x<w; ++x){
+				var color = ar[y][x];
+				if (ct[color] == null) {
+					ca[index] = color;
+					ct[color] = index++;
+				}
+			}
+		}
+	},
+
+
+
+	getImportantColorIndex : function (){
+		return 0;
+	},
+
+	getImageColorAmount : function (){
+		return this.getColors().length;
+	},
+
+	getColors : function (){
+		var m = this._($name);
+		return m.colorArray;
+	},
+
+	getBitsPerPixel : function (){
+		var ca =  this.getImageColorAmount();
+		var bits = Math.LN2(ca);//get bits for one pixel
+		bits = Math.ceil(bits/8)*8;//align to byte
+		return bits;
+	},
+
+	getImageDataSize : function (){
+		var w = this.getWidth();
+		w *= this.getBitsPerPixel();
+		w = Math.ceil(w/4)*4;
+		return w * this.getHeight();
+	},
+
+	getImageDataBits : function (){
+		var m = this._($name);
+		var cls = this.getColors();
+		var bits = [];
+		var ar = this.getMapArray();
+		
+	},
+
+
 	
 	
 	toBinaryArray : function (i,p){

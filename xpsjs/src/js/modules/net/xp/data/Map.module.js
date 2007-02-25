@@ -73,6 +73,13 @@ new Module("net.xp.data.Map",
 		
 		this.enlargeSize(x,y);
 		this.getMapArray()[y][x] = value;
+	},
+
+	getCell : function (x,y){
+		x = this.$I(x);
+		y = this.$I(y);
+
+		return this.getMapArray()[y][x];
 	}
 
 
