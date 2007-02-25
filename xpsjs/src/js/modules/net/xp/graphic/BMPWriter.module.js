@@ -64,6 +64,7 @@ new Module("net.xp.graphic.BMPWriter",
 	
 	
 	
+	//length of 0x0e = 14
 	writeBMPHeader : function (data){
 		data.splice(0);
 		//mark
@@ -124,7 +125,7 @@ new Module("net.xp.graphic.BMPWriter",
 	
 	writeData : function (data){
 		var pixelLength = this.getBitsPerPixel()/8;
-		var bits = this.getImageDataBits();
+		var bits = this.getColorIndexMap();
 		for (var y=bits.length-1; y>=0; y--){
 			var raw = bits[y];
 			while (raw.length % 4 !=0 ) raw.push(0);
@@ -148,7 +149,7 @@ new Module("net.xp.graphic.BMPWriter",
 
 		this.calculateSizes();
 	},
-	
+
 	prepareColor : function (){
 		var ar = this.getMapArray();
 		var h = this.getHeight();
@@ -166,6 +167,35 @@ new Module("net.xp.graphic.BMPWriter",
 			}
 		}
 	},
+
+	calculateSizes : function (){
+		var m = this._($name);
+
+		var colorAmount = this.getImageColorAmount();
+		var colorBytes = colorAmount * 4;
+
+		var pixels = this.getHeight()*this.getWidth();
+		var dataBytes = pixels * this.getBitsPerPixel()/8;
+
+		m.colorBytes = colorBytes;
+		m.dataBytes = dataBytes;
+		m.dataOffset = 0x0e 		//header
+				+ 0x28 				//info header
+				+ colorBytes;		//color map 
+		m.fileSize = m.dataOffset
+				+ dataBytes	//map data
+				+ 2;			//dont know...2 zero bytes
+	},
+
+
+	getFileSize : function (){
+		return this._($name).fileSize();
+	},
+
+	getDataOffset : function (){
+		return this._($name).dataOffset;
+	},
+	
 
 
 
@@ -196,14 +226,26 @@ new Module("net.xp.graphic.BMPWriter",
 		return w * this.getHeight();
 	},
 
-	getImageDataBits : function (){
+	getColorIndexMap : function (){
 		var m = this._($name);
-		var cls = this.getColors();
-		var bits = [];
+		var ct = this._getColorTable();
+		var indeces = [];
 		var ar = this.getMapArray();
-		
+		var h = this.getHeight();
+		var w = this.getWidth();
+		for (var y=0; y<h; ++y){
+			indeces[y] = [];
+			for (var x=0; x<w; ++x){
+				indeces[y][x] = ct[indeces[y][x]];
+			}
+		}
+		return indeces;
 	},
 
+
+	getInfoLength : function (){
+		return 0x28;
+	},
 
 	
 	
