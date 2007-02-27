@@ -24,32 +24,27 @@ return {
 	},
 
 	getHost : function (){
-		var m = this._($name);
-		return m.host;
+		return this._get($name,"host");
 	},
 
 	getIframe : function (){
-		var m = this._($name);
-		return m.iframe;
+		return this._get($name,"iframe");
 	},
 
 	getName : function (){
-		var m = this._($name);
-		return m.name;
+		return this._get($name,"name");
 	},
 	
 	getCSS : function (){
-		var m = this._($name);
-		return m.css;
+		return this._get($name,"css");
 	},
 
 	getJS : function (){
-		var m = this._($name);
-		return m.js;
+		return this._get($name,"js");
 	},
 
 	isFixSize : function (){
-		return this._($name).fixSize;
+		return this._get($name,"fixSize");
 	},
 
 
@@ -77,7 +72,7 @@ return {
 	 * @param {Object} params
 	 */
 	callCommand : function (cmd, params){
-		this.getHost().runCommand(cmd,params || []);
+		this.getHost().runCommand(cmd, params || []);
 	},
 	
 	/**
@@ -86,11 +81,10 @@ return {
 	run : function (){
 		//noinspection JSUnresolvedVariable
 		var startupFunc = this.$Win().startup;
-		if (startupFunc) startupFunc.apply(this.$Win(),[this.getHost(),this]);
+		if (startupFunc) startupFunc.apply(this.$Win(), [this.getHost(),this]);
 	},
-	
-	
-	
+
+		
 	/**
 	 * invoked by host window to inform iframe component do something.  
 	 * @param {Object} cmd
