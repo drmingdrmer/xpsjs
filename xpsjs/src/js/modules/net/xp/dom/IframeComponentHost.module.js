@@ -49,7 +49,7 @@ return {
 	 */
 	_getIfCompClz : function (){
 		var m = this._($name);
-		m.compClass = m.compClass || Module.get("net.xp.dom.IframeComponent").clz();
+		m.compClass = m.compClass || $this.$M("net.xp.dom.IframeComponent").clz();
 		return m.compClass;
 	},
 	

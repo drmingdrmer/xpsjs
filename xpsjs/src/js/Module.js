@@ -145,7 +145,6 @@ var o = {
 		throw new Error("external Module is not required : " + name);
 	},
 
-
 	mixTo : function (t) {
 		//alert("mix from "+ this._name+" to "+t._name);
 		var isFunc = typeof t == "function";
