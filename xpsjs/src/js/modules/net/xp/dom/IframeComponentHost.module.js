@@ -39,32 +39,28 @@ return {
 	 * get url util manipulating url
 	 */
 	_urlUtil : function (){
-		var m = this._($name);
-		m.urlUtil = m.urlUtil || Module.get("net.xp.util.URL").newInst();
-		return m.urlUtil;
+		return this._get($name,
+				"urlUtil",
+				$this.$M("net.xp.util.URL").newInst());
 	},
 
 	/**
 	 * create of get the created iframe component class
 	 */
-	_getIfCompClz : function (){
-		var m = this._($name);
-		m.compClass = m.compClass || $this.$M("net.xp.dom.IframeComponent").clz();
-		return m.compClass;
+	_getIfCompClz : function () {
+		return this._get($name,
+				"compClass",
+				$this.$M("net.xp.dom.IframeComponent").clz());
 	},
-	
+
 	/**
 	 * get a collection assign to this host of iframe components.
 	 * @param {Object} isByName
 	 */
 	_getIframeCollection : function (isByName){
-		isByName = !!isByName;
-
-		var m = this._($name);
-		m.byId = m.byId || {};
-		m.byName = m.byName || {};
-		
-		return isByName ? m.byName : m.byId;
+		return !!isByName
+				? this._get($name, "byName", {})
+				: this._get($name, "byId", {});
 	},
 	
 	/**
@@ -109,7 +105,7 @@ return {
 		var src = option.src;
 
 
-		comp.init(thiz, ifm, option.name || option.id, option.css,
+		comp.init(this, ifm, option.name || option.id, option.css,
 					option.js, option.fixSize);
 
 		//invoked when blank page set.
@@ -196,7 +192,7 @@ return {
 
 /*-----------------------------------------------------------------------*\
 
-command methods
+command utilities
 
 \*-----------------------------------------------------------------------*/
 
@@ -230,10 +226,12 @@ command methods
 			m[name] = function (){
 				cmd.apply(thiz,arguments);
 			}
-		} else if (Module.get("net.xp.control.Runnable").compatableTo(cmd)) {
+		} else if ($this.$M("net.xp.control.Runnable").compatableTo(cmd)) {
 			m[name] = function (){
 				cmd.run();
 			}
+		} else {
+			throw new Error("invalid command type : "+cmd);
 		}
 		return m.name;
 	},
