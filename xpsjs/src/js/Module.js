@@ -21,6 +21,9 @@ window.Module = function (name, modules, hash) {
 
 	this._name = name;
 	this._requiredModules = modules;
+	this._externModule = Module.currentRequired || []; //external Module used by this.
+	this._externModuleStr = " " + this._externModule.join(" ") + " ";
+	Module.currentRequired = null;
 
 	//provider provides function hashes.
 	if (typeof(hash) == 'function') hash = hash(this, this._name);
@@ -38,22 +41,28 @@ window.Module = function (name, modules, hash) {
 	Module.tryToInit();
 	//try to mix
 };
-Module.inited = "inited";
+Module.inited = "inited"; //Module instance initialized-mark string
 Module.loader = Loader.instance;
 //noinspection JSUnresolvedVariable
 Module.moduleRoot = $module;
 Module.moduleRoot.Module = Module;
+
 Module.getHostWin = function () {
 	return Module.loader.getHostWin();
 };
+
 Module.getHostDoc = function () {
 	return Module.loader.getHostDoc();
 };
+
 Module.initQueue = {};
+Module.currentRequired = null;
 
 Module.assignModuleInstToName = function (name, module) {
 	var r = Module.moduleRoot;
-	var ar = name.replace(/(^\.+)|(\.+$)/gi, "").replace(/\.+/gi, ".").split(".");
+	var ar = name
+			.replace(/(^\.+)|(\.+$)/gi, "") //remove dot before or after the whole string
+			.replace(/\.+/gi, ".").split("."); //remove duplicate dot
 	for (var i = 0; i < ar.length - 1; i++) {
 		var n = ar[i];
 		r = (r[n] = r[n] || {});
@@ -87,6 +96,7 @@ Module.queueInitJob = function (name, module) {
 };
 
 Module.require = function (modules) {
+	Module.currentRequired = modules;
 	Module.loader.loadModules(modules || []);
 }
 
@@ -127,6 +137,14 @@ Module.initModule = function (name) {
 var o = {
 	_$initialize : function () {
 	},
+
+	$M : function (name) {
+		var ms = this._externModuleStr;
+		if (ms.indexOf(" " + name + " ") >= 0)
+			return Module.get(name);
+		throw new Error("external Module is not required : " + name);
+	},
+
 
 	mixTo : function (t) {
 		//alert("mix from "+ this._name+" to "+t._name);

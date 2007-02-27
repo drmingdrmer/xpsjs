@@ -3,6 +3,7 @@
  * Module need to store values in it should mix this Module. 
  */
 new Module("net.xp.core.ModuleVars",[],{
+
 	_ : function (name){
 		this[name] = this[name] || {};
 		return this[name];
