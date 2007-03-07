@@ -3,101 +3,99 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>new Blog Demo</title>
-	
-	<script src="prototype.js"></script>
+
 	<script src="init.js"></script>
-	
+
 	<script>
 		function job(){
 			postRender();
-			
-			
-			var sty = Render.getStyles(document);
-			var rule = sty["body"];
-			alert(rule.style.content);
+		}
 
-		}
-		
 		function postRender(){
-			var ar = $A(document.getElementsByTagName("*"));
-			ar.each(function (el){
-				el = $(el);
-				var clzes = el.classNames().select(function(clz){return clz.indexOf(".")>=0});
-				clzes.each(function (clz){
-					Render.render(el,clz);
-					el.toggleClassName(clz);
-				});
-			});
+
+			var ar = document.body.getElementsByTagName("*");
+			for (var i=0;i<ar.length;i++){
+				var el = ar[i];
+				var o = getAdvStyleObject(el);
+				if (o != null) {
+					for (var j in o){
+						Render.render(el,j+"."+o[j]);
+					}
+				}
+			}
 		}
+
+		function getAdvStyleObject(el){
+			var st = getStyle(el, "backgroundImage").toString()
+					.replace(/\\\'/g, "'")
+					.replace(/[\s\t\r\n]*\:[\s\t\r\n]*/g, ":")
+					.replace(/\;/g,",")
+					.replace(/\=/g,":");
+			var o = (st.match(/javascript\:(\{[\w\d\:\'\,]*\})/) || [])[1];
+			if (o && o.length > 0) {
+				var s;
+				eval("s="+o);
+				return s;
+			}
+			return null;
+		}
+
+		function getStyle(element, style) {
+			var value;
+			if (document.defaultView && document.defaultView.getComputedStyle) {
+				var css = document.defaultView.getComputedStyle(element,null);
+				value = css ? css[style] : null;
+			} else if (element.currentStyle) {
+				value = element.currentStyle[style];
+			}
+			return value;
+		}
+
+
 	</script>
 	<style>
-		body{
-			background-color:#f80;
-			margin:0px;
-			content:"extern:xx";
-		}
+.ss{
+background-image:url("javascript:{corner9='sample';corner3='a'}");
+margin:0px;
+	height:40px;
+}
 		bevel8.a{
 			height : 4px;
 			color : #f80;
-
+			background-color:transparent;
 		}
 		bevel2.a{
 			height : 4px;
 			color : #f80;
 		}
-		
-		corner9.a{
-			width : 4px;
-			height:4px;
-			color : #fff;
+
+		corner9.sample{
+			width: 5px;
+			height: 5px;
+			color: #000;
 		}
 
 		corner3.a{
-			width : 4px;
-			height:4px;
-			color : #fff;
+			width : 6px;
+			height:6px;
+			color : #000;
 		}
-		
+
 		#tip{
-			border:0px solid #000;
-			width:200px;
-			height:20px;
-			background-color : #f80;
-			color:white;
-			font-size:14px;
-			line-height:150%;
-
-			text-align:right;
-			border-top:1px solid #fff;
-			border-bottom:1px solid #fff;
-			padding:0px;
-			padding-top:10px;
-			margin-right:2px;
-
-			float:left;
-			clear:none;
-
-			
+			font-size:5px;
+			content:"exter";
 		}
 		#xx{
 			background-color : #f80;
 			background-image : url(x.gif);
 		}
+		div{
+			/*background-color:#eee;*/
+			border:1px solid #000;
+		}
 	</style>
 </head>
 <body onload="job();">
-	<div id=tip class="corner9.a ">Home</div>
-	<div id=tip class="corner9.a ">View</div>
-	<div id=tip class="corner9.a ">About</div>
-	<div id=tip class="corner9.a ">About</div>
-	<div id=tip class="corner9.a ">About</div>
-	<table>
-		<tr>
-			
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-	</table>
+	<div class="ss">abc</div>
 </body>
 </html>

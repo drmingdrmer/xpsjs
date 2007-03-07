@@ -3,22 +3,12 @@
  * @author xp yanbo@staff.sina.com.cn | drdr.xp@gmail.com
  * 
  */
-var Render = {
-	render: function (el,clz){
-		var rule = this.getStyles(document)[clz];
-		if (!rule) return;
-
-
-		
-		var r = clz.split(".");
-		var type = r[0];
-
-		el.style.position = "relative";
-		this[type](el,rule);
-	},
-	
-	bevel8 : function (el,rule){
-		var d = "<div "
+var renderLib = {
+	/**
+	 * height
+	 * color
+	 */
+	bevel8 : "<div "
 				+ "style='"
 					+ "position:absolute; "
 					+ "line-height:0px; "
@@ -33,15 +23,9 @@ var Render = {
 						+ "border-left:$height$ solid transparent; "
 						+ "border-right:$height$ solid transparent; "
 					+ "' />"
-				+ "<\/div>"
+				+ "<\/div>",
 
-
-		d = this.applyProperties(d,rule);
-		new Insertion.Top(el,d);
-	},
-
-	bevel2 : function (el,rule){
-		var d = "<div "
+	bevel2 : "<div "
 				+ "style='"
 					+ "position:absolute; "
 					+ "line-height:0px; "
@@ -56,31 +40,22 @@ var Render = {
 						+ "border-left:$height$ solid transparent; "
 						+ "border-right:$height$ solid transparent; "
 					+ "' />"
-				+ "<\/div>"
-
-
-		d = this.applyProperties(d,rule);
-		new Insertion.Top(el,d);
-	},
-
-	
-	corner9 : function (el,rule){
-		var d = "<div "
+				+ "<\/div>",
+	corner9 : "<div "
 				+ "style='"
+			  	+ "line-height:0px;"
+			  	+ "font-size:0px;"
 				+ "position:absolute; "
 				+ "right:0px; "
 				+ "top : 0px; "
 				+ "border:0px solid #fff; "
 				+ "border-right:$width$ solid $color$; "
 				+ "border-bottom:$height$ solid transparent; ' "
-				+ "/>"
-		d = this.applyProperties(d,rule);
-		new Insertion.Top(el,d);
-	},
-
-	corner3 : function (el,rule){
-		var d = "<div "
+				+ "/>",
+	corner3 : "<div "
 				+ "style='"
+			  	+ "line-height:0px;"
+			  	+ "font-size:0px;"
 				+ "position:absolute; "
 				+ "right:0px; "
 				+ "bottom : 0px; "
@@ -88,8 +63,26 @@ var Render = {
 				+ "border-right:$width$ solid $color$; "
 				+ "border-top:$height$ solid transparent; ' "
 				+ "/>"
-		d = this.applyProperties(d,rule);
-		new Insertion.Top(el,d);
+}
+var Render = {
+	render: function (el,clz){
+		var rule = this.getStyles(document)[clz];
+		if (!rule) return;
+
+		
+		var r = clz.split(".");
+		var type = r[0];
+
+		el.style.position = "relative";
+		var html = this.applyProperties(renderLib[type],rule);
+		var node = this.nodeFromHtml(html);
+		el.insertBefore(node,el.firstChild);
+	},
+
+	nodeFromHtml : function (html){
+		var d = document.createElement("div");
+		d.innerHTML = html;
+		return d.firstChild;
 	},
 	
 	applyProperties : function (html,rule){
