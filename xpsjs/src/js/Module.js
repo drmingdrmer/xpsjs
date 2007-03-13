@@ -190,7 +190,7 @@ var o = {
 		if (obj instanceof Array){//treat as construct parameters
 			var clazz = this.clz();
 
-			//a hach to create new instance.
+			//a hack to create new instance with specific params
 			var dele = function (){};
 			dele.prototype = clazz.prototype;
 			var inst = new dele();//invoke pseudo constructor
