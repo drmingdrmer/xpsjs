@@ -6,6 +6,7 @@ new Module("net.xp.util.array.Array",
 	},
 
 	toArray : function (o){
+		if (o.length == null) return;
 		var ar = [];
 		for (var i = 0; i<o.length; i++){
 			ar.push(o[i]);

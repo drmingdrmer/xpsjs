@@ -1,19 +1,16 @@
 new Module("net.xp.util.array.Wrapper",
 [
-    "net.xp.core.Core",
-	"net.xp.util.array.Array"
+		"net.xp.core.Core",
+		"net.xp.util.array.Array",
+		"net.xp.util.Wrapper"
 ],function ($this,$name){return {
-	
+
 	_$defaultConstructor : function (arr){
-		this._set($name, "array", arr);
+		this.set(arr);
 	},
 
 	$A : function (a){
 		var w = $this.newInst([this.toArray(a)]);
-	},
-
-	get : function (){
-		return this._get($name, "array");
 	},
 
 	getEnumArray : function (){
@@ -27,53 +24,53 @@ new Module("net.xp.util.array.Wrapper",
 
 
 	join : function () {
-		var m = this._($name);
-		return m.array.join.apply(m.array, arguments);
+		var o = this.get();
+		return o.join.apply(o, arguments);
 	},
 
 	concat : function () {
-		var m = this._($name);
-		return m.array.concat.apply(m.array, arguments);
+		var o = this.get();
+		return o.concat.apply(o, arguments);
 	},
 
 	push : function () {
-		var m = this._($name);
-		return m.array.push.apply(m.array, arguments);
+		var o = this.get();
+		return o.push.apply(o, arguments);
 	},
 
 	pop : function () {
-		var m = this._($name);
-		return m.array.pop.apply(m.array, arguments);
+		var o = this.get();
+		return o.pop.apply(o, arguments);
 	},
 
 	reverse : function () {
-		var m = this._($name);
-		return m.array.reverse.apply(m.array, arguments);
+		var o = this.get();
+		return o.reverse.apply(o, arguments);
 	},
 
 	shift : function () {
-		var m = this._($name);
-		return m.array.shift.apply(m.array, arguments);
+		var o = this.get();
+		return o.shift.apply(o, arguments);
 	},
 
 	slice : function () {
-		var m = this._($name);
-		return m.array.slice.apply(m.array, arguments);
+		var o = this.get();
+		return o.slice.apply(o, arguments);
 	},
 
 	sort : function () {
-		var m = this._($name);
-		return m.array.sort.apply(m.array, arguments);
+		var o = this.get();
+		return o.sort.apply(o, arguments);
 	},
 
 	splice : function () {
-		var m = this._($name);
-		return m.array.splice.apply(m.array, arguments);
+		var o = this.get();
+		return o.splice.apply(o, arguments);
 	},
 
 	unshift : function () {
-		var m = this._($name);
-		return m.array.unshift.apply(m.array, arguments);
+		var o = this.get();
+		return o.unshift.apply(o, arguments);
 	}
 
 
