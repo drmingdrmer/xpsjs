@@ -24,6 +24,10 @@ new Module("net.xp.core.Enumerable",
 			if (typeof(this[i]) != "function") ar.push(this[i]);
 		}
 		return ar;
+	},
+
+	find : function (insp){
+		
 	}
 
 });

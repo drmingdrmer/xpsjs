@@ -1,41 +1,33 @@
+Module.require([
+	"net.xp.util.array.Array"
+]);
+
 new Module("net.xp.util.function.Function",
 [
     "net.xp.core.Core"
 ],function ($this,$name){return {
 
 	_$initialize : function (){
-		
+		window.$GF = $this.$GF;
+		$this.mixTo(Function.prototype);
 	},
 	
-	_$defaultConstructor : function (func){
-		this._set($name,"func",func);
+	bind : function (obj){
+		var args = $A(arguments);
+		args.shift();
+		var func = this;
+		return function() {
+			func.apply(obj, args.concat(arguments));
+		};
 	},
 
-	createGetFunc : function (value){
+	delay : function (time){
+		time = time == null ? 10 : time;
+		window.setTimeout(this,time);
+	},
+
+	$GF : function (value){
 		return function (){return value};
 	},
-
-
-	/**
-	 * get a wrapper
-	 */
-	$F : function (func){
-		return $this.newInst([func]);
-	},
-	
-	/**
-	 * return the real function.
-	 */
-	get : function (){
-		return this._get($name,"func");
-	},
-
-	bind : function (func, obj){
-		//TODO add param transmit.
-		var oFunc = this._get($name, "func");
-		this._set($name, "func", function() {
-			oFunc.apply(obj, arguments);
-		})
-	}
 
 }});

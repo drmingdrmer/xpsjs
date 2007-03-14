@@ -22,6 +22,7 @@ window.Module = function (name, modules, hash) {
 	this._name = name;
 	this._requiredModules = modules;
 	this._externModule = Module.currentRequired || []; //external Module used by this.
+	this._externModuleShortcut = {};
 	this._externModuleStr = " " + this._externModule.join(" ") + " ";
 	Module.currentRequired = null;
 
@@ -35,7 +36,7 @@ window.Module = function (name, modules, hash) {
 		this[i].getModule = Module.createGetFunc(this);
 		this[i].__$isModuleMethod = true;
 	}
-
+	
 	Module.assignModuleInstToName(name, this);
 	Module.queueInitJob(name, this);
 	Module.tryToInit();
@@ -81,7 +82,6 @@ Module.createGetFunc = function (value) {
 		return value
 	};
 };
-
 Module.get = function (name) {
 	try {
 		return eval("Module.moduleRoot." + name);
@@ -136,13 +136,6 @@ Module.initModule = function (name) {
 
 var o = {
 	_$initialize : function () {
-	},
-
-	$M : function (name) {
-		var ms = this._externModuleStr;
-		if (ms.indexOf(" " + name + " ") >= 0)
-			return Module.get(name);
-		throw new Error("external Module is not required : " + name);
 	},
 
 	mixTo : function (t) {
