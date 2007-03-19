@@ -72,8 +72,7 @@ var p = {
 	createHolder : function (name) {
 		var doc = this.getHostDoc();
 		if (this.$(name) != null) {
-			this.config.holders[name] = this.$(name).contentWindow;
-			return;
+			return this.config.holders[name] = this.$(name).contentWindow;
 		}
 
 		var e = doc.createElement("div");
@@ -85,8 +84,7 @@ var p = {
 		var loader = this;
 		var onloadFunc = function () {
 			ifm.contentWindow.Loader = loader.getHostWin().Loader;
-			loader.inLoadingHolders--;
-			if (loader.inLoadingHolders == 0) {
+			if (--loader.inLoadingHolders == 0) {
 				//noinspection JSUnresolvedVariable,JSUnresolvedFunction
 				loader.config.runLoad && loader.config.runLoad();
 			}
@@ -108,32 +106,27 @@ var p = {
 	},
 
 	initBaseUrl : function () {
+		var isLocal = location.protocol.indexOf("file") != -1;
+
+		//href url base
 		var cur = location.href.replace(/\/[^\/]*$/, "");
 
-		var s = this.$n("script");
-		var l
+		var s = this.$n("script"),posi;
 		for (var i = 0; i < s.length; i++)
-			if ((l = s[i].src.lastIndexOf("Loader.js")) >= 0) {
-				var h = s[i].src.substr(0, l - 1);
+			if ((posi = s[i].src.lastIndexOf("Loader.js")) >= 0) break;
+	
+		var loaderPath = s[i].src.substr(0, posi - 1);
 
-				if (/^\//.test(h)) {//absolute path
-					//noinspection EqualityComparisonWithCoercionJS
-					if (cur.indexOf("http://") == 0) {//absolute path of http protocal
-						cur = cur.substr(0, cur.indexOf("/", 7));
-					} else {//absolute path of file protocal
-						cur = "file://";
-					}
-					//create absolute path
-					cur += "/" + h;
-				} else if (/:\/\//.test(h)) {//full path
-					cur = h;
-				} else cur += "/" + h;
-				//relative path
+		if (/^\//.test(loaderPath)) {//absolute path
+			cur = location.protocol + "://" + (isLocal ? "" : location.host);
 
-				while (/\.\.\//.test(cur)) cur = cur.replace(/\/[^\/:]*\/\.\.\//gi, "/");
-				this.config.path.base = cur.replace(/\/[^\/]*$/, "");
-				break;
-			}
+			//create absolute path
+			cur += "/" + loaderPath;
+		} else if (/:\/\//.test(loaderPath)) {//full path
+			cur = loaderPath;
+		} else cur += "/" + loaderPath;	//relative path
+
+		this.config.path.base = this.simplifyURL(cur).replace(/\/[^\/]*$/, "");
 	},
 
 	simplifyURL : function (url) {
