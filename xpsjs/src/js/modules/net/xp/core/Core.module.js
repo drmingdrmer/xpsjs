@@ -9,7 +9,7 @@ new Module("net.xp.core.Core",
 	"net.xp.core.ModuleTest"
 ],function ($this,$name){return {
 	_$initialize : function (){
-		window.$M = $this.$M;
+//		window.$M = $this.$M;
 	},
 
 	$M : function (name){

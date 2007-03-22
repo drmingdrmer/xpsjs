@@ -3,9 +3,12 @@
 	<script>
 		
 		function job(){
-			var s="abcab,abc";
-			var k = s.match(/ab/g);
-			alert(k);
+			var m=3;
+			t("alert(m);");
+		}
+		function t(x){
+
+			eval(x);
 		}
 	</script>
 </head>

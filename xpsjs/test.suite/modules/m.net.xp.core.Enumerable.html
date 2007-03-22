@@ -12,25 +12,25 @@
 <script language="JavaScript" type="text/javascript">
 
 	function setUp() {
-		
+
 	}
 	function setUpPage() {
 		var ins = new Loader();
 		loadjs();
 	}
-	
+
 	function loadjs(){
 		var ins = Loader.instance;
-		
+
 		ins.loadJS("Module.js");
-		ins.loadModule("net.xp.core.HashCode");
+		ins.loadModule("net.xp.core.Enumerable");
 		ins.loadJS("../../test.suite/finish.js");
 	}
-	
+
 	function tearDown() {
-	  
+
 	}
-	
+
 	function test_module(){
 		var m = Module.get("net.xp.core.HashCode");
 		var inst = m.newInst();

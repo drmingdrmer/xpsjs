@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>JsUnit Assertion Tests</title>
-<link rel="stylesheet" type="text/css" href="../css/jsUnitStyle.css">
+<link rel="stylesheet" type="text/css" href="../../jsunit/css/jsUnitStyle.css">
 <script language="JavaScript" type="text/javascript" src="../../jsunit/app/jsUnitCore.js"></script>
 <script language="JavaScript" type="text/javascript" src="../../src/js/Loader.js"></script>
 <script language="JavaScript" type="text/javascript">
@@ -14,10 +14,8 @@
 		
 	}
 	function setUpPage() {
-		var ins = new Loader({
-			holders		: "$xp,$tmp",
-			finishInit	: loadjs
-		});
+		var ins = new Loader({holders : "$xp,$tmp"});
+		loadjs();
 	}
 	
 	function loadjs(){
@@ -64,9 +62,6 @@
 		assertNotNull("stringutil",$tmp.$str.trim);
 		assertNotEquals("$tmp.$str & $str", $str, $tmp.str);
 		assertNotNull("stringutil",$xp.$str);
-		
-		
-		//test load module
 	}
 
 

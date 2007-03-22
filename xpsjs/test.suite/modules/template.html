@@ -17,7 +17,7 @@
 	function setUpPage() {
 		var ins = new Loader({
 			holders		: "",
-			finishInit	: loadjs
+			runLoad	: loadjs
 		});
 	}
 	
@@ -26,7 +26,7 @@
 		
 		ins.loadJS("Module.js");
 		ins.loadModule("net.xp.Sample");
-		ins.loadJS("../../test.suite/finish.js");
+		ins.loadJS("../finish.js");
 	}
 	
 	function tearDown() {

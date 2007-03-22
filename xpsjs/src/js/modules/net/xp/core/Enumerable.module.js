@@ -13,18 +13,31 @@ new Module("net.xp.core.Enumerable",
 			inspector = {inspect:inspector};
 		}
 		var ar = this.getEnumArray(), l = ar.length;
-		for (var i=0; i<l; i++){
-			inspector.inspect(ar[i]);
-		}
+		if (typeof(inspector) == "string" ){
+			for (var i=0; i<l; i++){
+				var e = ar[i];
+				eval(inspector);
+			}
+		} else
+			for (var i = 0; i < l; i++)
+				inspector.inspect(ar[i]);
 	},
 
 	getEnumArray : function ($overridable){
 		var ar = [];
 		for (var i in this){
-			if (typeof(this[i]) != "function") ar.push(this[i]);
+			if (this.constructor.prototype[i] == null && typeof(this[i]) != "function") ar.push(this[i]);
 		}
 		return ar;
 	},
+
+	inject: function(memo, iterator) {
+		this.each(function(value, index) {
+			memo = iterator(memo, value, index);
+		});
+		return memo;
+	},
+
 
 	find : function (insp){
 		

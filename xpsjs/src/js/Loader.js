@@ -15,26 +15,19 @@ window.Loader = function(config) {
 	window.Loader.instance = this;
 
 	this.hostWin = window;
-	this.toLoad = {js : []};
-	this.loaded = {js : {}};
+	this.toLoad = [];
+	this.loaded = {};
 	this.inLoading = false;
-	this.inLoadingHolders = 0;
+	this.nonInited = 0;
+	this.ready = false;
 
-	config = config || {};
-	this.config = config;
+	this.config = config || {};
 
-	config.holders = config.holders || "";
-	var holders = {
-		$module	:true
-	}
-	if (config.holders.length > 0) {
-		var ar = config.holders.split(","), l = ar.length;
-		for (var i = 0; i < l; i++)
-			holders[ar[i]] = true;
-	}
-	config.holders = holders;
+	var holders = {$module	:true};
+	(this.config.holders || "").replace(/[^\,]*/g, function(a){holders[a] = true;});
+	this.config.holders = holders;
 
-	var path = (config.path = config.path || {});
+	var path = (this.config.path = this.config.path || {});
 	path.base = null;
 	path.js = path.js || "js";
 	path.modules = path.modules || "modules";
@@ -84,25 +77,21 @@ var p = {
 		var loader = this;
 		var onloadFunc = function () {
 			ifm.contentWindow.Loader = loader.getHostWin().Loader;
-			if (--loader.inLoadingHolders == 0) {
-				//noinspection JSUnresolvedVariable,JSUnresolvedFunction
-				loader.config.runLoad && loader.config.runLoad();
-			}
+			if (--loader.nonInited == 0) loader.loadNextJS();
 		}
 		if (ifm.addEventListener) {
 			ifm.addEventListener("load", onloadFunc, true);
 		} else {
 			ifm.attachEvent("onload", onloadFunc);
 		}
-		this.inLoadingHolders++;
+		this.nonInited++;
 		return ifm;
 	},
 
 	_preInit: function (h) {
 		this.initBaseUrl();
-		for (var i in this.config.holders) { //noinspection PointlessBooleanExpressionJS
-			if (this.config.holders[i] == true) this.createHolder(i);
-		}
+		for (var i in this.config.holders)
+			if (this.config.holders[i] === true) this.createHolder(i);
 	},
 
 	initBaseUrl : function () {
@@ -114,7 +103,7 @@ var p = {
 		var s = this.$n("script"),posi;
 		for (var i = 0; i < s.length; i++)
 			if ((posi = s[i].src.lastIndexOf("Loader.js")) >= 0) break;
-	
+
 		var loaderPath = s[i].src.substr(0, posi - 1);
 
 		if (/^\//.test(loaderPath)) {//absolute path
@@ -147,14 +136,21 @@ var p = {
 		hash = hash || {url : null, script : ""};
 
 		var scriptElement = doc.createElement("script");
-		if (hash.url != null) scriptElement.src = hash.url; else if (hash.script != null) scriptElement.innerHTML = hash.script;
+		if (hash.url != null) scriptElement.src = hash.url;
+		else if (hash.script != null) scriptElement.innerHTML = hash.script;
 
 		this.$n("head", doc)[0].appendChild(scriptElement);
 		return scriptElement;
 	},
 
-	_loadNextJS : function () {
-		var list = this.toLoad.js;
+	loadNextJS : function () {
+		if (!this.ready){
+			this.getHostWin().setTimeout(function (){
+				Loader.instance.loadNextJS();
+			},50);
+		}
+		
+		var list = this.toLoad;
 		//noinspection EqualityComparisonWithCoercionJS
 		if (list.length == 0) return;
 
@@ -169,21 +165,21 @@ var p = {
 	loadJS : function (url, winName) {
 		url = this.simplifyURL(this.config.path.js + "/" + url);
 		var symbol = url + "_window_name_" + winName;
-		if (this.loaded.js[symbol]) return false;
+		if (this.loaded[symbol]) return false;
 
-		this.toLoad.js.push({
+		this.toLoad.push({
 			url:url,
 			winName:winName,
 			toString:function () {
 				return this.winName + " : " + this.url + "";
 			}});
-		this.loaded.js[symbol] = true;
+		this.loaded[symbol] = true;
 
 		//start load if no loading job in progressing.
 		if (!this.inLoading) {
 			this.inLoading = true;
 			this.getHostWin().setTimeout(function () {
-				this.Loader.instance._loadNextJS();
+				Loader.instance.loadNextJS();
 			}, 10);
 		}
 	},
@@ -199,6 +195,7 @@ var p = {
 			this.loadModule(ms[i]);
 		}
 	},
+
 
 /**
  * add a trigger to notify loader that a script load finished by invoking Loader.onLoadFinishOne
@@ -219,8 +216,8 @@ var p = {
  */
 	_onFinishLoadOne : function (msg) {
 		//log("finished one : "+msg);
-		if (this.toLoad.js.length > 0) {
-			this._loadNextJS();
+		if (this.toLoad.length > 0) {
+			this.loadNextJS();
 			return;
 		}
 		this.inLoading = false;

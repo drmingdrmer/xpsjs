@@ -15,10 +15,8 @@
 		
 	}
 	function setUpPage() {
-		var ins = new Loader({
-			holders		: "",
-			finishInit	: loadjs
-		});
+		var ins = new Loader();
+		loadjs();
 	}
 	
 	function loadjs(){
@@ -38,8 +36,6 @@
 		
 		assertEquals("Module.moduleRoot", $module, Module.moduleRoot);
 		assertEquals("Module.loader", Loader.instance, Module.loader);
-		
-		
 	}
 	
 	function testModule_assignModule(){

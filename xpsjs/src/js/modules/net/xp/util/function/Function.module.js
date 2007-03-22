@@ -9,7 +9,7 @@ new Module("net.xp.util.function.Function",
 
 	_$initialize : function (){
 		window.$GF = $this.$GF;
-		$this.mixTo(Function.prototype);
+		$this.mixTo(Function);
 	},
 	
 	bind : function (obj){
@@ -22,12 +22,31 @@ new Module("net.xp.util.function.Function",
 	},
 
 	delay : function (time){
-		time = time == null ? 10 : time;
-		window.setTimeout(this,time);
+		time = time || 10;
+		var func = this;
+		return function (){
+			window.setTimeout(func, time);
+		}
 	},
 
+	combine : function (){
+		var funcArray = $A(arguments).unshift(this);
+		return function (){
+			var args = $A(arguments);
+			funcArray.each(function (f){
+				f.apply(this,args);
+			});
+		}
+	},
+
+	times : function (n){
+		for (var i=0;i<n;i++){
+			this();
+		}
+	},
+	
 	$GF : function (value){
 		return function (){return value};
-	},
+	}
 
 }});

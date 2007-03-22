@@ -1,28 +1,101 @@
+Module.require([
+	"net.xp.util.array.Array"
+]);
 new Module("net.xp.util.string.String",
 [
-	"net.xp.core.ModuleVars"
-],{
-	_$initialize : function (){
-		var g = this.$g(arguments);
-		g.substr = function (start,len){
-			if (this[start]=="\01") start--;
+	"net.xp.core.Core"
+], function ($this, $name) { return {
+	_$initialize : function () {
+		var g = this.__($name);
+		g.substr = function (start, len) {
+			if (this[start] == "\01") start--;
 			var end = start + len ;
-			if (this[end]=="\01") end--;
-			return this.slice(start,end).join("").replace(/\01/gi,"");
+			if (this[end] == "\01") end--;
+			return this.slice(start, end).join("").replace(/\01/gi, "");
 		};
+
+		window.$S = $this.$S;
+		$this.mixTo(String);
 	},
-	
-	//string trim
-	trim : function (str){
-		return this.trimTail(this.trimHead(str));
+
+	$S : function (str){
+		return new String(str);
 	},
-	trimHead : function (str){
-		return str.replace(/^(\u3000|\s|\t)*/gi,"");
+
+	strip: function() {
+		return this.replace(/^\s+/, '').replace(/\s+$/, '');
 	},
-	trimTail : function (str){
-		return str.replace(/(\u3000|\s|\t)*$/gi,"");
+
+	trim : function () {
+		return this.trimTail().trimHead();
 	},
-	
+
+	trimHead : function () {
+		return this.replace(/^(\u3000|\s|\t)*/gi, "");
+	},
+
+	trimTail : function () {
+		return this.replace(/(\u3000|\s|\t)*$/gi, "");
+	},
+
+	stripTags: function() {
+		return this.replace(/<\/?[^>]+>/gi, '');
+	},
+
+	stripScripts: function() {
+		var scriptElement = '(?:<script.*?>)((\n|\r|.)*?)(?:<\/script>)';
+		return this.replace(new RegExp(scriptElement, 'img'), '');
+	},
+
+	extractScripts: function() {
+		//TODO Why match all then match one?
+		var scriptElement = '(?:<script.*?>)((\n|\r|.)*?)(?:<\/script>)';
+		var matchAll = new RegExp(scriptElement, 'img');
+		var matchOne = new RegExp(scriptElement, 'im');
+		return (this.match(matchAll) || []).map(function(scriptTag) {
+			return (scriptTag.match(matchOne) || ['', ''])[1];
+		});
+	},
+
+	extractScripts_xp : function () {
+		var sr = /(<script[^>]*?>)((1|[^1])*?)(<\/script>)/gmi;
+		var scripts = [];
+		this.replace(sr, function (rs, s1, s2, s3) {
+			scripts.push(s2 + ";");
+		});
+
+		return scripts;
+	},
+
+	evalScripts : function (){
+		eval(this.extractScripts_xp().join());
+	},
+
+	toQueryParams: function(separator) {
+		var match = this.strip().match(/([^?#]*)(#.*)?$/);
+		if (!match) return {};
+
+		return match[1].split(separator || '&').inject({}, function(hash, pair) {
+			if ((pair = pair.split('='))[0]) {
+				var name = decodeURIComponent(pair[0]);
+				var value = pair[1] ? decodeURIComponent(pair[1]) : undefined;
+
+				if (hash[name] !== undefined) {
+					if (hash[name].constructor != Array)
+						hash[name] = [hash[name]];
+					if (value) hash[name].push(value);
+				}
+				else hash[name] = value;
+			}
+			return hash;
+		});
+	},
+
+
+
+
+
+	//TODO simplify shorten
 	//util for wide characters manipulation
 	getStrWrap : function (str,charset){		
 		var ar = str.replace(/([\u00ff-\uffff])/gi,"$1\01").split("");
@@ -30,35 +103,30 @@ new Module("net.xp.util.string.String",
 		return ar;
 	},
 	
-	getShort : function (str,len, suffix){
+	shorten : function (str,len, suffix){
 		suffix = suffix || "..";
 		var aln = this.getStrWrap(str), al = aln.length;
 		if (al > len) str = aln.$substr(0,len) + suffix;
 		return str;
 	},
-	
-	
-	//html manipulation
-	escapeStr : function (str){
-		var t = document.getElementById("_$convertTextarea");
 
-		//notice that the document might be of the window Modules loaded to,
-		//not the window the Module wokring in.
-		if (!t && document.body){
-			var t = document.createElement("textarea");
-			t.id = "_$convertTextarea";
-			t.style.cssText = "display:none";
-			document.body.appendChild(t);
-		}
-		if (t) {
-			try{
-				t.innerHTML = s;
-				return t.innerHTML;
-			}
-			catch (e) {
-				return s;
-			}
-		} else 
-			return s;
-	}
-})
+
+	escapeHTML: function() {
+		var div = document.createElement('div');
+		var text = document.createTextNode(this);
+		div.appendChild(text);
+		return div.innerHTML;
+	},
+
+	unescapeHTML: function() {
+		var div = document.createElement('div');
+		div.innerHTML = this.stripTags();
+		if (div.childNodes[0]){
+			if (div.childNodes.length > 1){
+				var memo = "";
+				$A(div.childNodes).each(function(node){memo+=node.nodeValue});
+				return memo;
+			} else return div.childNodes[0].nodeValue;
+		} else return "";
+	},
+}});

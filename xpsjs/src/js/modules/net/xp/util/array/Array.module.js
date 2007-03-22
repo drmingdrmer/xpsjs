@@ -4,7 +4,7 @@ new Module("net.xp.util.array.Array",
 ],function ($this,$name){return {
 	_$initialize : function (){
 		window.$A = $this.$A;
-		$this.mixTo(Array.prototype);
+		$this.mixTo(Array);
 	},
 	
 	$A : function (o){
@@ -12,20 +12,17 @@ new Module("net.xp.util.array.Array",
 	},
 	
 	toArray : function (o){
-		var ar = [];
-		if (o.length == null) {
-			for (var i in o){
+		var ar = [], i;
+		if (o.length == null)
+			for (i in o)
 				if (typeof o[i] == "function") ar.push(o[i]);
-			}
-		} else {
-			for (var i = 0; i<o.length; i++){
+		else
+			for (i = 0; i < o.length; i++)
 				ar.push(o[i]);
-			}
-		}
 		return ar;
 	},
 
 	getEnumArray : function (){
-		return this;
+		return this;//return this Array when mixed to Array
 	}
 }});

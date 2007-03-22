@@ -259,7 +259,7 @@ app.loadData = function(){
 					imageRoot 		: app.base + "/" + app.path.image,
 					id 			: al.$.vid,
 					albumName 	: al.$.name,
-					shortName 	: $util.getShort(al.$.name,16),
+					shortName 	: $util.shorten(al.$.name,16),
 					editable	: al.$.type == "album",
 					albumType 	: al.$.type,
 					createTime 	: al.$.createTime.substr(0,10),

@@ -4,7 +4,7 @@
  */
 new Module("net.xp.core.ModuleVars",
 [
-],function ($this,$name){return {
+],function ($this, $name){return {
 
 
 	_ : function (name) {
@@ -24,40 +24,8 @@ new Module("net.xp.core.ModuleVars",
 		return value;
 	},
 
-	/*
-	$m : function (arg){
-		var name = arg.callee.getModule()._name;
-		var pr = this.constructor.prototype;
-		var isProto = this == pr;
-		
-		pr[name] = (pr[name] || (function (){}).prototype);
-		if (this[name] == pr[name] && !isProto)
-			this[name] = new pr[name].constructor();
-		
-		if (isProto) return pr[name];
-		else return this[name];
-	},
-	*/
-
-	__ : function (name){
-		var _$g = (Module[name] = (Module[name] || {}));
-		return _$g;
-	},
-
-	/*
-	$g : function (arg){
-		var name = arg.callee.getModule()._name;
-		var _$g = (Module[name] = (Module[name] || {}));
-		return _$g;
-	},
-
-	$gv : function (arg, name){
-		return this.$g(arg)[name];
-	},
-	
-	$sv : function (arg, name, value){
-		this.$g(arg)[name] = value;
+	__ : function (name) {
+		return (Module[name] = (Module[name] || {}));
 	}
 
-	*/
 }});

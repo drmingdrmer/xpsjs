@@ -381,7 +381,7 @@ app.parseData = function (xml){
 			this.progressRecord.push({	succ	:true,
 									 	code	: -1,
 										msg		:"图片上传成功！",
-										shortName:$util.getShort(e.currentFile.name,20),
+										shortName:$util.shorten(e.currentFile.name,20),
 										file	:e.currentFile
 									  });
 			this._showProgress(e);
@@ -397,7 +397,7 @@ app.parseData = function (xml){
 			this.progressRecord.push({	succ	:false,
 									 	code	:errorCode,
 										msg		:msg,
-										shortName:$util.getShort(e.currentFile.name,20),
+										shortName:$util.shorten(e.currentFile.name,20),
 										file	:e.currentFile
 									  });
 			

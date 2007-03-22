@@ -5,28 +5,32 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>JsUnit Assertion Tests</title>
-<link rel="stylesheet" type="text/css" href="../css/jsUnitStyle.css">
+<link rel="stylesheet" type="text/css" href="../../jsunit/css/jsUnitStyle.css">
 <script language="JavaScript" type="text/javascript" src="../../jsunit/app/jsUnitCore.js"></script>
 <script language="JavaScript" type="text/javascript" src="../../src/js/Loader.js"></script>
 
 <script language="JavaScript" type="text/javascript">
 
 	function setUp() {
-		
+
 	}
 	function setUpPage() {
 		var ins = new Loader({
-			holders		: "",
-			finishInit	: loadjs
+			onLoadFinish : function (){
+				window.setUpPageStatus = "complete";
+			}
 		});
+		loadjs();
+
 	}
 	
 	function loadjs(){
+
 		var ins = Loader.instance;
 		
 		ins.loadJS("Module.js");
 		ins.loadModule("net.xp.core.ModuleVars");
-		ins.loadJS("../../test.suite/finish.js");
+		
 	}
 	
 	function tearDown() {
@@ -35,51 +39,51 @@
 	
 	function test_module(){
 		
-		var vm, vg;
+		var moduleVariable, globalVariable;
 		
 		var mv = Module.get("net.xp.core.ModuleVars");
-		var module = new Module("temp",["net.xp.core.ModuleVars"],{
+		var module = new Module("temp",["net.xp.core.ModuleVars"],
+		function ($this, $name){return{
 			test$m : function (){
-				var m = this.$m(arguments);
-				vm = m;
+				var m = this._($name);
+				moduleVariable = m;
 				m.t = 6;
 			},
 			
 			set$m_t : function (i){
-				var m = this.$m(arguments);
+				var m = this._($name);
 				m.t = i;
 			},
 			
 			get$m_t : function (){
-				var m = this.$m(arguments);
+				var m = this._($name);
 				return m.t;
 			},
 			
 			test$g : function (){
-				var g = this.$g(arguments);
-				vg = g;
+				var g = this.__($name);
+				globalVariable = g;
 			},
 			
 			get$g_t : function (){
-				var g = this.$g(arguments);
+				var g = this.__($name);
 				return g.t;
 			},
 			
 			set$g_t : function (i){
-				var g = this.$g(arguments);
+				var g = this.__($name);
 				g.t = i;
 			}
 			
-		});
+		}});
 		
 		var inst = module.newInst();
 		inst.constructor.prototype.test$m();
-		assertTrue("m not null", vm != null);
+		assertTrue("m not null", moduleVariable != null);
 		assertEquals("m.t", 6, inst.get$m_t());
 
 		inst.set$m_t(3);
 		assertEquals("m.t", 3, inst.get$m_t());
-		assertEquals("m.proto.t", 6, inst.constructor.prototype.get$m_t());
 		
 		inst.set$g_t(13);
 		var inst2 = module.newInst();

@@ -279,7 +279,7 @@ app.loadData = function(){
 					imageRoot 	: app.base + "/" + app.path.image,
 					id 			: al.$.vid,
 					albumName 	: al.$.name,
-					shortName 	: $util.getShort(al.$.name,8),
+					shortName 	: $util.shorten(al.$.name,8),
 					albumType 	: al.$.type,					
 					iconUrl 	: al.image.url[3].$.address,
 					url 		: al.links.listPics.$.address
@@ -492,7 +492,7 @@ app.loadData = function(){
 				var o = {
 					id		: pic.$.vid,
 					title	: pic.$.name,
-					shortTitle:$util.getShort(pic.$.name,16),
+					shortTitle:$util.shorten(pic.$.name,16),
 					imageUrl: pic.image.url[0].$.address,
 					imageSrc: pic.image.url[2].$.address
 				}
