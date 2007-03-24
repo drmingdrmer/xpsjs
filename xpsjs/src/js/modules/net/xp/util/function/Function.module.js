@@ -9,6 +9,10 @@ new Module("net.xp.util.function.Function",
 
 	_$initialize : function (){
 		window.$GF = $this.$GF;
+
+		window.$F = function (f){
+			return $this.copyTo(f);
+		}
 		$this.mixTo(Function);
 	},
 	
@@ -44,6 +48,14 @@ new Module("net.xp.util.function.Function",
 			this();
 		}
 	},
+
+	asCall : function () {
+		var func = this, args = $A(arguments);
+		return function (t) {
+			return func.apply(t, args);
+		}
+	},
+
 	
 	$GF : function (value){
 		return function (){return value};

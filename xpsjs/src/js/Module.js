@@ -148,17 +148,19 @@ var o = {
 
 		if (isFunc)	t = t.prototype;
 
+		this.copyTo(t);
+	},
+
+	copyTo : function (t){
 		for (var i in this) {
 			if (typeof(this[i]) != "function" || Module.prototype[i] != null) continue;
 			if (t[i] == null)
 				t[i] = this[i];
 			else if (t[i] != this[i] && !this[i].isOverridable()){
-				
 				throw new Error("memeber already exists : " + i + " in : " + (t._name || t.constructor) + " from : " + this._name);
-
 			}
-
 		}
+		return t;
 	},
 
 	compatableTo : function (obj) {
