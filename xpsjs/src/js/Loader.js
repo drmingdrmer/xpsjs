@@ -151,7 +151,6 @@ var p = {
 		}
 		
 		var list = this.toLoad;
-		//noinspection EqualityComparisonWithCoercionJS
 		if (list.length == 0) return;
 
 		var e = list.shift(), url = e.url, winName = e.winName;
@@ -215,7 +214,6 @@ var p = {
  * @param {Object} msg
  */
 	_onFinishLoadOne : function (msg) {
-		//log("finished one : "+msg);
 		if (this.toLoad.length > 0) {
 			this.loadNextJS();
 			return;
@@ -223,6 +221,7 @@ var p = {
 		this.inLoading = false;
 		//noinspection JSUnresolvedVariable,JSUnresolvedFunction
 		this.config.onLoadFinish &&	this.config.onLoadFinish();
+		alert("finished load : "+msg);
 
 	}
 }
