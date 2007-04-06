@@ -24,8 +24,9 @@ new Module("net.xp.util.object.Hash",
 
 	getEnumArray : function ($overridable){
 		var ar = [];
-		for (var i in this){
-			if (this.constructor.prototype[i] == null && typeof(this[i]) != "function") ar.push({key : i, value:this[i]});
+		for (var i in this) {
+			if (this.constructor.prototype[i] == null && typeof(this[i]) != "function")
+				ar.push({key : i, value:this[i]});
 		}
 		return ar;
 	}

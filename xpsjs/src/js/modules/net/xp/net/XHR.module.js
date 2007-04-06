@@ -1,9 +1,9 @@
 var x = new Module("net.xp.net.XHR",
 [
+	"net.xp.core.Core",
 	"net.xp.util.URL",
 	"net.xp.util.Debuggable"
-],function ($this, $name) {
-return {
+],function ($this, $name) {return {
 
 	/**
 	 * inited

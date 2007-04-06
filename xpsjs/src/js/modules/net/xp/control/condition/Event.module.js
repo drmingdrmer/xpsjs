@@ -2,35 +2,40 @@ new Module("net.xp.control.condition.Event",
 [
     "net.xp.core.Core",
 	"net.xp.control.Condition"
-],function ($this,$name){return {
-	setCondition : function (obj){
+],function ($this,$name){
+	function EV(){
+		return Module.get("net.xp.event.Event");
+	}
+
+return {
+	setCondition : function (condition){
 		var m = this._($name);
 
-		var tar = obj.target;
-		var eventName = obj.event;
-		var tester = obj.tester;
+		m.target = condition.target;
+		m.eventName = condition.event;
+		m.check = condition.check;
 
-		var thiz = this;
-		var tempListener = function (e){
-			if (tester(e)){
-				
-				thiz.satisfy();
-				
-				if (tar.nodeType != null && tar.detachEvent) {
-					tar.detachEvent("on"+eventName, tempListener);
-				} else {
-					tar.removeEventListener(eventName, tempListener);
-				}
-			}
-		};
+		this[m.eventName] = this.check;
 
-		if (tar.nodeType != null && tar.attachEvent) {
-			tar.attachEvent("on"+eventName, tempListener);
-		} else {
-			tar.addEventListener(eventName, tempListener);
-		}
+		EV().listen(m.target, m.eventName, this);
 
 		this.resetCondition();
+	},
+
+	check : function (e){
+		if (this._($name).check(e)){
+			this.satisfy();
+			this.resetCondition();
+		}
+	},
+
+	clearCondition : function (){
+		var m = this._($name);
+		try{
+			EV().stop(m.target, m.eventName, this);
+		} catch(e){
+
+		}
 	}
 
 	

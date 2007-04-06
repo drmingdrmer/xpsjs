@@ -38,6 +38,10 @@ new Module("net.xp.util.string.String",
 		return this.replace(/(\u3000|\s|\t)*$/gi, "");
 	},
 
+
+
+
+
 	stripTags: function() {
 		return this.replace(/<\/?[^>]+>/gi, '');
 	},
@@ -91,6 +95,23 @@ new Module("net.xp.util.string.String",
 		});
 	},
 
+
+
+	toInt : function (h){
+		return parseInt(this,h);
+	},
+
+	toArray : function (bits){
+		return this.match(new RegExp("[\\u0000-\\uffff]{" + (bits || 1) + "}", "gm"));
+	},
+
+	a2u : function (){
+		return this.replace(/\\u([\dabcdefABCDEF]{4})/gi,function (a,b){
+			return String.fromCharCode(b.toInt(16));
+		});
+	},
+
+	
 
 
 

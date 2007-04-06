@@ -29,8 +29,8 @@ new Module("net.xp.data.Map",
 
 		var w = this.getWidth();
 		var h = this.getHeight();
-		x = Math.max(x,w);
-		y = Math.max(y,h);
+		x = this.max(x,w);
+		y = this.max(y,h);
 		if (x != w || y != h) this.setSize(x,y);
 	},
 

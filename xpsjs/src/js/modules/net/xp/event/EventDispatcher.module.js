@@ -1,6 +1,15 @@
 var x = new Module("net.xp.event.EventDispatcher",
-[],function ($this, $name){
-return {
+[
+	"net.xp.core.Core"
+],function ($this, $name){return {
+	_$initialize : function (){
+		window.$E = function (o){
+			if (!o.addEventListener) $this.copyTo(o);
+			return o;
+		};
+		
+	},
+
 	_removeEventListener : function (queue, event, handler) {
 		if (queue != null) {
 			var l = queue.length;
@@ -13,6 +22,7 @@ return {
 			}
 		}
 	},
+
 	// internal function for dispatching events
 	dispatchQueue : function (queueObj, eventObj) {
 		var queueName = "__$module.net.xp.event.EventDispatcher.attr.queue_" + eventObj.type;
@@ -25,7 +35,8 @@ return {
 				if (Object.prototype[i] != null) continue;
 				if (isNaN(parseInt(i))) continue;
 				var rt = null;
-				if (typeof(o) == 'function') o(eventObj); else if (o[eventObj.type] != null) o[eventObj.type](eventObj);
+				if (typeof(o) == 'function') o(eventObj); 
+				else if (o[eventObj.type] != null) o[eventObj.type](eventObj);
 			}
 		}
 	},
@@ -48,16 +59,16 @@ return {
 		this._removeEventListener(this[queueName], event, handler);
 	},
 
-	addEvents : function (es, l) {
-		for (var i = 0; i < es.length; i++) {
+	addEvents : function (events, l) {
+		for (var i = 0; i < events.length; i++) {
 
-			this.addEventListener(es[i], l);
+			this.addEventListener(events[i], l);
 		}
 	},
 
-	removeEvents : function (es, l) {
-		for (var i = 0; i < es.length; i++) {
-			this.removeEventListener(es[i], l);
+	removeEvents : function (events, l) {
+		for (var i = 0; i < events.length; i++) {
+			this.removeEventListener(events[i], l);
 		}
 	}
 

@@ -1,7 +1,14 @@
+Module.require([
+	"net.xp.control.RunnableTable"
+]);
 new Module("net.xp.control.RunnableTable",
 [
     "net.xp.core.Core"
-],function ($this,$name){return {
+],function ($this, $name){
+	function isRunnable (obj){
+		return Module.get("net.xp.control.RunnableTable").compatableTo(obj);
+	}
+return {
 
 	_getRunnableTable : function (){
 		var m = this._($name);
@@ -10,7 +17,7 @@ new Module("net.xp.control.RunnableTable",
 	},
 
 	addRunnable : function (runnable, data){
-		if (!Module.get("net.xp.app.Runnable").compatableTo(runnable)){
+		if (!isRunnable(runnable)){
 			throw new Error("not runnable");
 		}
 		this._getRunnableTable()[runnable.hashCode()]={
@@ -20,14 +27,14 @@ new Module("net.xp.control.RunnableTable",
 	},
 
 	removeRunnable : function (runnable){
-		if (!Module.get("net.xp.app.Runnable").compatableTo(runnable)){
+		if (!isRunnable(runnable)){
 			throw new Error("not runnable");
 		}
 		this._getRunnableTable()[runnable.hashCode()] = null;
 	},
 
 	getRunnableData : function (runnable){
-		if (!Module.get("net.xp.app.Runnable").compatableTo(runnable)){
+		if (!isRunnable(runnable)){
 			throw new Error("not runnable");
 		}
 		var o = this._getRunnableTable()[runnable.hashCode()];

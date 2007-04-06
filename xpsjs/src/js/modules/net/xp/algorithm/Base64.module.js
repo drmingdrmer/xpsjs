@@ -3,7 +3,7 @@ new Module("net.xp.algorithm.Base64",
     "net.xp.core.Core",
 	"net.xp.math.Math"
 ],function ($this,$name){return {
-	_$initialize : function (){
+	_$initialize : function () {
 		var g = this.__($name);
 		g.table = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 		g.deTable = {};
@@ -13,31 +13,31 @@ new Module("net.xp.algorithm.Base64",
 		}
 	},
 
-	getTable : function (){
+	getTable : function () {
 		var g = this.__($name);
 		return g.table;
 	},
 
-	getDeTable : function (){
+	getDeTable : function () {
 		var g = this.__($name);
 		return g.deTable;
 	},
 
 
 
-	encode : function (arr){
+	encode : function (arr) {
 		var table = this.getTable();
 		var r = "";
 		var cache = 0;
 		var position = -1;
-		for (var i=0; i<arr.length; ++i){
+		for (var i = 0; i < arr.length; ++i) {
 			var v = this.$I(arr[i]);
-			if (v > 255) throw new Error("value is large than 255 at : "+i);
+			if (v > 255) throw new Error("value is large than 255 at : " + i);
 
 			cache = (cache << 8) + v;
 			position += 8;
 
-			while (position >= 6){
+			while (position >= 6) {
 				var c = cache >> (position - 6);
 				r += table.charAt(c);
 			}
@@ -46,12 +46,12 @@ new Module("net.xp.algorithm.Base64",
 		//TODO
 	},
 
-	decode : function (arr){
+	decode : function (arr) {
 
 	},
 
 
-	encode_base64 : function ( what )
+	encode_base64 : function (what)
 	{
 		var base64_encodetable = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 		var result = "";
@@ -59,31 +59,28 @@ new Module("net.xp.algorithm.Base64",
 		var x, y;
 		var ptr = 0;
 
-		while( len-- > 0 )
-		{
-			x = what.charCodeAt( ptr++ );
-			result += base64_encodetable.charAt( ( x >> 2 ) & 63 );
+		while (len-- > 0) {
+			x = what.charCodeAt(ptr++);
+			result += base64_encodetable.charAt(( x >> 2 ) & 63);
 
-			if( len-- <= 0 )
-			{
-				result += base64_encodetable.charAt( ( x << 4 ) & 63 );
+			if (len-- <= 0) {
+				result += base64_encodetable.charAt(( x << 4 ) & 63);
 				result += "==";
 				break;
 			}
 
-			y = what.charCodeAt( ptr++ );
-			result += base64_encodetable.charAt( ( ( x << 4 ) | ( ( y >> 4 ) & 15 ) ) & 63 );
+			y = what.charCodeAt(ptr++);
+			result += base64_encodetable.charAt(( ( x << 4 ) | ( ( y >> 4 ) & 15 ) ) & 63);
 
-			if ( len-- <= 0 )
-			{
-				result += base64_encodetable.charAt( ( y << 2 ) & 63 );
+			if (len-- <= 0) {
+				result += base64_encodetable.charAt(( y << 2 ) & 63);
 				result += "=";
 				break;
 			}
 
-			x = what.charCodeAt( ptr++ );
-			result += base64_encodetable.charAt( ( ( y << 2 ) | ( ( x >> 6 ) & 3 ) ) & 63 );
-			result += base64_encodetable.charAt( x & 63 );
+			x = what.charCodeAt(ptr++);
+			result += base64_encodetable.charAt(( ( y << 2 ) | ( ( x >> 6 ) & 3 ) ) & 63);
+			result += base64_encodetable.charAt(x & 63);
 
 		}
 
@@ -108,50 +105,43 @@ new Module("net.xp.algorithm.Base64",
 		var x, y;
 		var ptr = 0;
 
-		while( !isNaN( x = what.charCodeAt( ptr++ ) ) )
-		{
-			if( x == 13 || x == 10 )
+		while (!isNaN(x = what.charCodeAt(ptr++))) {
+			if (x == 13 || x == 10)
 				continue;
 
-			if( ( x > 127 ) || (( x = base64_decodetable[x] ) == 255) )
+			if (( x > 127 ) || (( x = base64_decodetable[x] ) == 255))
 				return false;
-			if( ( isNaN( y = what.charCodeAt( ptr++ ) ) ) || (( y = base64_decodetable[y] ) == 255) )
+			if (( isNaN(y = what.charCodeAt(ptr++)) ) || (( y = base64_decodetable[y] ) == 255))
 				return false;
 
-			result += String.fromCharCode( (x << 2) | (y >> 4) );
+			result += String.fromCharCode((x << 2) | (y >> 4));
 
-			if( (x = what.charCodeAt( ptr++ )) == 61 )
-			{
-				if( (what.charCodeAt( ptr++ ) != 61) || (!isNaN(what.charCodeAt( ptr ) ) ) )
+			if ((x = what.charCodeAt(ptr++)) == 61) {
+				if ((what.charCodeAt(ptr++) != 61) || (!isNaN(what.charCodeAt(ptr)) ))
 					return false;
 			}
-			else
-			{
-				if( ( x > 127 ) || (( x = base64_decodetable[x] ) == 255) )
+			else {
+				if (( x > 127 ) || (( x = base64_decodetable[x] ) == 255))
 					return false;
-				result += String.fromCharCode( (y << 4) | (x >> 2) );
-				if( (y = what.charCodeAt( ptr++ )) == 61 )
-				{
-					if( !isNaN(what.charCodeAt( ptr ) ) )
+				result += String.fromCharCode((y << 4) | (x >> 2));
+				if ((y = what.charCodeAt(ptr++)) == 61) {
+					if (!isNaN(what.charCodeAt(ptr)))
 						return false;
 				}
-				else
-				{
-					if( (y > 127) || ((y = base64_decodetable[y]) == 255) )
+				else {
+					if ((y > 127) || ((y = base64_decodetable[y]) == 255))
 						return false;
-					result += String.fromCharCode( (x << 6) | y );
+					result += String.fromCharCode((x << 6) | y);
 				}
 			}
 		}
 		return result;
 	},
 
-	wrap76 : function ( what )
-	{
+	wrap76 : function ( what ) {
 		var result = "";
 
-		for(var i=0; i < what.length; i+=76)
-		{
+		for(var i=0; i < what.length; i+=76) {
 			result += what.substring(i, i+76) + String.fromCharCode(13) + String.fromCharCode(10);
 		}
 		return result;

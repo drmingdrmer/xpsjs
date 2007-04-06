@@ -1,21 +1,33 @@
 Module.require([
-	"net.xp.util.array.Array"
+	"net.xp.util.array.Array",
+	"net.xp.event.Event"
 ]);
 
 new Module("net.xp.util.function.Function",
 [
     "net.xp.core.Core"
-],function ($this,$name){return {
+],function ($this, $name){
+	function EV(){
+		return Module.get("net.xp.event.Event");
+	}
+
+return {
 
 	_$initialize : function (){
 		window.$GF = $this.$GF;
 
 		window.$F = function (f){
-			return $this.copyTo(f);
+			return f;
 		}
 		$this.mixTo(Function);
+		
 	},
-	
+
+	when : function (o, evName){
+		EV().listen(o, evName, this);
+	},
+
+
 	bind : function (obj){
 		var args = $A(arguments);
 		args.shift();

@@ -1,33 +1,43 @@
-new Module("net.xp.control.codition.Ping",
+Module.require([
+	"net.xp.control.PeriodicalEngine"
+])
+new Module("net.xp.control.condition.Ping",
 [
 	"net.xp.core.Core",
-	"net.xp.control.Condition"
-],function ($this,$name){return {
+	"net.xp.control.Condition",
+	"net.xp.control.RunnableTable"
+],function ($this, $name){
 	
-	setCondition : function (obj, isOnce){
+		function RM (obj){
+			return Module.get("net.xp.control.RunnableTable");
+		}
+
+return {
+
+	setCondition : function (condition, isOnce){
 		var m = this._($name);
 
-		m.tester = obj.tester;
+		m.check = condition.check;
+		m.once = condition.once != false;
 		
-		var thiz = this;
-		var rm =
-			m.runnable = 
-			Module.get("net.xp.app.Runnable").newInst({
-				run	: function (){
-					thiz.ping();
-				}
-			});
-
-		Module.get("net.xp.control.PeriodicalEngine").$getInstance().doRepeatly(rm, obj.period);
+		$PE().doRepeatly(this, condition.period);
 		
 		this.resetCondition();
 	},
+
+	clearCondition : function (){
+		try{
+			$PE().stopRepeatly(this);
+		} catch(e){
+			
+		}
+	},
 	
-	ping : function (){
+	run : function (){
 		var m = this._($name);
-		if ((m.satisfied && m.once) || m.tester()) {
+		if ((m.satisfied && m.once) || m.check()) {
 			this.satisfy();
-			Module.get("net.xp.control.PeriodicalEngine").$getInstance().removeRunnable(m.runnable);
+			if (m.once) this.clearCondition();
 		}
 	}
 }});

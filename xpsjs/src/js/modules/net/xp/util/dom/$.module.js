@@ -1,7 +1,17 @@
 new Module("net.xp.util.dom.$",
 [
 	"net.xp.dom.WindowRelative"
-],{
+],function ($this, $name){ return {
+	_$initialize : function (){
+		Module.getHostWin().$ = function (win){
+			var m = $this.newInst();
+			m.setWorkingWin(win);
+			return m;
+		}
+	},
+
+
+
 	$ : function (id, doc){
 		return this.$Doc(doc).getElementById(id);
 	},
@@ -22,11 +32,9 @@ new Module("net.xp.util.dom.$",
 		io = io || {};
 		var e = doc.createElement(name);
 
-		for (var i in io){
-			if (io.constructor.prototype[i]) continue;
-			e[i] = io[i];
-		}
-
+		for (var i in io)
+			if (io.constructor.prototype[i] == null)
+				e[i] = io[i];
 		return e;
 	}
-});
+}});

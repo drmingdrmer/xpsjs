@@ -1,7 +1,7 @@
 new Module("net.xp.browser.BrowserDetect",
 [
     "net.xp.core.Core"
-],function ($this,$name){return {
+],function ($this, $name){return {
 	_$initialize : function (){
 		var g = this.__($name);
 
@@ -23,6 +23,8 @@ new Module("net.xp.browser.BrowserDetect",
 			g.$Gecko = false;
 			g.$Safari = false;
 		}
+
+		window.$Br = $this;
 	},
 
 	is : function (str){
