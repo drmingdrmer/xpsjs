@@ -41,6 +41,7 @@ window.Module = function (name, modules, hash) {
 	Module.queueInitJob(name, this);
 	Module.tryToInit();
 	//try to mix
+//	alert("module : "+name);
 };
 Module.inited = "inited"; //Module instance initialized-mark string
 Module.loader = Loader.instance;
@@ -132,6 +133,7 @@ Module.initModule = function (name) {
 	}catch (e){	alert("_$initialize error : "+e); }
 
 	Module.initQueue[name] = Module.inited;
+//	alert(" inited" + name );
 };
 
 var o = {

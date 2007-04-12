@@ -20,6 +20,7 @@ window.Loader = function(config) {
 	this.inLoading = false;
 	this.nonInited = 0;
 	this.ready = false;
+	this.id = 0;
 
 	this.config = config || {};
 
@@ -77,7 +78,7 @@ var p = {
 		var loader = this;
 		var onloadFunc = function () {
 			ifm.contentWindow.Loader = loader.getHostWin().Loader;
-			if (--loader.nonInited == 0) loader.loadNextJS();
+			if (--loader.nonInited == 0) loader.ready=true;
 		}
 		if (ifm.addEventListener) {
 			ifm.addEventListener("load", onloadFunc, true);
@@ -136,6 +137,7 @@ var p = {
 		hash = hash || {url : null, script : ""};
 
 		var scriptElement = doc.createElement("script");
+		scriptElement.id = ++this.id;
 		if (hash.url != null) scriptElement.src = hash.url;
 		else if (hash.script != null) scriptElement.innerHTML = hash.script;
 
@@ -148,17 +150,19 @@ var p = {
 			this.getHostWin().setTimeout(function (){
 				Loader.instance.loadNextJS();
 			},50);
+			return;
 		}
+		this.inLoading = true;
 		
 		var list = this.toLoad;
-		if (list.length == 0) return;
+		while (list.length > 0) {
+			var e = list.shift(), url = e.url, winName = e.winName;
 
-		var e = list.shift(), url = e.url, winName = e.winName;
+			var win = this.getWinByName(winName);
 
-		var win = this.getWinByName(winName);
-
-		this.createScript(win.document, {url:url});
-		this.addTriggerLoadFinishScript(winName, url);
+			this.createScript(win.document, {url:url});
+			this.addTriggerLoadFinishScript(winName, url);
+		}
 	},
 
 	loadJS : function (url, winName) {
@@ -175,16 +179,11 @@ var p = {
 		this.loaded[symbol] = true;
 
 		//start load if no loading job in progressing.
-		if (!this.inLoading) {
-			this.inLoading = true;
-			this.getHostWin().setTimeout(function () {
-				Loader.instance.loadNextJS();
-			}, 10);
-		}
+		this.loadNextJS();
 	},
 
 	loadModule : function (mName) {
-		mName = mName.replace(/\./gi, "/") + ".module.js";
+		mName = mName.replace(/\./gi, "/").replace(/\*$/,"_All") + ".module.js";
 		return this.loadJS(this.config.path.modules + "/" + mName, "$module");
 	},
 
@@ -204,7 +203,7 @@ var p = {
 	addTriggerLoadFinishScript : function (winName, msg) {
 		var win = this.getWinByName(winName);
 		var scr = this.createScript(win.document, {
-			script : "window.Loader.instance._onFinishLoadOne('" + msg + "');"
+			script : "window.Loader.instance._onFinishLoadOne(" + (this.id+1)  + ",'" +  msg + "');"
 		});
 	},
 
@@ -213,15 +212,17 @@ var p = {
  * invoked when script load finished.
  * @param {Object} msg
  */
-	_onFinishLoadOne : function (msg) {
-		if (this.toLoad.length > 0) {
+	_onFinishLoadOne : function (id, msg) {
+//		alert(this.id+" : "+id);
+//		alert("-"+msg.match(/\/[^\/]*$/)[0]);
+		if (id < this.id) {
 			this.loadNextJS();
 			return;
 		}
 		this.inLoading = false;
 		//noinspection JSUnresolvedVariable,JSUnresolvedFunction
 		this.config.onLoadFinish &&	this.config.onLoadFinish();
-		alert("finished load : "+msg);
+//		alert("finished after : "+(msg.match(/\/[^\/]*$/)[0] || "~~"));
 
 	}
 }

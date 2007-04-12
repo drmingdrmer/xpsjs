@@ -33,8 +33,15 @@ return {
 		args.shift();
 		var func = this;
 		return function() {
-			func.apply(obj, args.concat(arguments));
+			return func.apply(obj, args.concat(arguments));
 		};
+	},
+
+	asListener : function (o){
+		var func = this;
+		return function (e){
+			return func.apply(o, [e || window.event]);
+		}
 	},
 
 	delay : function (time){

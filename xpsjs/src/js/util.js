@@ -80,13 +80,7 @@ var u = window.$util = {
 		return e.target || e.srcElement;
 	},
 	
-	cancelEvent : function (e) {
-		if ($util.$IE) {
-			e.returnValue = false;
-			e.cancelBubble = true;
-		} else
-			e.preventDefault();
-	},
+	
 	
 	urlParam : function (url, params){
 		var s = [];

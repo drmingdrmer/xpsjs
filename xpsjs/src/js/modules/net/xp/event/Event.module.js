@@ -5,7 +5,8 @@ Module.require([
 
 new Module("net.xp.event.Event",
 [
-    "net.xp.core.Core"
+    "net.xp.core.Core",
+	"net.xp.browser.BrowserDetect"
 ],function ($this, $name){return {
 	_$initialize : function (){
 	},
@@ -26,5 +27,13 @@ new Module("net.xp.event.Event",
 			o = $E(o);
 			o.removeEventListener(name, listener);
 		}
+	},
+
+	cancel : function (e) {
+		if (this.is("IE")) {
+			e.returnValue = false;
+			e.cancelBubble = true;
+		} else
+			e.preventDefault();
 	}
 }});
