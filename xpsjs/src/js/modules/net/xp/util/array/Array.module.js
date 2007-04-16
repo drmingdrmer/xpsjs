@@ -1,10 +1,16 @@
 new Module("net.xp.util.array.Array",
 [
-    "net.xp.core.Core"
+    "net.xp.Core"
 ],function ($this,$name){return {
-	_$initialize : function (){
+	$initialize : function (){
 		window.$A = $this.toArray;
 		$this.mixTo(Array);
+
+		if (Module.doAlias) $this.$Alias();
+	},
+
+	$Alias : function (){
+		Module.getHostWin().$A = window.$A;
 	},
 	
 	$A : function (o){
@@ -12,13 +18,19 @@ new Module("net.xp.util.array.Array",
 	},
 	
 	toArray : function (o){
-		var ar = [], i;
-		if (o.length == null)
-			for (i in o)
-				if (typeof o[i] == "function") ar.push(o[i]);
-		else
-			for (i = 0; i < o.length; i++)
-				ar.push(o[i]);
+		if (o == null) return null;
+		var ar = [];
+		if (o.length == null) {
+			for (var i in o)
+				if (typeof o[i] != "function") ar.push(o[i]);
+		}
+		else {
+			if (o.concat) return [].concat(o);
+			
+			for (var j = 0; j < o.length; j++) {
+				ar.push(o[j]);
+			}
+		}
 		return ar;
 	},
 

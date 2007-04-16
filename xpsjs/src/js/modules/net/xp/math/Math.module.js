@@ -1,6 +1,6 @@
 new Module("net.xp.math.Math",
 [
-    "net.xp.core.Core"
+    "net.xp.Core"
 ],function ($this, $name){return {
 	parseInt : function (v){
 		v = parseInt(v);

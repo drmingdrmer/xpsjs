@@ -1,6 +1,6 @@
 var x = new Module("net.xp.net.XHR",
 [
-	"net.xp.core.Core",
+	"net.xp.Core",
 	"net.xp.util.URL",
 	"net.xp.util.Debuggable"
 ],function ($this, $name) {return {
@@ -11,7 +11,7 @@ var x = new Module("net.xp.net.XHR",
 	 * finished
 	 */
 	getWorkingStatus : function () {
-		return this._($name).status || "inited";
+		return this._($name).status || "markInited";
 	},
 
 

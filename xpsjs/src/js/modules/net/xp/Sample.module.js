@@ -1,5 +1,5 @@
 new Module("net.xp.Sample",[],{
-	_$initialize : function (){
+	$initialize : function (){
 		Module.initedSample = true;
 	},
 	
@@ -13,9 +13,11 @@ new Module("net.xp.Sample",[],{
 	
 	novf : function (){
 		
+	},
+	
+	$Constructor : function (a,b,c){
+		this.a = [a,b,c];
 	}
-	
-	
 	
 	
 	

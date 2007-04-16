@@ -1,11 +1,11 @@
 new Module("net.xp.graphic.GifWriter",
 [
-    "net.xp.core.Core"
+    "net.xp.Core"
 ],function ($this,$name){return {
-	_$initialize : function (){
+	$initialize : function (){
 	},
 
-	_$defaultConstructor : function (){
+	$Constructor : function (){
 	},
 
 	setSize : function (o){

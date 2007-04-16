@@ -2,7 +2,7 @@ var x = new Module("net.xp.core.HashCode",
 [
 	"net.xp.core.ModuleVars"
 ],function ($this,$name){ return {
-	_$initialize : function (){
+	$initialize : function (){
 		var g = this.__($name);
 		g.hash = 1;
 	},

@@ -2,7 +2,7 @@ new Module("net.xp.util.dom.$",
 [
 	"net.xp.dom.WindowRelative"
 ],function ($this, $name){ return {
-	_$initialize : function (){
+	$initialize : function (){
 		Module.getHostWin().$ = function (win){
 			var m = $this.newInst();
 			m.setWorkingWin(win);

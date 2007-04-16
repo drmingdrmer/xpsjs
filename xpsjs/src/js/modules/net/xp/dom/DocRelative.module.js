@@ -2,7 +2,7 @@ var x = new Module("net.xp.dom.DocRelative",
 [
 	"net.xp.core.ModuleVars"
 ], {
-	_$initialize : function (){
+	$initialize : function (){
 		this.setDefaultWorkingDoc(Module.getHostDoc());
 	},
 

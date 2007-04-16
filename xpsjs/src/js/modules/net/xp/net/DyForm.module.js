@@ -56,14 +56,14 @@ var x = new Module(
 				this.setIframeOnload(this.getReceiveFrame(),function (){thiz._onFormLoad();});
 			}
 			
-			var t = this._$m.inited = (this._$m.initPostIframe && 	this._$m.initReceiveIframe);
+			var t = this._$m.markInited = (this._$m.initPostIframe && 	this._$m.initReceiveIframe);
 			if (t) {
 			
 			}
 		},
 		
 		isInitFinished : function (){
-			return this._$m.inited == true;
+			return this._$m.markInited == true;
 		},
 		
 		
@@ -78,7 +78,7 @@ var x = new Module(
 			var f = doc.getElementById("_$post");
 			if (!f) {
 				this._$m.initPostIframe=false;
-				this._$m.inited = false;
+				this._$m.markInited = false;
 				
 				f = doc.createElement("iframe"); 
 				f.id = f.name = "_$post";				
@@ -101,7 +101,7 @@ var x = new Module(
 			if (!f) {
 				this.alertT("create new RECEIVE iframe");
 				this._$m.initReceiveIframe=false;
-				this._$m.inited = false;
+				this._$m.markInited = false;
 				
 				var html = '<iframe id="_$receive" name="_$receive" style="width:400px;"></iframe>';
 				var f = $util.nodeFromHtml(html);

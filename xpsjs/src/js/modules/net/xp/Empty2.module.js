@@ -1,18 +1,18 @@
 new Module("net.xp.Empty2",[],
-{
+function ($this,$name){ return{
 	set2$m : function (name,value){
-		this._$m[name] = value;
+		this._($name)[name] = value;
 	},
 	
 	get2$m : function (name){
-		return this._$m[name];
+		return this._($name)[name];
 	},
 	
 	set2$g : function (name,value){
-		this._$g[name] = value;
+		this.__($name)[name] = value;
 	},
 	
 	get2$g : function (name){
-		return this._$g[name];
+		return this.__($name)[name];
 	}
-})
+}});

@@ -4,10 +4,10 @@ Module.require([
 
 new Module("net.xp.graphic.ColorOperation",
 [
-    "net.xp.core.Core",
+    "net.xp.Core",
 	"net.xp.math.Math"
 ],function ($this, $name){return {
-	_$initialize : function (){
+	$initialize : function (){
 		$this.mixTo(String);
 
 		window.$Clr = $this.ObjectToColorString;

@@ -7,19 +7,24 @@
  * @TODO to support key sequence binding.
  * 
  */
-var x = new Module(
-	"net.xp.event.KeyBind",
+var x = new Module("net.xp.event.KeyBind",
 [
-	"net.xp.core.Core",
+	"net.xp.Core",
 	"net.xp.dom.WindowRelative",
 	"net.xp.event.Event",
 	"net.xp.event.EventDispatcher"
-],function ($this, $name) { return {
-	_$initialize : function (){
+],function ($this, $name) {
+
+	function getTime (){
+		return new Date().getTime();
+	}
+
+return {
+	$initialize : function (){
 		$this._defineKeys();
 	},
 
-	_$defaultConstructor : function (win){
+	$Constructor : function (win){
 		this.initKeyBind(win);
 	},
 
@@ -72,19 +77,21 @@ var x = new Module(
 
 
 	initKeyBind : function (win, delay){
-		if (this._($name).inited) return false;
+		var m = this._($name);
+		if (m.markInited) return false;
 
 		this.setWorkingWin(win || $this.getHostWin());
-		delay = delay != null ? delay : 500;
 		this.setDelay(delay);
 
-		this._($name).keyTree = {};
+		m.keyTree = {};
+		m.currentNode = m.keyTree;
+		m.lastPressTime = 0;
 
 		var doc = this.getWorkingDoc();
 		this.listen(doc, "keydown", this.onkeydown.asListener(this));
 		this.listen(doc, "keyup", this.onkeyup.asListener(this));
 
-		this._($name).error = {
+		m.error = {
 			notInit						: new Error("not inited yet"),
 			keySequenceIsNotArray		: new Error("keySequenceIsNotArray"),
 			keySequenceIsTooLong		: new Error("keySequenceIsTooLong"),
@@ -92,59 +99,75 @@ var x = new Module(
 			keyOverLaps					: new Error("key definition overlaps elder one")
 		};
 
-		this._($name).inited = true;
+		m.markInited = true;
 		return true;
 	},
 
 	/**
 	* ctrl|shift|A
 	*/
-	bindKey : function (ks, name){
-		if (!this._($name).inited) throw this.getKeyBindError("notInit");
-		if (typeof ks == "string" ) ks = [ks];
-		if (ks.length > 5) throw this.getKeyBindError("keySequenceIsTooLong");
+	bindKey : function (keySequence, name){
+		if (!this._($name).markInited) throw this.getKeyBindError("notInit");
+		if (typeof keySequence == "string" ) keySequence = [keySequence];
+		if (keySequence.length > 5) throw this.getKeyBindError("keySequenceIsTooLong");
 
-		//TODO key sequence def.
 		var m = this._($name);
-
-		var code = 0;
-		var key = ks[0].toLowerCase(), modifyKeys = m.modKey;
-		var keyAr = key.split("|"), l = keyAr.length;
-		for (var i = 0; i < l; i++) {
-			var keyStr = keyAr[i];
-			if (modifyKeys[keyStr])
-				code = code | modifyKeys[keyStr];
-			else if (m.keys[keyStr])
-				code = code | m.keys[keyStr];
-			else {
-
-				throw this.getKeyBindError("illegalChar");
+		
+		var codes = this.getCodes(keySequence);
+		var node = m.keyTree;
+		for (var i=0; i<codes.length; ++i){
+			if (node[codes[i]] == null){
+				node[codes[i]] = {};
+			} else if (typeof node[codes[i]] == "string") {
+				throw this.getKeyBindError("keyOverLaps");
 			}
+			node[codes[i]].parent = node;
+			node = node[codes[i]];
 		}
-		var keyTree = m.keyTree;
-		if (keyTree[code] == null) {
-			keyTree[code] = name;
-		} else throw this.getKeyBindError("keyOverLaps");
 
+		node = node.parent;
+		node[codes[i]] = name;
 	},
+
+	getCodes : function (sequence){
+		var m = this._($name);
+		var codes = [];
+		codes = sequence.each(function (e){
+			var result = {c:0};
+			var keys = e.low().split("|");
+			keys.each("a[3].c |= a[1][e] | a[2][e]", m.modKey, m.keys, result);
+			return result.c;
+		});
+		return codes;
+	},
+
+	
+
 
 	onkeydown : function (e){
 		var m = this._($name);
 		
 		var	mk 		= m.modKey;
-		var	keyTree = m.keyTree;
 		var ctrl 	= e.ctrlKey * mk.ctrl;
 		var alt 	= e.altKey 	* mk.alt;
 		var shift 	= e.shiftKey * mk.shift;
 
 		var code 	= e.keyCode | ctrl | alt | shift;
 
+		var curTime = getTime();
+		if (curTime - m.lastPressTime) m.currentNode = m.keyTree;
+		m.lastPressTime = curTime;
 
+		if (m.currentNode[code]) m.currentNode = m.currentNode[code];
+		
+		
+		//TODO check key sequence
 
-		if (keyTree[code]){
+		if (typeof m.currentNode[code] == "string"){
 
-			this.dispatchEvent({type:keyTree[code]});
+			this.dispatchEvent({type:m.currentNode[code]});
 			this.cancel(e);
+			m.currentNode = m.keyTree;
 		}
 
 	},
@@ -155,13 +178,11 @@ var x = new Module(
 
 
 	setDelay: function (i){
-		this._($name).delay = i;
+		this._($name).delay = i == null ? 500 : i;
 	},
 
 	getDelay: function (){
-		var i = this._($name).delay;
-		i = this._($name).delay = (i || 500);
-		return i;
+		return this._($name).delay;
 	}
 
 }});

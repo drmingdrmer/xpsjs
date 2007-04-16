@@ -5,7 +5,7 @@ new Module(
 	],
 	{
 		
-		_$initialize : function (){
+		$initialize : function (){
 		},
 		
 		getCommandHolder : function (){

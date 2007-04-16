@@ -15,7 +15,7 @@ Module.require([
 //noinspection ObjectAllocationIgnorede
 new Module("net.xp.dom.IframeComponentHost",
 [
-	"net.xp.core.Core",
+	"net.xp.Core",
 	"net.xp.dom.WindowRelative",
 	"net.xp.dom.event.IframeOnload",
 	"net.xp.util.dom.$",
@@ -26,10 +26,10 @@ new Module("net.xp.dom.IframeComponentHost",
 function ($this,$name){
 return {
 
-	_$initialize : function (){
+	$initialize : function (){
 	},
 
-	_$defaultConstructor : function (win){
+	$Constructor : function (win){
 		this.setWorkingWin(win);
 		this.registerDefaultCommand();
 	},

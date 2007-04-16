@@ -37,7 +37,7 @@ new Module("net.xp.util.Debuggable",
 
 
 	return {
-		_$initialize : function (){
+		$initialize : function (){
 			this.setDefaultDebugMode(true);
 			this.$g(arguments).indent = "";
 		},

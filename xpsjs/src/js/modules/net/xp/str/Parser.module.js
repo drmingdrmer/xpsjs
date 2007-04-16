@@ -328,7 +328,7 @@ new Module("net.xp.str.Parser",
 
 return {
 	
-	_$initialize : function () {
+	$initialize : function () {
 	},
 
 	getParserData : function (){

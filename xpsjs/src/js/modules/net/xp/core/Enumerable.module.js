@@ -4,7 +4,7 @@ new Module("net.xp.core.Enumerable",
 ],
 {
 
-	_$initialize : function (){
+	$initialize : function (){
 		
 	},
 
@@ -13,6 +13,7 @@ new Module("net.xp.core.Enumerable",
 			inspector = {inspect:inspector};
 		}
 		var ar = this.getEnumArray(), l = ar.length;
+		var a = arguments;
 		var r = [];
 		if (typeof(inspector) == "string") {
 			for (var i = 0; i < l; i++) {
@@ -22,7 +23,7 @@ new Module("net.xp.core.Enumerable",
 			}
 		} else {
 			for (var i = 0; i < l; i++) {
-				var m = inspector.inspect(ar[i]);
+				var m = inspector.inspect(ar[i],i);
 				if (m != null) r.push(m);
 			}
 		}
@@ -44,17 +45,26 @@ new Module("net.xp.core.Enumerable",
 		return memo;
 	},
 
+	findC : function (condition){
+		condition = condition || "";
+		return this.find("e"+condition+" ? e : null");
+	},
+
+	findAllC : function (condition){
+		condition = condition || "";
+		return this.findAll("e"+condition+" ? e : null");
+	},
 
 	find : function (insp){
-		return this.each(insp)[0];
+		return this.each.apply(this,arguments)[0];
 	},
 
 	findAll : function (insp){
-		return this.each(insp);
+		return this.each.apply(this,arguments);
 	},
 
 	pluck : function (name){
-		return this.each("e[" + name + "]");
+		return this.each("e['" + name + "']");
 	},
 
 	all : function (){

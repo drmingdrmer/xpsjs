@@ -1,8 +1,8 @@
 var x = new Module("net.xp.event.EventDispatcher",
 [
-	"net.xp.core.Core"
+	"net.xp.Core"
 ],function ($this, $name){return {
-	_$initialize : function (){
+	$initialize : function (){
 		window.$E = function (o){
 			if (!o.addEventListener) $this.copyTo(o);
 			return o;

@@ -3,7 +3,7 @@ Module.require([
 ]);
 new Module("net.xp.control.PeriodicalEngine",
 [
-	"net.xp.core.Core",
+	"net.xp.Core",
 	"net.xp.dom.WindowRelative",
 	"net.xp.control.RunnableTable"
 ],function ($this, $name){
@@ -14,7 +14,7 @@ new Module("net.xp.control.PeriodicalEngine",
 
 	
 return {
-	_$initialize : function (){
+	$initialize : function (){
 		window.$PE = $this.$getInstance;
 	},
 

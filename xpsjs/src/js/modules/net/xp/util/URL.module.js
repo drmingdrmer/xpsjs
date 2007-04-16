@@ -1,9 +1,9 @@
 var x = new Module("net.xp.util.URL",
 [
-	"net.xp.core.Core"
+	"net.xp.Core"
 ],function ($this, $name){
 return {
-	_$initialize : function (){
+	$initialize : function (){
 		this.setDefaultBase(Loader.instance.getBase());
 	},
 	

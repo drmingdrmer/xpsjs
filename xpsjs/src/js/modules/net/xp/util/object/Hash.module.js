@@ -1,8 +1,8 @@
 new Module("net.xp.util.object.Hash",
 [
-    "net.xp.core.Core"
+    "net.xp.Core"
 ],function ($this,$name){return {
-	_$initialize : function (){
+	$initialize : function (){
 		window.$H = function (o){
 			return $this.copyTo(o);
 		}

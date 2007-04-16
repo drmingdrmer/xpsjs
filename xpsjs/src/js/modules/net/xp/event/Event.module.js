@@ -5,10 +5,10 @@ Module.require([
 
 new Module("net.xp.event.Event",
 [
-    "net.xp.core.Core",
+    "net.xp.Core",
 	"net.xp.browser.BrowserDetect"
 ],function ($this, $name){return {
-	_$initialize : function (){
+	$initialize : function (){
 	},
 
 	listen : function (o,name,listener,p){

@@ -9,7 +9,7 @@ new Module("net.xp.util.xml.Xml2Obj",
 [
 	"net.xp.core.ModuleVars"
 ],{
-	_$initialize : function (){
+	$initialize : function (){
 	},
 	
 	xml2obj : function (node, forceArray){

@@ -1,6 +1,6 @@
-new Module("net.xp.net.Ijax",
+new Module("net.xp.Required",
 [
     "net.xp.Core"
 ],function ($this,$name){return {
-	
+	test : function (){}
 }});

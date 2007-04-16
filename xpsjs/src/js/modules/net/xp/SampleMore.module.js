@@ -6,7 +6,7 @@ new Module("net.xp.SampleMore",
 	
 	ovf : function ($overridable){
 		var more;
-	},
+	}
 	
 	
 	

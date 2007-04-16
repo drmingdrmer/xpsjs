@@ -1,8 +1,8 @@
 new Module("net.xp.util.object.Object",
 [
-    "net.xp.core.Core"
+    "net.xp.Core"
 ],function ($this,$name){return {
-	_$initialize : function (){
+	$initialize : function (){
 		window.$Get = $this.get;
 	},
 

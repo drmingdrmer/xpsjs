@@ -3,7 +3,7 @@ new Module("net.xp.logic.Filter",
 		
 	],
 	{
-		_$initialize : function (){
+		$initialize : function (){
 		},
 		
 		

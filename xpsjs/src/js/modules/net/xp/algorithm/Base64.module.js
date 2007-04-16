@@ -1,9 +1,9 @@
 new Module("net.xp.algorithm.Base64",
 [
-    "net.xp.core.Core",
+    "net.xp.Core",
 	"net.xp.math.Math"
 ],function ($this,$name){return {
-	_$initialize : function () {
+	$initialize : function () {
 		var g = this.__($name);
 		g.table = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 		g.deTable = {};

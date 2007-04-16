@@ -3,9 +3,9 @@ Module.require([
 ]);
 new Module("net.xp.util.string.String",
 [
-	"net.xp.core.Core"
+	"net.xp.Core"
 ], function ($this, $name) { return {
-	_$initialize : function () {
+	$initialize : function () {
 		var g = this.__($name);
 		g.substr = function (start, len) {
 			if (this[start] == "\01") start--;
@@ -39,7 +39,12 @@ new Module("net.xp.util.string.String",
 	},
 
 
+	low : String.prototype.toLowerCase,
+	up : String.prototype.toUpperCase,
 
+
+
+	
 
 
 	stripTags: function() {

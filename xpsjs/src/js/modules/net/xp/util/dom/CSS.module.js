@@ -1,6 +1,6 @@
 new Module("net.xp.util.dom.CSS",
 [
-    "net.xp.core.Core",
+    "net.xp.Core",
 	"net.xp.util.dom.$",
 	"net.xp.dom.WindowRelative"
 ],function ($this, $name) {

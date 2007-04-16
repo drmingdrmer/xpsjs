@@ -1,8 +1,8 @@
 new Module("net.xp.browser.BrowserDetect",
 [
-    "net.xp.core.Core"
+    "net.xp.Core"
 ],function ($this, $name){return {
-	_$initialize : function (){
+	$initialize : function (){
 		var g = this.__($name);
 
 		var ua = navigator.userAgent;

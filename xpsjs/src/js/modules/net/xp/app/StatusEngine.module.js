@@ -5,7 +5,7 @@ new Module(
 	],
 	{
 		
-		_$initialize : function (){
+		$initialize : function (){
 			this._$m.errors = {
 				noStatus		: new Error ("no status with the name"),
 				noCurrent		: new Error ("current status is null")
