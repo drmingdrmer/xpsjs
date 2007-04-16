@@ -22,7 +22,6 @@ window.Module = function (name, modules, hash) {
 	this._name = name;
 	this._requiredModules = modules;
 	this._externModule = Module.currentRequired || []; //external Module used by this.
-	this._externModuleShortcut = {};
 	this._externModuleStr = " " + this._externModule.join(" ") + " ";
 	Module.currentRequired = null;
 
@@ -31,21 +30,21 @@ window.Module = function (name, modules, hash) {
 
 	for (var i in hash) {
 		this[i] = hash[i];
-		this[i].isOverridable = Module.createGetFunc(Module.isOverridable(this[i]));
-		this[i].getName = Module.createGetFunc(i);
-		this[i].getModule = Module.createGetFunc(this);
-		this[i].__$isModuleMethod = true;
+		
+		this[i].isOverridable 	= Module.createGetFunc(Module.isOverridable(this[i]));
+		this[i].getName 		= Module.createGetFunc(i);
+		this[i].getModule 		= Module.createGetFunc(this);
+		this[i].isModMethod 	= true;
 	}
 	
 	Module.assignModuleInstToName(name, this);
 	Module.queueInitJob(name, this);
 	Module.tryToInit();
-	//try to mix
-//	alert("module : "+name);
 };
-Module.inited = "inited"; //Module instance initialized-mark string
-Module.loader = Loader.instance;
-//noinspection JSUnresolvedVariable
+
+Module.doAlias = true;
+Module.markInited = "markInited"; //Module instance initialized-mark string
+Module.loader = Loader ? Loader.instance : {loadModules : function (){}};
 Module.moduleRoot = $module;
 Module.moduleRoot.Module = Module;
 
@@ -104,7 +103,7 @@ Module.require = function (modules) {
 Module.tryToInit = function () {
 	try {
 		for (var i in Module.initQueue) {
-			if (Module.initQueue[i] != Module.inited)
+			if (Module.initQueue[i] != Module.markInited)
 				Module.initModule(i);
 		}
 	} catch (e) {
@@ -115,31 +114,31 @@ Module.tryToInit = function () {
  * mix needed module to this module. runs recersively.
  */
 Module.initModule = function (name) {
-	//alert("init:"+name);
 	var module = Module.get(name);
 	if (module == null) throw new Error(name + " hasnt loaded yet");
 
 	//try to mix needed module to itself.
 	var md = module._requiredModules;
 	for (var i = 0; i < md.length; i++) {
-		if (Module.initQueue[md[i]] != Module.inited)
+		if (Module.initQueue[md[i]] != Module.markInited)
 			Module.initModule(md[i]);
 		Module.get(md[i]).mixTo(module);
 		md.splice(i--,1);
 	}
-	//alert("$init : "+module._name);
 	try{
-		module._$initialize();
+		module.$initialize();
 	}catch (e){	alert("_$initialize error : "+e); }
 
-	Module.initQueue[name] = Module.inited;
-//	alert(" inited" + name );
+	Module.initQueue[name] = Module.markInited;
 };
 
 var o = {
-	_$initialize : function () {
-	},
+	$initialize : function () {},
 
+	$Constructor : function () {},
+
+	$Alias : function (){},
+	
 	mixTo : function (t) {
 		//alert("mix from "+ this._name+" to "+t._name);
 		var isFunc = typeof t == "function";
@@ -165,53 +164,18 @@ var o = {
 		return t;
 	},
 
-	compatableTo : function (obj) {
-		if (obj == null) return false;
-		if (typeof(obj) == "function") obj = obj.prototype;
-		for (var i in this) {
-			if (this[i].__$isModuleMethod && Module.prototype[i] == null) {
-				if (typeof(obj[i]) != "function") {
-					//alert(i + ":" + obj[i]);
-					return false;
-				}
-			}
-		}
-		return true;
-	},
-
-
-	_$defaultConstructor : function (){
-	},
-
-	newInst : function (obj) {
-		if (obj instanceof Array){//treat as construct parameters
-			var clazz = this.clz();
-
-			//a hack to create new instance with specific params
-			var dele = function (){};
-			dele.prototype = clazz.prototype;
-			var inst = new dele();//invoke pseudo constructor
-			clazz.apply(inst,obj);// invoke real constructor.
-			return inst;
-
-		} else {
-			var clazz = this.clz(obj);
-			return new clazz();
-		}
-	},
-
-	clz : function (obj) {
-		obj = obj || this._$defaultConstructor;
-		var constr;
-		if (typeof(obj) == "object") {
-			constr = function () {
-				for (var i in obj) this[i] = obj[i];
-			}
-		} else constr = obj;
-
-		this.mixTo(constr);
-		return constr;
-	}
+	/**
+	 * @see net.xp.core.ModuleUtil
+	 * these are methods implemented in other Modules,but should not be copied here there between modules
+	 */
+	compatableTo : function () {},
+	newInst : function () {},
+	clz : function () {},
+	_ : function(){},
+	__ : function (){},
+	_get : function (){},
+	_set : function (){}
+	
 };
 
 for (var i in o) Module.prototype[i] = o[i];

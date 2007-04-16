@@ -5,7 +5,6 @@
  * Loader may behave unpredictably while using after document loaded.
  *
  * @author xp
- * @email yanbo@staff.sina.com.cn
  * @email drdr.xp@gmail.com
  *
  *
