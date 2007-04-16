@@ -1,6 +1,6 @@
 new Module("net.xp.data.Map",
 [
-    "net.xp.Core",
+    "net.xp.core.*",
 	"net.xp.math.Math"
 ],function ($this,$name){ return {
 	

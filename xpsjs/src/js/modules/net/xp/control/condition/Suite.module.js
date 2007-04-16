@@ -1,6 +1,6 @@
 new Module("net.xp.control.condition.Suite",
 [
-    "net.xp.Core"
+    "net.xp.core.*"
 ],function ($this,$name){return {
 	setCondition : function (cs){
 		var m = this._($name);

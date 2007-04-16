@@ -1,6 +1,6 @@
 new Module("net.xp.Required",
 [
-    "net.xp.Core"
+    "net.xp.core.*"
 ],function ($this,$name){return {
 	test : function (){}
 }});

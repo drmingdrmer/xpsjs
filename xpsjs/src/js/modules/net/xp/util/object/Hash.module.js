@@ -1,6 +1,6 @@
 new Module("net.xp.util.object.Hash",
 [
-    "net.xp.Core"
+    "net.xp.core.*"
 ],function ($this,$name){return {
 	$initialize : function (){
 		window.$H = function (o){

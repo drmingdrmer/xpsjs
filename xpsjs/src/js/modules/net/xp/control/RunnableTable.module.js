@@ -3,7 +3,7 @@ Module.require([
 ]);
 new Module("net.xp.control.RunnableTable",
 [
-    "net.xp.Core"
+    "net.xp.core.*"
 ],function ($this, $name){
 	function isRunnable (obj){
 		return Module.get("net.xp.control.RunnableTable").compatableTo(obj);

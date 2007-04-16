@@ -4,7 +4,7 @@ Module.require([
 
 new Module("net.xp.graphic.ColorOperation",
 [
-    "net.xp.Core",
+    "net.xp.core.*",
 	"net.xp.math.Math"
 ],function ($this, $name){return {
 	$initialize : function (){

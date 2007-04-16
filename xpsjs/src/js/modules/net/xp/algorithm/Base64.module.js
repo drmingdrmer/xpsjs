@@ -1,6 +1,6 @@
 new Module("net.xp.algorithm.Base64",
 [
-    "net.xp.Core",
+    "net.xp.core.*",
 	"net.xp.math.Math"
 ],function ($this,$name){return {
 	$initialize : function () {

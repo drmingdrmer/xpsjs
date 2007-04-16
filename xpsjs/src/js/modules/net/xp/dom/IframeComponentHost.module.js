@@ -15,7 +15,7 @@ Module.require([
 //noinspection ObjectAllocationIgnorede
 new Module("net.xp.dom.IframeComponentHost",
 [
-	"net.xp.Core",
+	"net.xp.core.*",
 	"net.xp.dom.WindowRelative",
 	"net.xp.dom.event.IframeOnload",
 	"net.xp.util.dom.$",

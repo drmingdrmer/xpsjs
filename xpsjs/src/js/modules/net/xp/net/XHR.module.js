@@ -1,6 +1,6 @@
 var x = new Module("net.xp.net.XHR",
 [
-	"net.xp.Core",
+	"net.xp.core.*",
 	"net.xp.util.URL",
 	"net.xp.util.Debuggable"
 ],function ($this, $name) {return {

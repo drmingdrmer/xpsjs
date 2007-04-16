@@ -1,6 +1,6 @@
 new Module("net.xp.util.dom.Position",
 [
-    "net.xp.Core"
+    "net.xp.core.*"
 ],function ($this,$name){return {
 	$initialize : function (){
 	}

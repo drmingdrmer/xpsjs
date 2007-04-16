@@ -1,6 +1,6 @@
 new Module("net.xp.browser.BrowserDetect",
 [
-    "net.xp.Core"
+    "net.xp.core.*"
 ],function ($this, $name){return {
 	$initialize : function (){
 		var g = this.__($name);

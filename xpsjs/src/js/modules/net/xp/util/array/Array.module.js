@@ -1,6 +1,6 @@
 new Module("net.xp.util.array.Array",
 [
-    "net.xp.Core"
+    "net.xp.core.*"
 ],function ($this,$name){return {
 	$initialize : function (){
 		window.$A = $this.toArray;

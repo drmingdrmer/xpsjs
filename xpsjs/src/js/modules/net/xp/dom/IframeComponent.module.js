@@ -6,7 +6,7 @@
  */
 new Module("net.xp.dom.IframeComponent",
 [
-	"net.xp.Core",
+	"net.xp.core.*",
 	"net.xp.dom.WindowRelative"
 ],function ($this,$name){
 	

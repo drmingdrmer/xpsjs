@@ -5,7 +5,7 @@
  */
 new Module("net.xp.util.dom.Create",
 [
-	"net.xp.Core",
+	"net.xp.core.*",
 	"net.xp.dom.WindowRelative"
 ],function ($this,$name){ return {
 

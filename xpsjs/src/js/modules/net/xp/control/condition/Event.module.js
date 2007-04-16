@@ -1,6 +1,6 @@
 new Module("net.xp.control.condition.Event",
 [
-    "net.xp.Core",
+    "net.xp.core.*",
 	"net.xp.control.Condition"
 ],function ($this,$name){
 	function EV(){

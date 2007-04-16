@@ -1,6 +1,6 @@
 var x = new Module("net.xp.event.EventDispatcher",
 [
-	"net.xp.Core"
+	"net.xp.core.*"
 ],function ($this, $name){return {
 	$initialize : function (){
 		window.$E = function (o){

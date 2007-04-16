@@ -1,6 +1,6 @@
 new Module("net.xp.control.Condition",
 [
-    "net.xp.Core",
+    "net.xp.core.*",
 	"net.xp.event.EventDispatcher"
 ],function ($this,$name){return {
 	

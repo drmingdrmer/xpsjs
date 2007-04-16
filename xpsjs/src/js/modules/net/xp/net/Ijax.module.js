@@ -1,6 +1,6 @@
 new Module("net.xp.net.Ijax",
 [
-    "net.xp.Core"
+    "net.xp.core.*"
 ],function ($this,$name){return {
 	
 }});

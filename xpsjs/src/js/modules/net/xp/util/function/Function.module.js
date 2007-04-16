@@ -5,7 +5,7 @@ Module.require([
 
 new Module("net.xp.util.function.Function",
 [
-    "net.xp.Core"
+    "net.xp.core.*"
 ],function ($this, $name){
 	function EV(){
 		return Module.get("net.xp.event.Event");

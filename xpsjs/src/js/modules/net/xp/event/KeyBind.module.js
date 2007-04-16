@@ -9,7 +9,7 @@
  */
 var x = new Module("net.xp.event.KeyBind",
 [
-	"net.xp.Core",
+	"net.xp.core.*",
 	"net.xp.dom.WindowRelative",
 	"net.xp.event.Event",
 	"net.xp.event.EventDispatcher"

@@ -1,6 +1,6 @@
 var x = new Module("net.xp.util.URL",
 [
-	"net.xp.Core"
+	"net.xp.core.*"
 ],function ($this, $name){
 return {
 	$initialize : function (){

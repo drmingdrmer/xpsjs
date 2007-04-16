@@ -3,7 +3,7 @@ Module.require([
 ])
 new Module("net.xp.control.condition.Ping",
 [
-	"net.xp.Core",
+	"net.xp.core.*",
 	"net.xp.control.Condition",
 	"net.xp.control.RunnableTable"
 ],function ($this, $name){

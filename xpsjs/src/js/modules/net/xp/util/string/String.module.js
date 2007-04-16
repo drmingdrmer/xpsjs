@@ -3,7 +3,7 @@ Module.require([
 ]);
 new Module("net.xp.util.string.String",
 [
-	"net.xp.Core"
+	"net.xp.core.*"
 ], function ($this, $name) { return {
 	$initialize : function () {
 		var g = this.__($name);

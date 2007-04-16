@@ -1,6 +1,6 @@
 new Module("net.xp.graphic.GifWriter",
 [
-    "net.xp.Core"
+    "net.xp.core.*"
 ],function ($this,$name){return {
 	$initialize : function (){
 	},
