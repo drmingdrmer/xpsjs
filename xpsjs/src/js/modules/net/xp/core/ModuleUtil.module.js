@@ -32,7 +32,8 @@ return {
 	},
 
 	__ : function (name) {
-		return (Module[name] = (Module[name] || {}));
+		Module[name] = Module[name] || {};
+		return Module[name];
 	},
 
 
@@ -46,7 +47,7 @@ return {
 		if (obj == null) return false;
 		if (typeof(obj) == "function") obj = obj.prototype;
 		for (var i in this) {
-			if (this[i].isModMethod && Module.prototype[i] == null) {
+			if (this[i].isModMethod && this[i].getModule() == this && Module.prototype[i] == null ) {
 				if (typeof(obj[i]) != "function") {
 					return false;
 				}

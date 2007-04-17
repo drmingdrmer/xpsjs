@@ -17,7 +17,11 @@
  * @param {Object} hash function hash.usually an object.
  */
 window.Module = function (name, modules, hash) {
-	if (typeof(modules) == "string") modules = modules.split(",");
+	if (modules.concat) modules = modules.join();
+	modules = modules.replace(/\*/g,"_All").split(",");
+	if (modules[0] == "") modules = [];
+
+	hash = hash || {};
 
 	this._name = name;
 	this._requiredModules = modules;
@@ -127,7 +131,7 @@ Module.initModule = function (name) {
 	}
 	try{
 		module.$initialize();
-	}catch (e){	alert("_$initialize error : "+e); }
+	}catch (e){	alert(module._name + ".$initialize error : "+e); }
 
 	Module.initQueue[name] = Module.markInited;
 };
@@ -162,20 +166,7 @@ var o = {
 			}
 		}
 		return t;
-	},
-
-	/**
-	 * @see net.xp.core.ModuleUtil
-	 * these are methods implemented in other Modules,but should not be copied here there between modules
-	 */
-	compatableTo : function () {},
-	newInst : function () {},
-	clz : function () {},
-	_ : function(){},
-	__ : function (){},
-	_get : function (){},
-	_set : function (){}
-	
+	}
 };
 
 for (var i in o) Module.prototype[i] = o[i];

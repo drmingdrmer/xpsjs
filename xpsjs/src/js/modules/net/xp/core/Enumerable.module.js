@@ -45,21 +45,21 @@ new Module("net.xp.core.Enumerable",
 		return memo;
 	},
 
-	findC : function (condition){
+	find : function (condition){
 		condition = condition || "";
-		return this.find("e"+condition+" ? e : null");
+		return this.findBy("e"+condition+" ? e : null");
 	},
 
-	findAllC : function (condition){
+	findAll : function (condition){
 		condition = condition || "";
-		return this.findAll("e"+condition+" ? e : null");
+		return this.findAllBy("e"+condition+" ? e : null");
 	},
 
-	find : function (insp){
+	findBy : function (insp){
 		return this.each.apply(this,arguments)[0];
 	},
 
-	findAll : function (insp){
+	findAllBy : function (insp){
 		return this.each.apply(this,arguments);
 	},
 

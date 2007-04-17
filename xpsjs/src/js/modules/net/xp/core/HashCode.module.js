@@ -1,9 +1,9 @@
 var x = new Module("net.xp.core.HashCode",
 [
-	"net.xp.core.ModuleVars"
+	"net.xp.core.ModuleUtil"
 ],function ($this,$name){ return {
 	$initialize : function (){
-		var g = this.__($name);
+		var g = $this.__($name);
 		g.hash = 1;
 	},
 

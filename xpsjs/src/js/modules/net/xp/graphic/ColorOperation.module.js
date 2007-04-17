@@ -1,5 +1,5 @@
 Module.require([
-	"net.xp.util.string.String"
+	"net.xp.util.String"
 ]);
 
 new Module("net.xp.graphic.ColorOperation",
