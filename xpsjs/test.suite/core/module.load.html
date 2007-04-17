@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>JsUnit Assertion Tests</title>
-<link rel="stylesheet" type="text/css" href="../css/jsUnitStyle.css">
+<link rel="stylesheet" type="text/css" href="../../jsunit/css/jsUnitStyle.css">
 <script language="JavaScript" type="text/javascript" src="../../jsunit/app/jsUnitCore.js"></script>
 <script language="JavaScript" type="text/javascript" src="../../src/js/Loader.js"></script>
 
@@ -23,9 +23,11 @@
 		var ins = Loader.instance;
 		
 		ins.loadJS("Module.js");
-		ins.loadModule("net.xp.Empty");
+		ins.loadModule("net.xp.Empty");//require net.xp.Required
 		ins.loadModule("net.xp.Sample");
 		ins.loadJS("../../test.suite/finish.js");
+
+		
 	}
 	
 	function tearDown() {
@@ -34,16 +36,25 @@
 	
 	function testModule_get(){
 		assertNotNull("get net.xp.Empty", Module.get("net.xp.Empty"));
+		assertNotNull("get net.xp.Required", Module.get("net.xp.Required"));
 		assertNull("get illegal name result null", Module.get("xx.xx.xx"));
+	}
+
+	function test_Module_require(){
+		assertNotNull("Required.test", Module.get("net.xp.Required").test);
 	}
 	
 	function testModule_prototype_method(){
+		window.$M = Module.get
+
+
 		var m = Module.get("net.xp.Empty");
-		assertNotNull("_$initialize", m._$initialize);
+		assertNotNull("$initialize", m.$initialize);
 		assertNotNull("mixTo", m.mixTo);
 		assertNotNull("compatableTo", m.compatableTo);
+		assertNotNull("clz", m.clz);
 		assertNotNull("newInst", m.newInst);
-		
+
 		//_$initialize
 		assertTrue("net.xp.Sample inited", Module.initedSample);
 		
@@ -67,7 +78,13 @@
 		assertFalse("not compatable to clz instance", sm.compatableTo(new clz()));
 		
 		assertFalse("not compatable to null", sm.compatableTo(null));
-		
+
+		//copyTo
+		var to = {};
+		sm.copyTo(to);
+		assertEquals("Sample.sampleMethod", sm.sampleMethod(), to.sampleMethod());
+
+
 		//mixTo
 		var o = function (){};
 		sm.mixTo(o);
@@ -88,7 +105,21 @@
 			sm.mixTo(o);
 			fail("different method should cause an error");
 		} catch(e){}
+
+
+		//clz
+		var sClz = sm.clz({m:5});
+		var sIns = new sClz();
+		assertEquals("eq to 5", 5, sIns.m);
+		assertEquals("prototype.sampleMethod", sm.sampleMethod, sClz.prototype.sampleMethod);
+
+
 		
+		//_$defaultConstructor
+		var inst2 = sm.newInst([1,2,3]);
+		assertEquals("should be 123", [1,2,3].join(), inst2.a.join());
+
+
 		//newInst
 		var x = sm.newInst(null);
 		assertTrue("x.sampleMethod is not null", x.sampleMethod != null);
@@ -101,12 +132,12 @@
 		assertEquals("y.sampleMethod", y.sampleMethod, sm.sampleMethod);
 		
 		var tmp = 0;
-		var clz = function (){
+		var clzs = function (){
 			this.p = 5;
-			tmp = "inited";
+			tmp = "markInited";
 		}
-		var z = sm.newInst(clz);
-		assertEquals("clz inited", "inited", tmp);
+		var z = sm.newInst(clzs);
+		assertEquals("clz inited", "markInited", tmp);
 		assertEquals("z.p", 5, z.p);
 		assertTrue("z.sampleMethod is not null", z.sampleMethod != null);
 		assertEquals("z.sampleMethod", z.sampleMethod, sm.sampleMethod);
@@ -128,65 +159,9 @@
 	
 	
 	
-	function test_(){
-		
-	}
-
-
-
-	function _testModuleCreation(){
-		
-		
-		
-		assertTrue("overridable",em.__isOverridable(em.overridable));
-		assertFalse("not overridabel",em.__isOverridable(em.notOverridable));
-		
-		//_$m
-		var em2 = Module.get("net.xp.Empty2");
-		
-		function funcA(){}
-		function funcB(){};
-		
-		em.mixTo(funcA);
-		em2.mixTo(funcA);
-		
-		em.mixTo(funcB);
-		em2.mixTo(funcB);
-		
-		var emInst = new funcA();
-		var emInst2 = new funcB();
-		//same Module's _$m property should not the same in different class.
-		emInst.set$m("a",10);
-		assertEquals("em-1's _$m.a", 10, emInst.get$m("a"));
-		emInst2.set$m("a",20);
-		assertEquals("em-2's _$m.a", 20, emInst2.get$m("a"));
-		assertNotEquals("em-1 & em-2 should be of different value of _$m.a", emInst.get$m("a"), emInst2.get$m("a"));
-		//differenct Module's _$m property should not be the same either.
-		emInst.set2$m("a",15);
-		assertNotEquals("em1's set$m & set2$m should get different value",emInst.get$m("a"), emInst.get2$m("a"));
-		//different Module's _$g should not the same but the same Module's _$g in different object should be the same.
-		emInst.set$g("b",2);
-		emInst.set2$g("b",4);
-		assertEquals("em-2's _$g shoud be 2", 2, emInst2.get$g("b"));
-		assertEquals("em-1's _$g v2 should be 4", 4, emInst.get2$g("b"));
-		
-		
-		
-		//mix
-		var mhc = Module.get("net.xp.core.HashCode")
-		function testFunc(){
-			
-		}
-		mhc.mixTo(testFunc);
-		assertEquals("hashCode method", mhc.hashCode, testFunc.prototype.hashCode);
-		var testVar = new testFunc();
-		assertEquals("hashCode method in instance", mhc.hashCode, testVar.hashCode);
-		
-		var testE = Module.get("net.xp.core.Enumerable").newInst();
-		assertEquals("hashCode method in Enumerable instance", mhc.hashCode, testE.hashCode);
-		
-	}	
 	
+
+
 
 
 </script>

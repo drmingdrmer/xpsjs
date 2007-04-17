@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>JsUnit Assertion Tests</title>
-<link rel="stylesheet" type="text/css" href="../css/jsUnitStyle.css">
+<link rel="stylesheet" type="text/css" href="../../jsunit/css/jsUnitStyle.css">
 <script language="JavaScript" type="text/javascript" src="../../jsunit/app/jsUnitCore.js"></script>
 <script language="JavaScript" type="text/javascript" src="../../src/js/Loader.js"></script>
 
@@ -27,15 +27,18 @@
 	}
 	
 	function tearDown() {
-	  
 	}
 	
-	function testModuleFoundamentalMethod() {
+	
+	
+	function testModuleFoundamentalVar() {
 		//test Module.js loaded
 		assertNotNull("Module.get",Module.get);
 		
 		assertEquals("Module.moduleRoot", $module, Module.moduleRoot);
+		assertEquals("Module.moduleRoot.module", Module, $module.Module);
 		assertEquals("Module.loader", Loader.instance, Module.loader);
+		assertNotNull("Module.initQueue", Module.initQueue);
 	}
 	
 	function testModule_assignModule(){

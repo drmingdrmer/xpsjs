@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>JsUnit Assertion Tests</title>
+	<script language="JavaScript" type="text/javascript" src="../../src/js/de.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../../src/js/Loader.js"></script>
+
+	<script language="JavaScript" type="text/javascript">
+
+		function job() {
+			var ins = new Loader({onLoadFinish : test});
+			loadjs();
+		}
+
+		function loadjs() {
+			var ins = Loader.instance;
+			ins.loadJS("Module.js");
+			ins.loadModule("net.xp.util.string.String");
+		}
+
+		function test() {
+			var a =5.3;
+			alert(a.toString(16));
+		}
+	</script>
+	<style>
+		#debug{
+			border:1px solid black;
+			height:400px;
+			color:black;
+			white-space:pre;
+			overflow:auto;
+			font-size:12px;
+		}
+		iframe{
+			width:10px;
+			height:10px;
+		}
+	</style>
+</head>
+
+<body onload="job();">
+	<div id="debug"></div>
+</body>
+</html>
