@@ -31,6 +31,7 @@
 				"net.xp.core.ModuleUtil",
 				"test.xp.core.ModuleUtil",
 				"net.xp.Sample",
+				"net.xp.SampleMore",
 				"test.T2"
 		]);
 	}
@@ -176,10 +177,10 @@
 		var tmp = 0;
 		var clzs = function (){
 			this.p = 5;
-			tmp = "markInited";
+			tmp = "initedMark";
 		}
 		var z = sm.newInst(clzs);
-		assertEquals("clz inited", "markInited", tmp);
+		assertEquals("clz inited", "initedMark", tmp);
 		assertEquals("z.p", 5, z.p);
 		assertTrue("z.sampleMethod is not null", z.sampleMethod != null);
 		assertEquals("z.sampleMethod", z.sampleMethod, sm.sampleMethod);
@@ -197,8 +198,9 @@
 		var inst = sm.newInst();
 
 		var m = Module.get("net.xp.Sample");
+		var mt = Module.get("test.T2");
 		assertEquals("get Module by full name", m, inst.$M("net.xp.Sample"));
-		assertEquals("get Module by short", m, inst.$M("Sample"));	
+		assertEquals("get Module by short", mt, inst.$M("T2"));	
 
 		try{
 			inst.$M("ModuleUtil");
@@ -218,6 +220,25 @@
 		sm.mix("test.T2");
 		var methodTest = Module.get("test.T2").test;
 		assertEquals("inst.test method", methodTest, sm.test);
+	}
+
+	function test_requiredModuleMethod(){
+		var mod = Module.get("net.xp.Sample");
+
+		var mixedMod = Module.get("net.xp.SampleMore");
+		Module.get("net.xp.core.ModuleUtil").mixTo(mixedMod);
+		var ins = mixedMod.newInst();
+		assertTrue("sm.sampleMethod", mixedMod.sampleMethod != null);
+		assertTrue("ins.sampleMethod not null", ins.sampleMethod != null);
+		assertEquals("ins.sampleMethod", mixedMod.sampleMethod, ins.sampleMethod);
+		assertNotEquals("overridable method 'ovf'", mod.ovf, mixedMod.ovf);
+
+		try{
+			var tempModule = new Module("temp",["net.xp.Sample"],{
+				novf : function (){}
+			});
+			fail("expect an error but not");
+		}catch (e){}
 	}
 
 

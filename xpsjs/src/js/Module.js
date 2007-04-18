@@ -49,7 +49,7 @@ window.Module = function (name, modules, hash) {
 };
 
 Module.doAlias = true;
-Module.markInited = "markInited"; //Module instance initialized-mark string
+Module.initedMark = {"initedMark":"initedMark"}; //Module instance initialized-mark string
 Module.loader = Loader ? Loader.instance : {loadModules : function (){}};
 Module.moduleRoot = $module;
 Module.moduleRoot.Module = Module;
@@ -105,14 +105,13 @@ Module.require = function (modules) {
 Module.tryToInit = function () {
 	try {
 		for (var i in Module.initQueue) {
-			if (Module.initQueue[i] != Module.markInited)
+			if (Module.initQueue[i] != Module.initedMark)
 				Module.initModule(i);
 		}
 
-
 		var ar = [];
 		for (var i in Module.initQueue){
-			if (Module.initQueue[i] == Module.markInited) ar.push(i);
+			if (Module.initQueue[i] == Module.initedMark) ar.push(i);
 		}
 		Module.initedMdouleStr = ar.join(' ');
 	} catch (e) {
@@ -129,7 +128,7 @@ Module.initModule = function (name) {
 	//try to mix needed module to itself.
 	var md = module._requiredModules;
 	for (var i = 0; i < md.length; i++) {
-		if (Module.initQueue[md[i]] != Module.markInited)
+		if (Module.initQueue[md[i]] != Module.initedMark)
 			Module.initModule(md[i]);
 		Module.get(md[i]).mixTo(module);
 		md.splice(i--,1);
@@ -138,7 +137,7 @@ Module.initModule = function (name) {
 		module.$initialize();
 	}catch (e){	alert(module._name + ".$initialize error : "+e); }
 
-	Module.initQueue[name] = Module.markInited;
+	Module.initQueue[name] = Module.initedMark;
 };
 
 var o = {
