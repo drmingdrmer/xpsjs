@@ -33,11 +33,13 @@ window.Module = function (name, modules, hash) {
 	if (typeof(hash) == 'function') hash = hash(this, this._name);
 
 	for (var i in hash) {
+		if (typeof hash[i] == "stirng" && hash[i].indexOf("alias") > -1) hash[i] = hash[hash[i].substr(7)];
 		this[i] = hash[i];
 		
 		this[i].isOverridable 	= Module.createGetFunc(Module.isOverridable(this[i]));
 		this[i].getName 		= Module.createGetFunc(i);
 		this[i].getModule 		= Module.createGetFunc(this);
+		this[i].getModName 		= Module.createGetFunc(name);
 		this[i].isModMethod 	= true;
 	}
 	
@@ -52,16 +54,12 @@ Module.loader = Loader ? Loader.instance : {loadModules : function (){}};
 Module.moduleRoot = $module;
 Module.moduleRoot.Module = Module;
 
-Module.getHostWin = function () {
-	return Module.loader.getHostWin();
-};
-
-Module.getHostDoc = function () {
-	return Module.loader.getHostDoc();
-};
+Module.getHostWin = function () { return Module.loader.getHostWin(); };
+Module.getHostDoc = function () { return Module.loader.getHostDoc(); };
 
 Module.initQueue = {};
 Module.currentRequired = null;
+Module.initedMdouleStr = "";
 
 Module.assignModuleInstToName = function (name, module) {
 	var r = Module.moduleRoot;
@@ -110,6 +108,13 @@ Module.tryToInit = function () {
 			if (Module.initQueue[i] != Module.markInited)
 				Module.initModule(i);
 		}
+
+
+		var ar = [];
+		for (var i in Module.initQueue){
+			if (Module.initQueue[i] == Module.markInited) ar.push(i);
+		}
+		Module.initedMdouleStr = ar.join(' ');
 	} catch (e) {
 		//alert(e);
 	}

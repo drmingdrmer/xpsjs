@@ -11,7 +11,7 @@ return {
 
 
 	_ : function (name) {
-		name = name || this._.caller.getModName();
+		name = name || arguments.callee.caller.getModName();
 		if (this.$getModuleVar == null){
 			this.$getModuleVar = Module.createGetFunc({});
 		}
@@ -21,19 +21,19 @@ return {
 	},
 
 	_get : function (varName, defaultValue) {
-		var m = this._(this._.caller.getModName());
+		var m = this._(arguments.callee.caller.getModName());
 		m[varName] = m[varName] != null ? m[varName] : defaultValue;
 		return m[varName];
 	},
 
 	_set : function (varName, value) {
-		var m = this._(this._.caller.getModName());
+		var m = this._(arguments.callee.caller.getModName());
 		m[varName] = value;
 		return value;
 	},
 
 	__ : function (name) {
-		name = name || this._.caller.getModName();
+		name = name || arguments.callee.caller.getModName();
 		Module[name] = Module[name] || {};
 		return Module[name];
 	},
@@ -64,7 +64,7 @@ return {
 	 * 		obj could be one of 3 type of data : constructor function, properties hash, default constructor's parameters.
 	 */
 	newInst : function (obj) {
-		if (obj instanceof Array){//treat as construct parameters
+		if (obj && obj.concat){//treat as construct parameters
 			var clazz = this.clz();
 
 			//a hack to create new instance with specific params
@@ -117,7 +117,7 @@ return {
 
 		//take some fucking guess
 		var reg = new RegExp("[^\\s]*" + name, "g");
-		var n = this._externModuleStr.match(reg);
+		var n = Module.initedMdouleStr.match(reg);
 
 		if (n == null) throw new Error("cant find module with name : "+name);
 		if (n.length > 1) throw new Error("more than one modules with the name : " + name);
