@@ -8,19 +8,19 @@ new Module("net.xp.graphic.BMPWriter",
 	},
 
 	_getColorTable : function (){
-		var m = this._($name);
+		var m = this._();
 		return m.colorTable || this._getNewColorTable();
 	},
 
 	_getNewColorTable : function (){
-		var m = this._($name);
+		var m = this._();
 		m.colorTable = {};
 		m.colorArray = [];
 		return m.colorTable;
 	},
 
 	_getColorArray : function (){
-		var m = this._($name);
+		var m = this._();
 		return m.colorArray;
 	},
 
@@ -144,7 +144,7 @@ new Module("net.xp.graphic.BMPWriter",
 	
 	
 	prepareData : function (){
-		var m = this._($name);
+		var m = this._();
 		this.prepareColor();
 
 		this.calculateSizes();
@@ -169,7 +169,7 @@ new Module("net.xp.graphic.BMPWriter",
 	},
 
 	calculateSizes : function (){
-		var m = this._($name);
+		var m = this._();
 
 		var colorAmount = this.getImageColorAmount();
 		var colorBytes = colorAmount * 4;
@@ -189,11 +189,11 @@ new Module("net.xp.graphic.BMPWriter",
 
 
 	getFileSize : function (){
-		return this._($name).fileSize();
+		return this._().fileSize();
 	},
 
 	getDataOffset : function (){
-		return this._($name).dataOffset;
+		return this._().dataOffset;
 	},
 	
 
@@ -208,7 +208,7 @@ new Module("net.xp.graphic.BMPWriter",
 	},
 
 	getColors : function (){
-		var m = this._($name);
+		var m = this._();
 		return m.colorArray;
 	},
 
@@ -227,7 +227,7 @@ new Module("net.xp.graphic.BMPWriter",
 	},
 
 	getColorIndexMap : function (){
-		var m = this._($name);
+		var m = this._();
 		var ct = this._getColorTable();
 		var indeces = [];
 		var ar = this.getMapArray();

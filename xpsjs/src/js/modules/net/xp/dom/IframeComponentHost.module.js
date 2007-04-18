@@ -39,7 +39,7 @@ return {
 	 * get url util manipulating url
 	 */
 	_urlUtil : function (){
-		return this._get($name,
+		return this._get(
 				"urlUtil",
 				$this.$M("net.xp.util.URL").newInst());
 	},
@@ -48,7 +48,7 @@ return {
 	 * create of get the created iframe component class
 	 */
 	_getIfCompClz : function () {
-		return this._get($name,
+		return this._get(
 				"compClass",
 				$this.$M("net.xp.dom.IframeComponent").clz());
 	},
@@ -59,8 +59,8 @@ return {
 	 */
 	_getIframeCollection : function (isByName){
 		return !!isByName
-				? this._get($name, "byName", {})
-				: this._get($name, "byId", {});
+				? this._get( "byName", {})
+				: this._get( "byId", {});
 	},
 	
 	/**
@@ -217,7 +217,7 @@ command utilities
 	 * @param {Object} cmd
 	 */
 	registerCommand : function (name,cmd){
-		var m = this._($name);
+		var m = this._();
 		if (m[name])
 			throw new Error("the command name already exists : " + name);
 		
@@ -241,7 +241,7 @@ command utilities
 	 * @param {Object} name
 	 */
 	getCommand : function (name){
-		var m = this._($name);
+		var m = this._();
 		return m[name] || function (){};
 	},
 	

@@ -8,11 +8,11 @@ return {
 	},
 	
 	getUrl : function (){
-		return this._($name).url;
+		return this._().url;
 	},
 	
 	setUrl : function (url){
-		this._($name).url = url;
+		this._().url = url;
 	},
 	
 	parseUrlParam : function (url){

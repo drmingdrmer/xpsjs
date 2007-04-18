@@ -4,7 +4,7 @@ new Module("net.xp.algorithm.Base64",
 	"net.xp.math.Math"
 ],function ($this,$name){return {
 	$initialize : function () {
-		var g = this.__($name);
+		var g = this.__();
 		g.table = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 		g.deTable = {};
 		for (var i = 0; i < g.table.length; i++) {
@@ -14,12 +14,12 @@ new Module("net.xp.algorithm.Base64",
 	},
 
 	getTable : function () {
-		var g = this.__($name);
+		var g = this.__();
 		return g.table;
 	},
 
 	getDeTable : function () {
-		var g = this.__($name);
+		var g = this.__();
 		return g.deTable;
 	},
 

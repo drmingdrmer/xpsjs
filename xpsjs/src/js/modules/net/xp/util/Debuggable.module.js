@@ -3,7 +3,7 @@ new Module("net.xp.util.Debuggable",
 	"net.xp.core.ModuleVars",
 	"net.xp.dom.DocRelative",
 	"net.xp.util.dom.$"
-],function (){
+],function ($this,$name){
 	//private members
 	var $prv = {
 		getLogArea : function (doc){
@@ -39,23 +39,23 @@ new Module("net.xp.util.Debuggable",
 	return {
 		$initialize : function (){
 			this.setDefaultDebugMode(true);
-			this.$g(arguments).indent = "";
+			this.__().indent = "";
 		},
 
 		isDebug : function () {
-			return this.$m(arguments).debuggable || this.$g(arguments).debuggable;
+			return this._().debuggable || this.__().debuggable;
 		},
 
 		setDebug : function (t) {
-			this.$m(arguments).debuggable = t == true;
+			this._().debuggable = t == true;
 		},
 
 		setAllInstancetDebugMode : function (t) {
-			this.constructor.prototype.$m(arguments).debuggable = t == true;
+			this.constructor.prototype._($name).debuggable = t == true;
 		},
 
 		setDefaultDebugMode : function (t){
-			var g = this.$g(arguments);
+			var g = this.__();
 			g.debuggable = t == true;
 		},
 
@@ -80,7 +80,7 @@ new Module("net.xp.util.Debuggable",
 			type = type || "#000";
 			var c = $prv.getLogArea.apply(this);
 			var e = this.$ce("div",null,{
-				innerHTML : this.$g(arguments).indent + this.convertHtml(s)
+				innerHTML : this.__().indent + this.convertHtml(s)
 			});
 			e.style.cssText = "white-space:pre; border-bottom:1px solid #ddd; background-color:"+type+";";
 			c.appendChild(e);
@@ -89,11 +89,11 @@ new Module("net.xp.util.Debuggable",
 
 
 		indentAdd : function (){
-			this.$g(arguments).indent +="	";
+			this.__().indent +="	";
 		},
 
 		indentDec : function (){
-			var g = this.$g(arguments);
+			var g = this.__();
 			g.indent = g.indent.substr(1);
 		},
 

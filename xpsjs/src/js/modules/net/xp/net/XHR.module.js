@@ -11,7 +11,7 @@ var x = new Module("net.xp.net.XHR",
 	 * finished
 	 */
 	getWorkingStatus : function () {
-		return this._($name).status || "markInited";
+		return this._().status || "markInited";
 	},
 
 
@@ -34,7 +34,7 @@ var x = new Module("net.xp.net.XHR",
 	},
 
 	load : function (url, option) {
-		if (this._($name).status == "working") throw new Error("inWorking");
+		if (this._().status == "working") throw new Error("inWorking");
 		url = this.getFullUrl(url);
 		this.setUrl(url);
 
@@ -70,11 +70,11 @@ var x = new Module("net.xp.net.XHR",
 		}
 		xhr.send(option.data);
 
-		this._($name).status = "working";
+		this._().status = "working";
 	},
 
 	_finishXHR : function (xhr) {
-		this._($name).status = "finished";
+		this._().status = "finished";
 		var status = xhr.status;
 		this.finish(xhr);
 		if (status == 0 || status >= 200 && status < 300) {

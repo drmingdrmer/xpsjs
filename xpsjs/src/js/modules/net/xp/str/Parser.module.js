@@ -332,7 +332,7 @@ return {
 	},
 
 	getParserData : function (){
-		var m = this._($name);
+		var m = this._();
 		m.parserData = m.parserData || new clz.ParserData();
 		return m.parserData;
 	},

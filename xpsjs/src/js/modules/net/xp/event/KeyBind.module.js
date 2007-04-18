@@ -29,7 +29,7 @@ return {
 	},
 
 	_defineKeys : function (){
-		var g = this.__($name);
+		var g = this.__();
 		var k = g.keys = {
 			a : 65,
 			b : 66,
@@ -71,13 +71,13 @@ return {
 
 
 	getKeyBindError : function (name){
-		return this._($name).error[name] || new Error("unknow error with name : " + name);
+		return this._().error[name] || new Error("unknow error with name : " + name);
 	},
 
 
 
 	initKeyBind : function (win, delay){
-		var m = this._($name);
+		var m = this._();
 		if (m.markInited) return false;
 
 		this.setWorkingWin(win || $this.getHostWin());
@@ -107,11 +107,11 @@ return {
 	* ctrl|shift|A
 	*/
 	bindKey : function (keySequence, name){
-		if (!this._($name).markInited) throw this.getKeyBindError("notInit");
+		if (!this._().markInited) throw this.getKeyBindError("notInit");
 		if (typeof keySequence == "string" ) keySequence = [keySequence];
 		if (keySequence.length > 5) throw this.getKeyBindError("keySequenceIsTooLong");
 
-		var m = this._($name);
+		var m = this._();
 		
 		var codes = this.getCodes(keySequence);
 		var node = m.keyTree;
@@ -130,7 +130,7 @@ return {
 	},
 
 	getCodes : function (sequence){
-		var m = this._($name);
+		var m = this._();
 		var codes = [];
 		codes = sequence.each(function (e){
 			var result = {c:0};
@@ -145,7 +145,7 @@ return {
 
 
 	onkeydown : function (e){
-		var m = this._($name);
+		var m = this._();
 		
 		var	mk 		= m.modKey;
 		var ctrl 	= e.ctrlKey * mk.ctrl;
@@ -178,11 +178,11 @@ return {
 
 
 	setDelay: function (i){
-		this._($name).delay = i == null ? 500 : i;
+		this._().delay = i == null ? 500 : i;
 	},
 
 	getDelay: function (){
-		return this._($name).delay;
+		return this._().delay;
 	}
 
 }});

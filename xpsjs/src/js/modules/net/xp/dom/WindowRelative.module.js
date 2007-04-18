@@ -9,17 +9,17 @@ return {
 	},
 	
 	setDefaultWorkingWin : function (win){
-		var g = this.__($name);
+		var g = this.__();
 		g.win = win;
 	},
 	
 	setWorkingWin : function (win){
-		var m = this._($name);
+		var m = this._();
 		m.win = win;
 	},
 	
 	getWorkingWin : function (){
-		return this._($name).win || this.__($name).win;
+		return this._().win || this.__().win;
 	},
 	
 	$Win : function (win){

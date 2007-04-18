@@ -15,7 +15,7 @@ new Module("net.xp.control.condition.Ping",
 return {
 
 	setCondition : function (condition, isOnce){
-		var m = this._($name);
+		var m = this._();
 
 		m.check = condition.check;
 		m.once = condition.once != false;
@@ -34,7 +34,7 @@ return {
 	},
 	
 	run : function (){
-		var m = this._($name);
+		var m = this._();
 		if ((m.satisfied && m.once) || m.check()) {
 			this.satisfy();
 			if (m.once) this.clearCondition();

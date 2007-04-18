@@ -12,7 +12,7 @@ new Module("net.xp.dom.IframeComponent",
 	
 return {
 	init : function (host,iframe,name,css,js,fixSize){
-		var m = this._($name);
+		var m = this._();
 		m.host = host;
 		m.iframe = iframe;
 		m.name = name;
@@ -24,27 +24,27 @@ return {
 	},
 
 	getHost : function (){
-		return this._get($name,"host");
+		return this._get("host");
 	},
 
 	getIframe : function (){
-		return this._get($name,"iframe");
+		return this._get("iframe");
 	},
 
 	getName : function (){
-		return this._get($name,"name");
+		return this._get("name");
 	},
 	
 	getCSS : function (){
-		return this._get($name,"css");
+		return this._get("css");
 	},
 
 	getJS : function (){
-		return this._get($name,"js");
+		return this._get("js");
 	},
 
 	isFixSize : function (){
-		return this._get($name,"fixSize");
+		return this._get("fixSize");
 	},
 
 

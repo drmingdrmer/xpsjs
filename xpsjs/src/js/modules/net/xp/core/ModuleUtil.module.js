@@ -11,6 +11,7 @@ return {
 
 
 	_ : function (name) {
+		name = name || this._.caller.getModName();
 		if (this.$getModuleVar == null){
 			this.$getModuleVar = Module.createGetFunc({});
 		}
@@ -19,19 +20,20 @@ return {
 		return mVar[name];
 	},
 
-	_get : function (name, varName, defaultValue) {
-		var m = this._(name);
+	_get : function (varName, defaultValue) {
+		var m = this._(this._.caller.getModName());
 		m[varName] = m[varName] != null ? m[varName] : defaultValue;
 		return m[varName];
 	},
 
-	_set : function (name, varName, value) {
-		var m = this._(name);
+	_set : function (varName, value) {
+		var m = this._(this._.caller.getModName());
 		m[varName] = value;
 		return value;
 	},
 
 	__ : function (name) {
+		name = name || this._.caller.getModName();
 		Module[name] = Module[name] || {};
 		return Module[name];
 	},
@@ -96,18 +98,24 @@ return {
 		return constr;
 	},
 
+	/**
+	* get Module by name
+	*/
 	$M : function (name){
-		var m = this._get($name, "modHistory", {});
+		var m = this._get("modHistory", {});
 
+		//get from cache
 		var mod = m[name];
 		if (mod) return mod;
 
+		//get from normal way
 		mod = Module.get(name);
 		if (mod != null) {
 			m[name] = mod;
 			return mod;
 		}
 
+		//take some fucking guess
 		var reg = new RegExp("[^\\s]*" + name, "g");
 		var n = this._externModuleStr.match(reg);
 
@@ -117,6 +125,11 @@ return {
 		mod = Module.get(n[0]);
 		m[name] = mod;
 		return mod;
+	},
+
+	mix : function (name){
+		this.$M(name).mixTo(this);
+		return this;
 	}
 
 }});

@@ -27,11 +27,11 @@ return {
 	},
 
 	setPeriod : function (ms){
-		this._($name).period = ms;
+		this._().period = ms;
 	},
 
 	getPeriod : function (){
-		return this._($name).period || 50;
+		return this._().period || 50;
 	},
 
 	/**

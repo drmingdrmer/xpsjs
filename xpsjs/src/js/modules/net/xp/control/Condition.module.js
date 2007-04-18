@@ -9,7 +9,7 @@ new Module("net.xp.control.Condition",
 	},
 
 	resetCondition : function (){
-		var m = this._($name);
+		var m = this._();
 		m.satisified = false;
 		this.clearCondition();
 	},
@@ -17,13 +17,13 @@ new Module("net.xp.control.Condition",
 	clearCondition : function ($overridable){},
 
 	satisfy : function (s){
-		var m = this._($name);
+		var m = this._();
 		m.satisfied = s != false;
 		this.notifySatisfied();
 	},
 
 	isSatisfied : function (){
-		var m = this._($name);
+		var m = this._();
 		return m.satisfied == true;
 	},
 

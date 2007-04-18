@@ -11,7 +11,7 @@ new Module("net.xp.control.RunnableTable",
 return {
 
 	_getRunnableTable : function (){
-		var m = this._($name);
+		var m = this._();
 		m.runnableTable = m.runnableTable || {};
 		return m.runnableTable;
 	},

@@ -9,7 +9,7 @@ new Module("net.xp.control.condition.Event",
 
 return {
 	setCondition : function (condition){
-		var m = this._($name);
+		var m = this._();
 
 		m.target = condition.target;
 		m.eventName = condition.event;
@@ -23,14 +23,14 @@ return {
 	},
 
 	check : function (e){
-		if (this._($name).check(e)){
+		if (this._().check(e)){
 			this.satisfy();
 			this.resetCondition();
 		}
 	},
 
 	clearCondition : function (){
-		var m = this._($name);
+		var m = this._();
 		try{
 			EV().stop(m.target, m.eventName, this);
 		} catch(e){

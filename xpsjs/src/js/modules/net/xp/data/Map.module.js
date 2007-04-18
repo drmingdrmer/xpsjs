@@ -6,7 +6,7 @@ new Module("net.xp.data.Map",
 	
 
 	getMapArray : function (){
-		var m = this._($name);
+		var m = this._();
 		m.array = m.array || [];
 		return m.array;
 	},
@@ -16,7 +16,7 @@ new Module("net.xp.data.Map",
 		x = this.$I(x);
 		y = this.$I(y);
 
-		var m = this._($name);
+		var m = this._();
 		m.x = x;
 		m.y = y;
 
@@ -35,17 +35,17 @@ new Module("net.xp.data.Map",
 	},
 
 	getWidth : function (){
-		var m = this._($name);
+		var m = this._();
 		return m.x;
 	},
 
 	getHeight : function (){
-		var m = this._($name);
+		var m = this._();
 		return m.y;
 	},
 
 	refineSize : function(){
-		var m = this._($name);
+		var m = this._();
 		var x = m.x;
 		var y = m.y;
 		var ar = this.getMapArray();
