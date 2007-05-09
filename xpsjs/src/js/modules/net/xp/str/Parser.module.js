@@ -42,7 +42,7 @@ new Module("net.xp.str.Parser",
 			throw new Error("unknow item definition : "+o);
 		}
 
-		this.log = Module.get("net.xp.util.Debuggable").newInst();
+		this.print = Module.get("net.xp.util.Debuggable").newInst();
 
 	};
 	
@@ -88,7 +88,7 @@ new Module("net.xp.str.Parser",
 					}
 					break;
 			}
-			if (itemMatch) this.log.logDebug("item match:" + itemMatch);
+			if (itemMatch) this.print.logDebug("item match:" + itemMatch);
 			return itemMatch;
 		},
 
@@ -111,7 +111,7 @@ new Module("net.xp.str.Parser",
 		this.defineList(listArr);
 		this.parserData.addList(this);
 
-		this.log = Module.get("net.xp.util.Debuggable").newInst();
+		this.print = Module.get("net.xp.util.Debuggable").newInst();
 	};
 	clz.List.prototype = {
 		match : function (i){
@@ -123,10 +123,10 @@ new Module("net.xp.str.Parser",
 			var dlm = this.delimit, m;
 			if (dlm){
 				m = this._delimitListMatch(str,i);
-				this.log.logDebug("delimit List : "+m);
+				this.print.logDebug("delimit List : "+m);
 			} else {
 				m = this._listMatch(str,i);
-				this.log.logDebug("normal List : "+m);
+				this.print.logDebug("normal List : "+m);
 			}
 			if (m) this.parserData.addMatch(i, m);
 			return m;
@@ -161,7 +161,7 @@ new Module("net.xp.str.Parser",
 			while (matching) {
 				var itemMatch = item.match(str, cur);
 				if (itemMatch) {
-					this.log.logDebug(itemMatch);
+					this.print.logDebug(itemMatch);
 					matches.push(itemMatch);
 					cur = itemMatch.end;
 					dlmMatch = dlm.match(str, cur);

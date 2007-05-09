@@ -17,7 +17,7 @@ app.loadCSS("album/forPage/forAllPage.css");
 app.loadCSS("album/forPage/browsePic.html.css");
 	
 //load modules
-app.loadModule("net.xp.util.URL");
+app.loadModule("net.xp.prototype.str.URL");
 app.loadModule("net.xp.event.EventDispatcher");
 app.loadModule("net.xp.dom.DocRelative");
 app.loadModule("net.xp.dom.event.IframeOnload");
@@ -285,7 +285,7 @@ app.loadData = function(){
 					url 		: al.links.listPics.$.address
 				};
 				
-				var el = t.renderAsElement(o);
+				var el = t.makeElement(o);
 				holder.appendChild(el);
 				el.o = o;
 				
@@ -432,7 +432,7 @@ app.loadData = function(){
 			app.dialog.alert("系统提示信息","没有此页");
 		}
 	}
-	net.xp.util.URL.mixTo(arpl);
+	net.xp.prototype.str.URL.mixTo(arpl);
 	var arp = app.articlePage = new PageFlip(0, $util.$$("articleHolder..pageArea"), arpl);
 	
 	var arl = {
@@ -499,7 +499,7 @@ app.loadData = function(){
 				
 				var li = $util.node("li",{id:o.id, o:o});
 				holder.appendChild(li);				
-				t.renderToElement(o, li);
+				t.renderInto(o, li);
 				li.o = o;
 				this.addEvent(li);
 				
@@ -623,7 +623,7 @@ app.loadData = function(){
 			app.dialog.alert("系统提示信息","没有此页");
 		}
 	}
-	net.xp.util.URL.mixTo(pgl);
+	net.xp.prototype.str.URL.mixTo(pgl);
 	var pf = this.pageFlip = new PageFlip(0, $util.$$("picHolder..pageArea"), pgl);
 	
 	

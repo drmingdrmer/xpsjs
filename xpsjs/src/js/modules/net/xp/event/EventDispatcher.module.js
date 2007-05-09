@@ -1,13 +1,20 @@
 var x = new Module("net.xp.event.EventDispatcher",
 [
 	"net.xp.core.*"
-],function ($this, $name){return {
+],function ($this, $name){ return {
 	$initialize : function (){
-		window.$E = function (o){
-			if (!o.addEventListener) $this.copyTo(o);
-			return o;
-		};
+		window.$E = $this.$E;
 		
+	},
+
+	$Alias : function (){
+		Module.getHostWin().$E = $this.$E;
+	},
+
+	$E : function (o){
+		if (!o.addEventListener)
+			$this.copyTo(o);
+		return o;
 	},
 
 	_removeEventListener : function (queue, event, handler) {
@@ -61,7 +68,6 @@ var x = new Module("net.xp.event.EventDispatcher",
 
 	addEvents : function (events, l) {
 		for (var i = 0; i < events.length; i++) {
-
 			this.addEventListener(events[i], l);
 		}
 	},

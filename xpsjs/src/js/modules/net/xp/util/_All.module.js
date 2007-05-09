@@ -7,5 +7,5 @@ Module.loader.loadModules([
 "net.xp.util.object._All",
 "net.xp.util.string._All",
 "net.xp.util.Times",
-"net.xp.util.URL",
+"net.xp.prototype.str.URL",
 "net.xp.util.xml._All"]);

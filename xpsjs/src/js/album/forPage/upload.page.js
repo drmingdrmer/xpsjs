@@ -17,7 +17,7 @@ app.loadCSS("album/forPage/forAllPage.css");
 app.loadCSS("album/forPage/upload.html.css");
 	
 //load modules
-app.loadModule("net.xp.util.URL");
+app.loadModule("net.xp.prototype.str.URL");
 app.loadModule("net.xp.event.EventDispatcher");
 app.loadModule("net.xp.dom.DocRelative");
 app.loadModule("net.xp.dom.event.IframeOnload");

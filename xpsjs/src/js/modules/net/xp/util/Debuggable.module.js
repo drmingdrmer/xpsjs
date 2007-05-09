@@ -98,23 +98,23 @@ new Module("net.xp.util.Debuggable",
 		},
 
 		logTrace : function (s) {
-			this.log(s, "#fff");
+			this.print(s, "#fff");
 		},
 
 		logStep : function (s) {
-			this.log(s, "#efe");
+			this.print(s, "#efe");
 		},
 
 		logDebug : function (s) {
-			this.log(s, "#def");
+			this.print(s, "#def");
 		},
 
 		logWarn : function (s) {
-			this.log(s, "#ffa");
+			this.print(s, "#ffa");
 		},
 
 		logError : function (s) {
-			this.log(s, "#fdd");
+			this.print(s, "#fdd");
 		}
 	};
 });

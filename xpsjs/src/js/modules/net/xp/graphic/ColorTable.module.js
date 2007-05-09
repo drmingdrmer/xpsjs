@@ -1,4 +1,4 @@
-new Module("net.xp.graphic.ColorOperationTable",
+new Module("net.xp.prototype.str.ColorTable",
 [
     "net.xp.core.*"
 ],function ($this,$name){return {

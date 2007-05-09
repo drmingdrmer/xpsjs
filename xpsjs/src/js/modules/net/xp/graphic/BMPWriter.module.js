@@ -2,7 +2,7 @@ new Module("net.xp.graphic.BMPWriter",
 [
     "net.xp.core.*",
 	"net.xp.data.Map",
-	"net.xp.graphic.ColorOperation"
+	"net.xp.prototype.str.Color"
 ],function ($this,$name){return {
 	$initialize : function (){
 	},

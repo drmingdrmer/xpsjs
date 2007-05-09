@@ -1,38 +1,69 @@
+new Module("net.xp.dom.Template",
+[
+    "net.xp.core.*"
+],function ($this,$name){
 
-var t = window.Templator = function(callback, url){
-	this.callback = callback || $util.voidFunc;
-	this.template = null;
-	this.needCompile = true;
+	/* private properties */	
+	var v_template = "template";
+	var v_script = "script";
+	var v_needCompile = "needCompile";
+
+return {
+
 	
-	this.script = "";
-	
-	if (url != null) this.load(url);
-}
 
-net.xp.util.Debuggable.mixTo(t);
-net.xp.net.XHR.mixTo(t);
-net.xp.util.InstanceStatusManager.mixTo(t);
-
-var p = {
 	
 	setTemplateString : function (str){
-		this.template = str;
+		this._set(v_template, str);
 		this.setNeedRecompile();
 	},
+
+	getTemplateString : function (){
+		return this._get(v_template);
+	},
+
+
+
+	setTemplateScript : function (script){
+		this._set(v_script,script);
+		this.setNeedRecompile(false);
+	},
+
+	getTempalteScript : function (){
+		this.compileTemplate();
+		return this._get(v_script);
+	},
+
+
+
 	
+	needCompile : function (){
+		return this._get(v_needCompile);
+	},
+
+	setNeedRecompile : function (t){
+		this._set(v_needCompile,  t != false);
+	},
+
+
+	/**
+	 * compile template html/xml to script
+	 */
 	compileTemplate : function (){
-		if (this.template == null){
-			throw new Error("no template loaded or set");
+		var _template = this.getTemplateString();
+		if ( _template == null){
+			throw new Error("no template set");
 		}
 		if (!this.needCompile()) return;
-		
+
 		var r = ""; // inprocess script
-		var temp = this.template.replace(/\r|\n/g,"").replace(/\<\!\-\-/gmi,"\02").replace(/\-\-\>/gmi,"\03");
-		temp = temp.replace(/\t/gi,"");
-		
-		var reg = /\02(.*?)\03|([^\02\03]*)/gmi;
-		
-		
+		var temp = _template.replace(/\r|\n|\t/g,"") 		/* remove unnessesary blank, line break */
+				.replace(/\<\!\-\-/gmi,"\02")				/* mark all start tags */
+				.replace(/\-\-\>/gmi,"\03");				/* mark all end tags */
+
+		var reg = /\02(.*?)\03|([^\02\03]*)/gmi;			/* tag matching regExp */
+
+
 		temp.replace(reg,
 				function(str, a){
 					if (str == "") return;
@@ -48,60 +79,44 @@ var p = {
 					}
 					r += scr;
 			   });
-		
-		this.alertD("compiled scripte : \n"+r);
-		this.script = r;
-		this.needCompile = false;
-		
+
+		Module.log("compiled scripte : \n"+r);
+		this.setTemplateScript(r);
+
 	},
-	
-	needCompile : function (){
-		return this.needCompile;
-	},
-	
-	setNeedRecompile : function (){
-		this.needCompile = true;
-	},
-	
-	getScript : function (){
-		this.compileTemplate();
-		return  this.script;
-	},
-	
-	render : function (o){
-		o = o || {}
-		var s = "";
-		var r = this.getScript();
-		
-		
+
+	render : function (dataObject){
+		dataObject = dataObject || {};
+		var resultString = "";
+		var r = this.getTempalteScript();
 		eval(r);
-		this.alertD("render resut : \n"+s);
-		return s;		
+		Module.log("render resut : \n"+resultString);
+		return resultString;
 	},
-	
+
 	makeElement : function (o){
 		var e = this._renderInTempNode(o);
 		return e.firstChild;
 	},
-	
-	renderInto : function (o,tar){
+
+	renderInto : function (o, tar){
 		var e = this._renderInTempNode(o);
-		var ar = e.childNodes, l = ar.length;		
-		for (var i=0; i<l; l--) {			
+		var ar = e.childNodes, l = ar.length;
+		for (var i=0; i<l; l--) {
 			tar.appendChild(ar[i]);
 		}
 		delete e;
 	},
-	
+
 	renderReplace : function (o,tar,tname,id){
 		//TODO replace multi content.
-		
+
 		var prnt = tar.parentNode;
-		
-		
+
+
 		var e = $util.tempNode();
 		e.innerHTML = this.render(o);
-		
+
 		//
 		var ar = e.getElementsByTagName(tname), l=ar.length;
 		for (var i=0;i<l;i++){
@@ -111,17 +126,17 @@ var p = {
 			}
 		}
 		if (i==l) throw new Error ("no such tag with the id.. tag : "+tname+". id : "+id);
-		
+
 		//add rendered element to doc.
 		var ar = e.childNodes, l=ar.length;
 		for (var i=0;i<l;i++){
-			prnt.insertBefore(ar[i],tar);		
+			prnt.insertBefore(ar[i],tar);
 		}
-			
-							 
+
+
 		prnt.removeChild(tar);
 	},
-	
+
 	/**
 	* update certain segment of this template.
 	*/
@@ -131,75 +146,45 @@ var p = {
 		var e = this.renderInTempNode(o);
 		var nn = $util.$$(sids, e);
 		var on = $util.$$(tids,tar);
-		
+
 		if (opt.childOnly) {
 			on.innerHTML = "";
-			this._replaceContent(on, nn);			
+			this._replaceContent(on, nn);
 		} else {
 			var prn = on.parentNode;
 			prn.insertBefore(nn, on);
 			prn.removeChild(on);
 		}
 	},
-	
-	_renderInTempNode : function (o){
+
+	renderInTempNode : function (o){
 		var e = $util.tempNode();
 		e.innerHTML = this.render(o);
 		return e;
 	},
-	
+
 	_replaceContent : function (tar, src){
 		this.alertD(src.innerHTML);
 		tar.innerHTML = "";
 		var ar = src.childNodes, l=ar.length;
-		
+
 		for (var i=0;i<l;l--){
 			this.alertD("i="+i);
 			this.alertD(ar[i]);
 			this.alertD(ar[i].nodeType);
 			this.alertD(ar[i].nodeName);
-			
+
 			tar.appendChild(ar[i]);
 		}
 		return tar;
 	},
-	
+
 	_compareAndUpdate : function (o, n){
 		if (o.nodeName == n.nodeName && o.nodeType == n.nodeType){
-			
+
 		} else {
 		}
-	},
-	
-	//override from XHR.
-	onStart : function (url){
-		this.statusInc("active");
-		this.statusInc("load");
-	},
-	
-	//override from XHR.
-	finish : function (xhr){
-		this.statusDec("active");
-	},
-	
-	
-	//override from XHR.
-	success : function (xhr){
-		this.alertD("sucess");
-		this.statusInc("success");
-		this.setTemplateString(xhr.responseText);
-		this.callback(this);
-	},
-	
-	//override from XHR.
-	fail : function (xhr){
-		this.alertD("fail");
-		this.statusInc("fail");
 	}
-	
-	
-	
-}
 
 
-$util.cpAttr(t.prototype,p,true);
+}});

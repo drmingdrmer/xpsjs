@@ -16,7 +16,7 @@ var p = {
 				createTime	:a.$.createTime,
 				url			:a.links.listPics.$.address
 			}
-			var e = this.templator.renderAsElement(o);
+			var e = this.templator.makeElement(o);
 			this.holder.appendChild(e);
 			e.o = o;
 			

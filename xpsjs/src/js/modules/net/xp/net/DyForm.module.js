@@ -243,7 +243,7 @@ var x = new Module(
 		}
 	},
 	[
-	"net.xp.util.URL",
+	"net.xp.prototype.str.URL",
 	"net.xp.dom.DocRelative",
 	"net.xp.dom.event.IframeOnload",
 	"net.xp.event.EventDispatcher",

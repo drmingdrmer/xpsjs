@@ -8,7 +8,7 @@
  *		onLoad
  */
 Module.require([
-	"net.xp.util.URL",
+	"net.xp.prototype.str.URL",
 	"net.xp.control.Runnable",
 	"net.xp.dom.IframeComponent"
 ]);
@@ -41,7 +41,7 @@ return {
 	_urlUtil : function (){
 		return this._get(
 				"urlUtil",
-				$this.$M("net.xp.util.URL").newInst());
+				$this.$M("net.xp.prototype.str.URL").newInst());
 	},
 
 	/**

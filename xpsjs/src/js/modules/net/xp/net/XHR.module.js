@@ -1,7 +1,7 @@
 var x = new Module("net.xp.net.XHR",
 [
 	"net.xp.core.*",
-	"net.xp.util.URL",
+	"net.xp.prototype.str.URL",
 	"net.xp.util.Debuggable"
 ],function ($this, $name) {return {
 

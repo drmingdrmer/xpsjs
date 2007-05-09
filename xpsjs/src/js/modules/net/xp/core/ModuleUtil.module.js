@@ -11,7 +11,7 @@ return {
 
 
 	_ : function (name) {
-		name = name || arguments.callee.caller.getModName();
+		name = name || arguments.callee.caller.getModName();/*  how to fix browsers without 'caller' support */
 		if (this.$getModuleVar == null){
 			this.$getModuleVar = Module.createGetFunc({});
 		}

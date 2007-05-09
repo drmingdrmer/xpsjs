@@ -33,14 +33,7 @@ window.Module = function (name, modules, hash) {
 	if (typeof(hash) == 'function') hash = hash(this, this._name);
 
 	for (var i in hash) {
-		if (typeof hash[i] == "stirng" && hash[i].indexOf("alias") > -1) hash[i] = hash[hash[i].substr(7)];
-		this[i] = hash[i];
-		
-		this[i].isOverridable 	= Module.createGetFunc(Module.isOverridable(this[i]));
-		this[i].getName 		= Module.createGetFunc(i);
-		this[i].getModule 		= Module.createGetFunc(this);
-		this[i].getModName 		= Module.createGetFunc(name);
-		this[i].isModMethod 	= true;
+		this[i] = Module.makeModMethod(this, hash[i], i);
 	}
 	
 	Module.assignModuleInstToName(name, this);
@@ -48,8 +41,28 @@ window.Module = function (name, modules, hash) {
 	Module.tryToInit();
 };
 
-Module.doAlias = true;
-Module.initedMark = {"initedMark":"initedMark"}; //Module instance initialized-mark string
+Module.makeModMethod = function(mod, func, name){
+	func.isOverridable 	= Module.createGetFunc(Module.isOverridable(func);
+	func.getName 		= Module.createGetFunc(name);
+	func.getModule 		= Module.createGetFunc(mod);
+	func.getModName 	= Module.createGetFunc(mod._name);
+	func.isModMethod 	= true;
+	return func;
+}
+Module.releaseModMethod = function(mod, name){
+	var func = mod[name];
+	if (func == null || !func.isModMethod) return;
+
+	func.isOverridable 	= null;
+	func.getName 		= null;
+	func.getModule 		= null;
+	func.getModName 	= null;
+	func.isModMethod 	= null;
+}
+
+Module.isAlias = function (mod){ return ModuleConfig.alias[mod._name] == true; };
+Module.isMix  =  function (mod){ return ModuleConfig.mix[mod._name] == true; };
+Module.initedMark = {initedMark : "initedMark"}; //Module instance initialized-mark string
 Module.loader = Loader ? Loader.instance : {loadModules : function (){}};
 Module.moduleRoot = $module;
 Module.moduleRoot.Module = Module;
@@ -135,10 +148,66 @@ Module.initModule = function (name) {
 	}
 	try{
 		module.$initialize();
-	}catch (e){	alert(module._name + ".$initialize error : "+e); }
+
+		Module.alias(module);		//alias to host win
+		Module.mix(module);			//mix to host win
+	}catch (e){	alert(module._name + " : initialize error : "+e); }
 
 	Module.initQueue[name] = Module.initedMark;
 };
+/**
+* alias is a way to use module function out of module-window
+*/
+Module.alias = function(module, win) {
+	win = win || Module.getHostWin();
+	if (Module.isAlias(module))
+			module.$Alias(win);
+}
+
+/**
+* mix advanced prototype function to other window. using mix will polute Class prototype,but it is faster than alias.
+*/
+Module.mix = function(module, win){
+	win = win || Module.getHostWin();
+	if (Module.isMix(module))
+			module.$Mix(win);
+}
+
+Module.applyAll = function (win){
+	win = win || Module.getHostWin();
+	var q = Module.initQueue;
+	for (var i in q){
+		if (q[i] == Module.initedMark){
+			Module.alias(Module.get(i),win);
+			Module.mix(Module.get(i),win);
+		}
+	}
+}
+
+/**
+ * Module utils depends on other modules
+ */
+Module.print = function (msg, level){
+	
+}
+Module.trace = function (msg){
+	Module.print(msg,7);
+}
+Module.log = function (msg){
+	Module.print(msg,7);
+}
+Module.debug = function (msg){
+	Module.print(msg,7);
+}
+Module.warn = function (msg){
+	Module.print(msg,7);
+}
+Module.error = function (msg){
+	Module.print(msg,7);
+}
+Module.fatal = function (msg){
+	Module.print(msg,7);
+}
 
 var o = {
 	$initialize : function () {},
@@ -146,6 +215,8 @@ var o = {
 	$Constructor : function () {},
 
 	$Alias : function (){},
+
+	$Mix : function (){},
 	
 	mixTo : function (t) {
 		//alert("mix from "+ this._name+" to "+t._name);
@@ -174,3 +245,7 @@ var o = {
 };
 
 for (var i in o) Module.prototype[i] = o[i];
+
+
+
+Module.loader.loadJS("ModuleConfig.js");
