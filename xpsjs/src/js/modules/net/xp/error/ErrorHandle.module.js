@@ -1,7 +1,7 @@
 var x = new Module(
 	"net.xp.error.ErrorHandle",
-   {	
-   		addErrorHandler : function (l){
+ {	
+		addErrorHandler : function (l){
 			this.addEventListener("onerror",l);
 		},
 		
@@ -36,3 +36,4 @@ var x = new Module(
 	},[
 	   "net.xp.event.EventDispatcher"
 	   ],false);
+

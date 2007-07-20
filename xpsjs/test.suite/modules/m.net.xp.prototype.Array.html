@@ -18,13 +18,6 @@
 		var ins = new Loader({
 			onLoadFinish:function (){
 				setUpPageStatus = "complete";
-//				var h = Module.initQueue;
-//				var str = "";
-//				for (var i in h){
-//					str += i + "="+ h[i] +"\n";
-//					if (typeof h[i] == "object") str += h[i]._requiredModules+"\n";
-//				}
-//				alert(str);
 			}
 		});
 		loadjs();
@@ -33,7 +26,7 @@
 	function loadjs(){
 		var ins = Loader.instance;
 		ins.loadJS("Module.js");
-		ins.loadModule("net.xp.util.Array");
+		ins.loadModule("net.xp.prototype.Array");
 
 	}
 
@@ -42,7 +35,7 @@
 	}
 
 	function test_enumerable(){
-		var A = Module.get("net.xp.util.Array");
+		var A = Module.get("net.xp.prototype.Array");
 		var str = "";
 		for (var i in A){
 			str += i+"\n";

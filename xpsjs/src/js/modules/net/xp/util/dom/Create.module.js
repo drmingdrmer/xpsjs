@@ -9,17 +9,17 @@ new Module("net.xp.util.dom.Create",
 	"net.xp.dom.WindowRelative"
 ],function ($this,$name){ return {
 
-	createNode : function (name, attr, doc){
-		attr = attr || {};
+	createNode : function (name, attrs, doc){
+		attrs = attrs || {};
 		var n = this.$Doc(doc).createElement(name);
-		for (var i in attr)
-			if (typeof attr[i] != "function" && Object.prototype[i] == null)
-				n.setAttribute(i, attr[i]);
+		for (var i in attrs)
+			if (typeof attrs[i] != "function" && Object.prototype[i] == null)
+				n.setAttribute(i, attrs[i]);
 		return n;
 	},
 		
 	tempNode : function (doc){
-		return this.createNode("div",null,doc);
+		return this.createNode("div", null, doc);
 	},
 	
 	allNodesFromHtml : function (html, doc){

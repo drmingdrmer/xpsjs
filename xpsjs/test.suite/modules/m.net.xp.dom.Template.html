@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>JsUnit Assertion Tests</title>
+	<link rel="stylesheet" type="text/css" href="../../jsunit/css/jsUnitStyle.css">
+	<script language="JavaScript" type="text/javascript" src="../../jsunit/app/jsUnitCore.js"></script>
+	<script language="JavaScript" type="text/javascript" src="../../src/js/Loader.js"></script>
+
+	<script language="JavaScript" type="text/javascript">
+
+		function setUp() {
+
+		}
+		function setUpPage() {
+			var ins = new Loader({
+				onLoadFinish	 : function () {
+					setUpPageStatus = "complete";
+					prepare();
+				}
+			});
+			ins.loadJS("Module.js");
+			ins.loadModule("net.xp.dom.Template");
+
+		}
+
+		var tmpl = {};
+		var data = {};
+
+
+		function prepare() {
+			tmpl.roundcorner = "\
+			<style>\
+				table.xp_code td{\
+					font-size:1px;\
+					line-height:1px;\
+					width:1px;\
+					height:1px;\
+				}\
+			<\/style>\
+			<table class='xp_code' cellpadding=0 cellspacing=0 border=0>\
+				<!--for (var i=0; i<o.height; i++) {-->\
+					<tr>\
+						<!--for (var j=0; j<o.width; j++) {-->\
+							<td style='background-color:<!--=o.getColor(j, i)-->;'>&nbsp;<\/td>\
+						<!--}-->\
+					<\/tr>\
+				<!--}-->\
+			<\/table>\
+			";
+			data.roundcorner = {
+				width	: 20,
+				height	: 20,
+				color	: {
+					start	 : [0xff, 0xff, 0xff],
+					end		: [0xff, 0xdd, 0x00]
+				},
+				getColor : function (x, y) {
+					var dx = x - this.width + 1;
+					var dy = y - this.height + 1;
+					var rate = Math.sqrt(dx * dx + dy * dy) / this.width;
+
+					var r = (this.color.end[0] - this.color.start[0]) * rate + this.color.start[0];
+					var g = (this.color.end[1] - this.color.start[1]) * rate + this.color.start[1];
+					var b = (this.color.end[2] - this.color.start[2]) * rate + this.color.start[2];
+
+					return "#" + (Math.round(r) << 16) + (Math.round(g) << 8) + (Math.round(b));
+				}
+			}
+		}
+
+		function onInit(event) {
+			alert("oninit");
+			initAccount++;
+			if (initAccount == 2) finish();
+		}
+
+		function finish() {
+			window.setUpPageStatus = "complete";
+		}
+		function tearDown() {
+
+		}
+
+		function test_module() {
+
+
+		}
+
+
+	</script>
+</head>
+
+<body>
+<div id="sampleDiv">
+	<div id="anotherDiv"></div>
+</div>
+<div id="anotherDiv"></div>
+
+</body>
+</html>

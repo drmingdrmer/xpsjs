@@ -194,11 +194,16 @@ var p = {
 	},
 
 
-/**
- * add a trigger to notify loader that a script load finished by invoking Loader.onLoadFinishOne
- * @param {Object} winName
- * @param {Object} msg
- */
+	addOnload : function (func){
+		var ar = this.config.onloadFuncs = (this.config.onloadFuncs || []);
+		ar.push(func);
+	},
+
+	/**
+	 * add a trigger to notify loader that a script load finished by invoking Loader.onLoadFinishOne
+	 * @param {Object} winName
+	 * @param {Object} msg
+	 */
 	addTriggerLoadFinishScript : function (winName, msg) {
 		var win = this.getWinByName(winName);
 		var scr = this.createScript(win.document, {
@@ -206,14 +211,12 @@ var p = {
 		});
 	},
 
-/**
- * event handler
- * invoked when script load finished.
- * @param {Object} msg
- */
+	/**
+	 * event handler
+	 * invoked when script load finished.
+	 * @param {Object} msg
+	 */
 	_onFinishLoadOne : function (id, msg) {
-//		alert(this.id+" : "+id);
-//		alert("-"+msg.match(/\/[^\/]*$/)[0]);
 		if (id < this.id) {
 			this.loadNextJS();
 			return;
@@ -221,8 +224,11 @@ var p = {
 		this.inLoading = false;
 		//noinspection JSUnresolvedVariable,JSUnresolvedFunction
 		this.config.onLoadFinish &&	this.config.onLoadFinish();
-//		alert("finished after : "+(msg.match(/\/[^\/]*$/)[0] || "~~"));
-
+		if (this.config.onloadFuncs){
+			for (var i=0; i<this.config.onloadFuncs.length; ++i){
+				this.config.onloadFuncs[i]();
+			}
+		}
 	}
 }
 

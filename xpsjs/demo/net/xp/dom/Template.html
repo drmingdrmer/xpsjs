@@ -1,0 +1,96 @@
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript" src="../../../../src/js/Loader.js"></script>
+	<script type="text/javascript">
+		function main() {
+			var ins = new Loader();
+			ins.loadJS("Module.js");
+			ins.loadModules(["net.xp.dom.Template"]);
+
+
+			var tmpl = {};
+			var data = {};
+
+
+			function prepare() {
+				tmpl.roundcorner = "\n\
+					<style>\n\
+						table.xp_code{\
+							float:left;\
+							clear:none;\
+						}\
+						table.xp_code td{\n\
+							font-size:1px;\n\
+							line-height:1px;\n\
+							width:1px;\n\
+							height:1px;\n\
+						}\n\
+					<\/style>\n\
+					<table class='xp_code' cellpadding=0 cellspacing=0 border=0>\n\
+						<!--for (var i=0; i<o.height; i++) {-->\n\
+							<tr>\n\
+								<!--for (var j=0; j<o.width; j++) {-->\n\
+									<td style=\"background-color:<!--=o.getColor(j, i)-->;\">&nbsp;<\/td>\n\
+								<!--}-->\n\
+							<\/tr>\n\
+						<!--}-->\n\
+					<\/table>\n\
+					";
+				data.roundcorner = {
+					width	: 10,
+					height	: 10,
+					center	: {
+						x	: 9,
+						y	: 9
+					}, 
+					color	: {
+						start	 : [0xff, 0xaa, 0x00],
+						end		: [0xff, 0xff, 0xff]
+					},
+					getColor : function (x, y) {
+						var dx = x - this.center.x;
+						var dy = y - this.center.y;
+						var len = Math.sqrt(dx * dx + dy * dy);
+						if (Math.abs(len - this.width + 1) < 0.707) return "#0077ff";
+						
+						var rate = len / (this.width-1);
+						rate = rate > 1 ? 1 : rate;
+
+						var r = (this.color.end[0] - this.color.start[0]) * rate + this.color.start[0];
+						var g = (this.color.end[1] - this.color.start[1]) * rate + this.color.start[1];
+						var b = (this.color.end[2] - this.color.start[2]) * rate + this.color.start[2];
+
+						r = Math.round(r);
+						g = Math.round(g);
+						b = Math.round(b);
+
+						return "rgb(" + r+", " + g+", " + b+")";
+					}
+				}
+			}
+
+			function job() {
+				prepare();
+				Module.print = function (msg){
+					//var e = document.createTextNode(msg+"\n\n");
+//					document.body.appendChild(e);
+				}
+				var tp = Module.get("net.xp.dom.Template").newInst();
+				tp.setTemplateString(tmpl.roundcorner);
+
+				tp.renderInto(data.roundcorner, document.body);
+				
+				data.roundcorner.center.x = 0;
+				tp.renderInto(data.roundcorner, document.body);
+
+			}
+
+			ins.addOnload(job);
+		}
+	</script>
+</head>
+<body onload="main()" style="white-space:pre;">
+
+</body>
+</html>

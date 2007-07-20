@@ -42,7 +42,7 @@ window.Module = function (name, modules, hash) {
 };
 
 Module.makeModMethod = function(mod, func, name){
-	func.isOverridable 	= Module.createGetFunc(Module.isOverridable(func);
+	func.isOverridable 	= Module.createGetFunc(Module.isOverridable(func));
 	func.getName 		= Module.createGetFunc(name);
 	func.getModule 		= Module.createGetFunc(mod);
 	func.getModName 	= Module.createGetFunc(mod._name);
@@ -185,7 +185,7 @@ Module.applyAll = function (win){
 }
 
 /**
- * Module utils depends on other modules
+ * Module logging utils depends on other modules
  */
 Module.print = function (msg, level){
 	

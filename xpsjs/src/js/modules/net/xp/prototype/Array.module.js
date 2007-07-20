@@ -35,7 +35,9 @@ new Module("net.xp.prototype.Array",
 
 	getEnumArray : function (){
 		return this;//return this Array when mixed to Array
+
 	},
+
 
 
 	/**
@@ -100,14 +102,17 @@ new Module("net.xp.prototype.Array",
 		return -1;
 	},
 
-	lastIndexOf : function (e,k,$overridable){
-		k = k == null ? this.length-1 : k;
-		for (var i=k; i>=0; ++i){
+  lastIndexOf : function (e,k,$overridable){
+    k = k == null ? this.length-1 : k;       
+    for (var i=k; i>=0; ++i){                
 			if (this[i] == e) return i;
 		}
 		return -1;
 	}
 
+       
+       
+       
 	
 
 }});

@@ -64,14 +64,14 @@ return {
 	 * 		obj could be one of 3 type of data : constructor function, properties hash, default constructor's parameters.
 	 */
 	newInst : function (obj) {
-		if (obj && obj.concat){//treat as construct parameters
-			var clazz = this.clz();
+    if (obj && obj.concat){             // treat as construct parameters
+      var clazz = this.clz();
 
-			//a hack to create new instance with specific params
-			var dele = function (){};
-			dele.prototype = clazz.prototype;
-			var inst = new dele();//invoke pseudo constructor
-			clazz.apply(inst,obj);// invoke real constructor.
+      // a hack to create new instance with specific params
+      var dele = function (){};
+      dele.prototype = clazz.prototype;
+      var inst = new dele();            // invoke pseudo constructor
+      clazz.apply(inst,obj);            // invoke real constructor.
 			return inst;
 
 		} else {
@@ -131,5 +131,6 @@ return {
 		this.$M(name).mixTo(this);
 		return this;
 	}
+
 
 }});

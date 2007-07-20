@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>JsUnit Assertion Tests</title>
+<link rel="stylesheet" type="text/css" href="../../jsunit/css/jsUnitStyle.css">
+<script language="JavaScript" type="text/javascript" src="../../jsunit/app/jsUnitCore.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../src/js/Loader.js"></script>
+
+<script language="JavaScript" type="text/javascript">
+
+	function setUp() {
+
+	}
+	function setUpPage() {
+		var ins = new Loader({
+			onLoadFinish:function (){
+				setUpPageStatus = "complete";
+				Module.get
+			}
+		});
+		ins.loadJS("Module.js");
+		ins.loadModule("net.xp.prototype.String");
+	}
+
+	function tearDown() {
+
+	}
+
+	function test_enumerable(){
+		var s = $S("abc");
+		assertEquals("find a", "a", s.find("=='a'"));
+		
+	}
+
+	function test_trim(){
+		var s = $S(" 	a b c	 ");
+		assertEquals("trim head", "a b c	 ", s.trimHead());
+		assertEquals("trim tail", " 	a b c", s.trimTail());
+		assertEquals("trim all", "a b c", s.trim());
+	}
+
+	function test_case(){
+		var s = $S("abC");
+		assertEquals("up case", "ABC", s.up());
+		assertEquals("low case", "abc", s.low());
+	}
+
+	function test_stripTag(){
+		var s = $S("<x><\/abc><script id='f' src=\"http://com/ab.c.php?af=3&c#ff\"><ab");
+		assertEquals("remove tag", "<ab", s.stripTags());
+	}
+
+	function test_stripScript(){
+		var s = $S("<script src='fsfds'>var a=5;<\/script><script src='fs'\/>");
+		assertEquals("strip script tags", "", s.stripScripts());
+	}
+	
+	function test_extractScript(){
+		var s = $S("<script src='fsfds'>var a=5;<\/script><script src='fs'\/>");
+		//just ignore the couple of ';'
+		assertEquals("extract script", "var a=5;", s.extractScripts().join(""));
+	}
+
+	function test_evalScript(){
+		var s = $S("<script src='fsfds'>window.a=5;<\/script><script src='fs'\/>");
+		s.evalScripts();
+		assertEquals("check eval result", 5, window.a);
+	}
+
+	function test_toQueryParams(){
+		var s = $S("http://com/abc?abc=5&c=[1,2,3]&d=#anchor");
+		var qo = s.toQueryParams();
+		assertEquals("param abc", 5, qo.abc);
+		assertEquals("param c is array", "1 2 3", qo.c.join(' '));
+		assertEquals("param d is empty", "", qo.d);
+	}
+
+	function test_toInt(){
+		assertEquals("head of a", 123, $S("123").toInt());
+		assertEquals("hex num", 255, $S("ff").toInt(16));
+		assertTrue("illegal num", isNaN($S("xx").toInt()));
+	}
+
+	function test_toArray(){
+		assertEquals("split 1 by 1", "1,2,3", $S("123").toArray().join());
+		assertEquals("splite 2 by 2", "12,34,5", $S("12345").toArray(2).join());
+		
+	}
+
+	function test_a2u(){
+		assertEquals("6211", "我", $S("\\u6211").a2u());
+	}
+
+	function test_j2o(){
+		assertTrue("error json gets null",null == $S("abc").j2o());
+		assertEquals("test eval array", "1,2,3", $S("[1,2,3]").j2o().join());
+	}
+
+	function test_expand(){
+		var s = $S("abc\u1234\uababd").expand();
+		assertEquals("check length",8 , s.length);
+		assertEquals("check the original unicode char", "\u1234", s.charAt(4));
+		assertEquals("check addition char", "\uffff", s.charAt(3));
+		assertEquals("check another unicode char", "\uabab", s.charAt(6));
+	}
+
+	function test_collapse(){
+		var s = $S("abc\u1234\uababd");
+		var s1 = s.expand();
+		s1 = s1.collapse();
+		assertEquals("change around ", s.toString(), s1.toString());
+	}
+
+	function test_shorten(){
+		var s = $S("abcd");
+		assertEquals("shorten ascii", "abc..", s.shorten(3));
+		assertEquals("shorten unicode", "a\u1234\uabab--", $S("a\u1234\uababdafs").shorten(5,"--"));
+		assertEquals("shorten unicode twice", "a\u1234--", $S("a\u1234\uababdafs").shorten(4,"--"));
+	}
+
+	function test_escape_unescape(){
+		var a = "";
+
+		var s = $S("<script>");
+		assertEquals("escape", "&lt;script&gt;", s.escapeHTML());
+		assertEquals("unescape", s.toString(), s.escapeHTML().unescapeHTML());
+		assertTrue("another", s.escapeHTML().unescapeHTML().equals(s));
+	}
+
+	function test_fix(){
+		
+	}
+
+</script>
+</head>
+
+<body>
+
+</body>
+</html>

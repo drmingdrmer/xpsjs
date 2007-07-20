@@ -71,7 +71,7 @@ return {
 		}
 	},
 
-	combine : function (/* function.. */){
+	combine : function (/* functions... */){
 		var funcArray = $A(arguments).unshift(this);
 		var r = function (){
 			var args = arguments;
@@ -108,7 +108,7 @@ return {
 		} else {
 			var f = o[name];
 			o[name] = this.combine();
-			o[name].funcArray.push(f);						/* no bind for the returned function executes in o-this */
+			o[name].funcArray.push(f);						@/*@ no bind for the returned function executes in o-this @*/
 		}
 		return o[name];	
 	},
