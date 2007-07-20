@@ -1,27 +1,37 @@
+Module.require([
+	"net.xp.control.RunnableTable"
+]);
 new Module("net.xp.control.PeriodicalEngine",
 [
-	"net.xp.core.Core",
+	"net.xp.core.*",
 	"net.xp.dom.WindowRelative",
 	"net.xp.control.RunnableTable"
+],function ($this, $name){
 	
-],function ($thiz, $name){return {
-	_$initialize : function (){
+	function isRunnable (obj){
+		return Module.get("net.xp.control.RunnableTable").compatableTo(obj);
+	}
+
+	
+return {
+	$initialize : function (){
+		window.$PE = $this.$getInstance;
 	},
 
 	$getInstance : function (win){
 		win = this.$Win(win);
-		win.$periodical = win.$periodical || $thiz.newInst(function (){
+		win.$periodical = win.$periodical || $this.newInst(function (){
 			this.setWorkingWin(win);
 		});
 		return win.$periodical;
 	},
 
 	setPeriod : function (ms){
-		this._$m.period = ms;
+		this._().period = ms;
 	},
 
 	getPeriod : function (){
-		return this._$m.period || 50;
+		return this._().period || 50;
 	},
 
 	/**
@@ -30,7 +40,7 @@ new Module("net.xp.control.PeriodicalEngine",
 	 */
 	doLater : function (runnable){
 		if (Module.get("net.xp.app.Runnable").compatableTo(runnable)){
-			var win = this.getWorkingWindow();
+			var win = this.$Win();
 			win.setTimeout(function(){runnable.run();}, this.getPeriod());
 		} else {
 			throw new Error("not runnable");
@@ -43,13 +53,15 @@ new Module("net.xp.control.PeriodicalEngine",
 	 * @param {Object} period
 	 */
 	doRepeatly : function (runnable, period){
-		if (!Module.get("net.xp.app.Runnable").compatableTo(runnable)){
+		if (!isRunnable(runnable)){
 			throw new Error("not runnable");
 		}
 		period = period || this.getPeriod();
 
-		var win = this.getWorkingWindow();
-		var id = win.setInterval(function (){runnable.run();},period);
+		var win = this.getWorkingWin();
+		var id = win.setInterval(function () {
+			runnable.run();
+		}, period);
 		this.addRunnable(runnable,id);
 	},
 
@@ -58,12 +70,8 @@ new Module("net.xp.control.PeriodicalEngine",
 	 * @param {Object} runnable
 	 */
 	stopRepeatly : function (runnable){
-		if (!Module.get("net.xp.app.Runnable").compatableTo(runnable)){
-			throw new Error("not runnable");
-		}
 		var id = this.getRunnableData(runnable);
-		var win = this.getWorkingWindow();
 		this.removeRunnable(runnable);
-		win.clearInterval(id);
+		this.$Win().clearInterval(id);
 	}
 }});
