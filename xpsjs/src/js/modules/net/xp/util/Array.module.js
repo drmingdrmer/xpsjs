@@ -1,7 +1,7 @@
 new Module("net.xp.util.Array",
 [
     "net.xp.core.*"
-],function ($this,$name){return {
+],function ($this, $name){return {
 	$initialize : function (){
 		window.$A = $this.toArray;
 		$this.mixTo(Array);
