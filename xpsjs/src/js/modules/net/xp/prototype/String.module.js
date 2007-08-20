@@ -1,25 +1,34 @@
-Module.require([
-	"net.xp.prototype.Array"
-]);
-new Module("net.xp.prototype.String",
-[
-	"net.xp.core.*"
-], function ($this, $name) { return {
-	$initialize : function () {
+Module.require([ "net.xp.prototype.Array" ]);
+
+new Module("net.xp.prototype.String", [ "net.xp.core.*" ],
+    
+function ($this, $name) {
+
+
+
+
+return {
+  /**
+   * 
+   */
+  $initialize : function () {
 		window.$S = $this.$S;
 		$this.mixTo(String);
 
 	},
 
-	$Alias : function (){
-		Module.getHostWin().$S = $this.$S;
-	},
+  /**
+   *
+   */
+  $Alias : function () {
+    Module.getHostWin().$S = $this.$S;
+  },
 
-	$Mix : function (win){
-		$this.mixTo(win.String);
-	},
+  $Mix : function (win) {
+    $this.mixTo(win.String);
+  },
 
-	$S : function (str){
+  $S : function (str) {
 		return new String(str);
 	},
 
@@ -40,10 +49,10 @@ new Module("net.xp.prototype.String",
 	},
 
 	low : String.prototype.toLowerCase,
-	
+
 	up : String.prototype.toUpperCase,
 
-	
+
 
 	stripTags: function() {
 		return this.replace(/<\/?[^>]+>/gi, '');
@@ -128,7 +137,7 @@ new Module("net.xp.prototype.String",
 	collapse : function (){
 		return this.replace(/\uffff/gi,"");
 	},
-	
+
 	shorten : function (len, suffix){
 		suffix = suffix || "..";
 		return this.expand().substr(0,len).collapse() + suffix;
