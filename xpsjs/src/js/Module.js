@@ -43,10 +43,10 @@ window.Module = function (name, modules, hash) {
 
 Module.makeModMethod = function(mod, func, name){
 	func.isOverridable 	= Module.createGetFunc(Module.isOverridable(func));
-	func.getName 		= Module.createGetFunc(name);
-	func.getModule 		= Module.createGetFunc(mod);
-	func.getModName 	= Module.createGetFunc(mod._name);
-	func.isModMethod 	= true;
+	func.getName 		    = Module.createGetFunc(name);
+	func.getModule 		  = Module.createGetFunc(mod);
+	func.getModName 	  = Module.createGetFunc(mod._name);
+	func.isModMethod 	  = true;
 	return func;
 }
 Module.releaseModMethod = function(mod, name){
@@ -63,7 +63,7 @@ Module.releaseModMethod = function(mod, name){
 Module.isAlias = function (mod){ return ModuleConfig.alias[mod._name] == true; };
 Module.isMix  =  function (mod){ return ModuleConfig.mix[mod._name] == true; };
 Module.initedMark = {initedMark : "initedMark"}; //Module instance initialized-mark string
-Module.loader = Loader ? Loader.instance : {loadModules : function (){}};
+Module.loader = ModuleLoader ? ModuleLoader.instance : {loadModules : function (){}};
 Module.moduleRoot = $module;
 Module.moduleRoot.Module = Module;
 

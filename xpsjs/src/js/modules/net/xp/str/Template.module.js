@@ -1,12 +1,13 @@
-new Module("net.xp.str.Template",
-[
-    "net.xp.core.*",
-],function ($this,$name){
+new Module("net.xp.str.Template", [ "net.xp.core.*"
+																	],
+function ($this, $name){
+
 
 	/* local constant variables */	
 	var TEMPLATE      = "template";
 	var RENDER        = "render";
 	var NEED_COMPILE  = "isNeedCompile";
+
 
 return {
 

@@ -2,12 +2,13 @@ Module.require([ "net.xp.prototype.Array" ]);
 
 new Module("net.xp.prototype.String", [ "net.xp.core.*" ],
     
-function ($this, $name) {
+function ($this, $name) { /* private */
 
 
 
 
-return {
+return { /* public */
+  
   /**
    * 
    */

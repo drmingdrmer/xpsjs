@@ -1,3 +1,9 @@
+/**-------------------------/// Function extention \\\---------------------------
+ *
+ * extends function prototype methods
+ *
+ *--------------------------\\\ Function extention ///---------------------------*/
+
 Module.require([
 	"net.xp.prototype.Array",
 	"net.xp.event.Event"
@@ -13,6 +19,7 @@ new Module("net.xp.prototype.Function",
 
 return {
 
+  
 	$initialize : function (){
 		window.$GF = $this.$GF;
 		window.$F = $this.$F;
@@ -34,6 +41,10 @@ return {
 		return f;
 	},
 
+	/**
+	 * generate a getter function
+	 * @param {Object} value
+	 */
 	$GF : function (value){
 		return function (){return value};
 	},
@@ -42,6 +53,11 @@ return {
 		EV().listen(o, evName, this);
 	},
 
+	/**
+	 * 
+	 * @param {Object} o
+	 * @param {Object} name
+	 */
 	as : function (o,name){
 		o[name] = this;
 	},
@@ -108,7 +124,7 @@ return {
 		} else {
 			var f = o[name];
 			o[name] = this.combine();
-			o[name].funcArray.push(f);						@/*@ no bind for the returned function executes in o-this @*/
+			o[name].funcArray.push(f);						/*@ no bind for the returned function executes in o-this @*/
 		}
 		return o[name];	
 	},

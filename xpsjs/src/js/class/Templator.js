@@ -24,7 +24,7 @@ var p = {
 		if (this.template == null){
 			throw new Error("no template loaded or set");
 		}
-		if (!this.needCompile()) return;
+		if (!this.isNeedCompile()) return;
 		
 		var r = ""; // inprocess script
 		var temp = this.template.replace(/\r|\n/g,"").replace(/\<\!\-\-/gmi,"\02").replace(/\-\-\>/gmi,"\03");
@@ -55,8 +55,8 @@ var p = {
 		
 	},
 	
-	needCompile : function (){
-		return this.needCompile;
+	isNeedCompile : function (){
+		return this.isNeedCompile;
 	},
 	
 	setNeedRecompile : function (){

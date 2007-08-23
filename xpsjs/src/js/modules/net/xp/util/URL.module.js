@@ -4,7 +4,7 @@ var x = new Module("net.xp.util.URL",
 ],function ($this, $name){
 return {
 	$initialize : function (){
-		this.setDefaultBase(Loader.instance.getBase());
+		this.setDefaultBase(ModuleLoader.instance.getBase());
 	},
 	
 	getUrl : function (){
