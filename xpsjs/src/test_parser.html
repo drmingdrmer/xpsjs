@@ -81,10 +81,10 @@
 
 
     function foo() {
-      new Loader({
+      new ModuleLoader({
         runLoad : function () {
           initPrototype();
-          var ldr = Loader.instance;
+          var ldr = ModuleLoader.instance;
           ldr.loadJS("Module.js");
           ldr.loadModules(["net.xp.str.Parser"]);
         },

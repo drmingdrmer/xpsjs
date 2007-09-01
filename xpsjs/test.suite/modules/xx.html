@@ -11,12 +11,12 @@
 	<script language="JavaScript" type="text/javascript">
 
 		function job() {
-			var ins = new Loader({onLoadFinish : test});
+			var ins = new ModuleLoader({onLoadFinish : test});
 			loadjs();
 		}
 
 		function loadjs() {
-			var ins = Loader.instance;
+			var ins = ModuleLoader.instance;
 			ins.loadJS("Module.js");
 			ins.loadModule("net.xp.util.string.String");
 		}

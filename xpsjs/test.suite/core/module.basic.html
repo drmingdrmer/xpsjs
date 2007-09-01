@@ -15,12 +15,12 @@
 		
 	}
 	function setUpPage() {
-		var ins = new Loader();
+		var ins = new ModuleLoader();
 		loadjs();
 	}
 	
 	function loadjs(){
-		var ins = Loader.instance;
+		var ins = ModuleLoader.instance;
 		
 		ins.loadJS("Module.js");
 		ins.loadJS("../../test.suite/finish.js");
@@ -37,7 +37,7 @@
 		
 		assertEquals("Module.moduleRoot", $module, Module.moduleRoot);
 		assertEquals("Module.moduleRoot.module", Module, $module.Module);
-		assertEquals("Module.loader", Loader.instance, Module.loader);
+		assertEquals("Module.loader", ModuleLoader.instance, Module.loader);
 		assertNotNull("Module.initQueue", Module.initQueue);
 	}
 	

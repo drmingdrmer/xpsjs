@@ -30,7 +30,7 @@
     <setting name="EXPLODED_ENABLED" value="false" />
     <setting name="JAR_URL" value="file://" />
     <setting name="JAR_ENABLED" value="false" />
-    <setting name="SYNC_EXPLODED_DIR" value="true" />
+    <setting name="SYNC_EXPLODED_DIR" value="false" />
     <setting name="BUILD_MODULE_ON_FRAME_DEACTIVATION" value="false" />
     <setting name="BUILD_EXTERNAL_DEPENDENCIES" value="false" />
     <setting name="RUN_JASPER_VALIDATION" value="true" />
@@ -41,7 +41,7 @@
       <attribute name="URI" value="&lt;N/A&gt;" />
       <url>jar://$APPLICATION_HOME_DIR$/lib/j2ee.jar!/</url>
     </containerElement>
-    <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/WEB-INF/web.xml" optional="false" version="2.3" />
+    <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/WEB-INF/web.xml" optional="false" version="2.4" />
     <webroots>
       <root url="file://$MODULE_DIR$/WEB-INF" relative="/WEB-INF" />
     </webroots>

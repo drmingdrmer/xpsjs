@@ -7,7 +7,7 @@
  * @author xp
  * @email drdr.xp@gmail.com
  *
- * TODO simplify loading process.
+ * TODO simplify loading process. Load resource for only Module is ok.
  * TODO ensure loading sequence is correct. thinking about XHR method
  * TODO multi - base
  *

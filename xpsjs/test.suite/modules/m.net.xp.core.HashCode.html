@@ -15,12 +15,12 @@
 		
 	}
 	function setUpPage() {
-		var ins = new Loader();
+		var ins = new ModuleLoader();
 		loadjs();
 	}
 	
 	function loadjs(){
-		var ins = Loader.instance;
+		var ins = ModuleLoader.instance;
 		
 		ins.loadJS("Module.js");
 		ins.loadModule("net.xp.core.HashCode");

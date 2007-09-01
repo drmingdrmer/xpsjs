@@ -3,7 +3,7 @@
 <script src="js/Loader.js"></script>
 <script>
 	var loadJS = function (){
-		var ldr = Loader.instance;
+		var ldr = ModuleLoader.instance;
 		ldr.loadJS("Module.js");
 		ldr.loadModules(["net.xp.util.dom.Select"]);
 		ldr.finishModule();
@@ -56,7 +56,7 @@
 		
 	}
 	function foo(){
-		new Loader({
+		new ModuleLoader({
 			finishInit	: loadJS,
 			onLoadFinish : job
 		})

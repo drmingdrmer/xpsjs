@@ -25,12 +25,12 @@ Xpj=C:/Hyper.Disc/.projects/.js/.xp/xpj.v.01.1 cd=. {
 	images=images {
 	}
 	js=js {
-	 Loader.js
-		Module.js
-		ModuleConfig.js
-		de.js
-		debug.js
-		util.js
+   Loader.js
+   Module.js
+   ModuleConfig.js
+   de.js
+   debug.js
+   util.js
 		album=album {
 		 forPage=forPage {
 			AlbumBrowser.js
@@ -224,12 +224,7 @@ Xpj=C:/Hyper.Disc/.projects/.js/.xp/xpj.v.01.1 cd=. {
  module=src\js\modules CD=. {
 	net=net {
 	 xp=xp {
-		Empty.module.js
-		 Empty2.module.js
-		 Required.module.js
-		 Sample.module.js
-		 SampleMore.module.js
-		 _All.module.js
+    _All.module.js
 		 algorithm=algorithm {
 			Base64.module.js
 			 _All.module.js
@@ -324,10 +319,9 @@ Xpj=C:/Hyper.Disc/.projects/.js/.xp/xpj.v.01.1 cd=. {
 			_All.module.js
 		}
 		prototype=prototype {
-		 Array.module.js
-			Function.module.js
-			String.module.js
-			_.swp
+     Array.module.js
+     Function.module.js
+     String.module.js
 			str=str {
 			 Color.module.js
 				URL.module.js
@@ -376,7 +370,7 @@ Xpj=C:/Hyper.Disc/.projects/.js/.xp/xpj.v.01.1 cd=. {
 	 }
 	}
  }
- xp=src\js\modules\net\xp {
+ m_xp=src\js\modules\net\xp {
   Empty.module.js
   Empty2.module.js
   Required.module.js
@@ -516,4 +510,8 @@ Xpj=C:/Hyper.Disc/.projects/.js/.xp/xpj.v.01.1 cd=. {
 	 }
 	}
  }
+
+
+ c:\Hyper.Disc\.soft\.tool\Vim\_vimrc
+ c:\Hyper.Disc\.soft\.tool\Vim\vimfiles\colors\default_win.vim
 }

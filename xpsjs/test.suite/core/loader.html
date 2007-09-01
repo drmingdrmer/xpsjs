@@ -14,13 +14,13 @@
 		
 	}
 	function setUpPage() {
-		var ins = new Loader({holders : "$xp,$tmp"});
+		var ins = new ModuleLoader({holders : "$xp,$tmp"});
 		loadjs();
 	}
 	
 	function loadjs(){
 		
-		var ins = Loader.instance;
+		var ins = ModuleLoader.instance;
 		
 		ins.loadJS("test/stringUtil.js");
 		ins.loadJS("test/stringUtil.js","$tmp");
@@ -34,9 +34,9 @@
 	}
 	
 	function testLoaderBasic() {
-		assertNotNull("Class Loader loaded in to window", Loader);
-		assertNotNull("load instance",Loader.instance);
-		var ins = Loader.instance;
+		assertNotNull("Class Loader loaded in to window", ModuleLoader);
+		assertNotNull("load instance",ModuleLoader.instance);
+		var ins = ModuleLoader.instance;
 		assertNotNull("loader.config object",ins.config);
 		var cfg = ins.config;			
 		assertNotNull("loader.config.path",cfg.path);
@@ -47,7 +47,7 @@
 	}
 	
 	function testLoaderMethod(){
-		var ins = Loader.instance;
+		var ins = ModuleLoader.instance;
 		assertEquals("loader.method = loadJS2","function",typeof(ins.loadJS));
 		assertEquals("loader.method = loadJS","function",typeof(ins.loadJS));
 		assertEquals("loader.method = loadModule","function",typeof(ins.loadModule));
@@ -55,7 +55,7 @@
 	}
 	
 	function testLoad(){
-		var ins = Loader.instance;
+		var ins = ModuleLoader.instance;
 		
 		assertNotNull("stringutil",$str);
 		assertNotNull("stringutil",$tmp.$str);
