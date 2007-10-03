@@ -1,4 +1,4 @@
-window.ModuleConfig = {
+window.ModuleConfig = window.ModuleConfig || {
 	alias : {
 //			"net.xp.prototype.String" 		: true,
 //			"net.xp.prototype.str.URL" 		: true,

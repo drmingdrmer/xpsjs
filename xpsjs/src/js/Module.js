@@ -2,14 +2,18 @@
  *
  * @classDescription
  * Module is an object with only functions in it.
- * An module can be mixed to another object to apply some certain functions to the object.
- * Module are designed to be mixed to Function(class), in which case it is actually mixed to its prototype.
- * In regular case, methods of Module should not be override by other Modules, except one case:
- * that a method of module with the last parameter named of '$overridable'.
- * This is a mark.
+ * 
+ * An module can be mixed to another object to apply some certain functions to
+ * the object.
+ *
+ * Module are designed to be mixed to Function(class), in which case it is
+ * actually mixed to its prototype.
+ *
+ * In regular case, methods of Module should not be override by other Modules,
+ * except one case: that a method of module with the last parameter named of
+ * '$overridable'. This is a mark.
  * 
  * @version 0.2
- * 
  *
  * 
  * @param {String} name Module name, separated by dot(".")
@@ -19,7 +23,7 @@
  * @TODO simplify Module access.
  */
 window.Module = function (name, modules, hash) {
-  if (modules.concat) modules = modules.join();
+  if (modules.concat) modules = modules.join(); // array
   modules = modules.replace(/\*/g,"_All").split(",");
   if (modules[0] == "") modules = [];
 
@@ -55,22 +59,24 @@ Module.releaseModMethod = function(mod, name){
   var func = mod[name];
   if (func == null || !func.isModMethod) return;
 
-  func.isOverridable  = null;
-  func.getName    = null;
-  func.getModule    = null;
-  func.getModName   = null;
-  func.isModMethod  = null;
+  func.isOverridable = null;
+  func.getName       = null;
+  func.getModule     = null;
+  func.getModName    = null;
+  func.isModMethod   = null;
 }
+
+Module.getHostWin = function () { return Module.loader.getHostWin(); };
+Module.getHostDoc = function () { return Module.loader.getHostDoc(); };
 
 Module.isAlias = function (mod){ return ModuleConfig.alias[mod._name] == true; };
 Module.isMix  =  function (mod){ return ModuleConfig.mix[mod._name] == true; };
 Module.initedMark = {initedMark : "initedMark"}; //Module instance initialized-mark string
 Module.loader = ModuleLoader ? ModuleLoader.instance : {loadModules : function (){}};
-Module.moduleRoot = $module;
-Module.moduleRoot.Module = Module;
+// Module.moduleRoot = $module;
+Module.moduleRoot = window;
+Module.getHostWin().Module = Module;
 
-Module.getHostWin = function () { return Module.loader.getHostWin(); };
-Module.getHostDoc = function () { return Module.loader.getHostDoc(); };
 
 Module.initQueue = {};
 Module.currentRequired = null;
@@ -189,9 +195,8 @@ Module.applyAll = function (win){
 /**
  * Module logging utils depends on other modules
  */
-Module.print = function (msg, level){
-  
-}
+Module.print = function (msg, level){ }
+
 Module.trace = function (msg){
   Module.print(msg,7);
 }
@@ -250,4 +255,4 @@ for (var i in o) Module.prototype[i] = o[i];
 
 
 
-Module.loader.loadJS("ModuleConfig.js");
+// Module.loader.loadJS("ModuleConfig.js");
