@@ -11,53 +11,52 @@
 
 <script language="JavaScript" type="text/javascript">
 
-	function setUp() {
-		
-	}
-	function setUpPage() {
-		var ins = new ModuleLoader();
-		loadjs();
-	}
-	
-	function loadjs(){
-		var ins = ModuleLoader.instance;
-		
-		ins.loadJS("Module.js");
-		ins.loadModule("net.xp.Empty");//require net.xp.Required
-		ins.loadModule("net.xp.Sample");
-		ins.loadJS("../../test.suite/finish.js");
+  function setUp() {
+    
+  }
+  function setUpPage() {
+    var ins = new ModuleLoader();
+    loadjs();
+  }
+  
+  function loadjs(){
+    var ins = ModuleLoader.instance;
+    
+    ins.loadModule("test.xp.Empty");//require test.xp.Required
+    ins.loadModule("test.xp.Sample");
+    ins.loadJS("../../test.suite/finish.js");
 
-		
-	}
-	
-	function tearDown() {
-	  
-	}
-	
-	function testModule_get(){
-		assertNotNull("get net.xp.Empty", Module.get("net.xp.Empty"));
-		assertNotNull("get net.xp.Required", Module.get("net.xp.Required"));
-		assertNull("get illegal name result null", Module.get("xx.xx.xx"));
-	}
+    
+  }
+  
+  function tearDown() {
+    
+  }
+  
+  function testModule_get(){
+    assertNotNull("get test.xp.Empty", Module.get("test.xp.Empty"));
+    assertNotNull("get test.xp.Required", Module.get("test.xp.Required"));
+    assertNull("get illegal name result null", Module.get("xx.xx.xx"));
+  }
 
-	function test_Module_require(){
-		assertNotNull("Required.test", Module.get("net.xp.Required").test);
-	}
-	
-	function testModule_prototype_method(){
-		window.$M = Module.get
+  function test_Module_require(){
+    assertNotNull("Required.test", Module.get("test.xp.Required").test);
+  }
+  
+  function testModule_prototype_method(){
+    window.$M = Module.get
 
 
-		var m = Module.get("net.xp.Empty");
-		assertNotNull("$initialize", m.$initialize);
-		assertNotNull("mixTo", m.mixTo);
-		assertNotNull("compatableTo", m.compatableTo);
-		assertNotNull("clz", m.clz);
-		assertNotNull("newInst", m.newInst);
+    var m = Module.get("test.xp.Empty");
+    assertNotNull("$initialize", m.$initialize);
+    assertNotNull("mixTo", m.mixTo);
+    assertNotNull("compatableTo", m.compatableTo);
+    assertNotNull("clz", m.clz);
+    assertNotNull("newInst", m.newInst);
 
-		//_$initialize
-		assertTrue("net.xp.Sample inited", Module.initedSample);
-	}
+    //_$initialize
+    assertTrue("test.xp.Sample inited", Module.initedSample);
+  }
 
 </script>
 </head>

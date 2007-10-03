@@ -30,6 +30,8 @@ Xpj=C:/Hyper.Disc/.projects/.js/.xp/xpj.v.01.1 cd=. {
    ModuleConfig.js
    de.js
    debug.js
+   test.Loader.html
+   test.html
    util.js
 		album=album {
 		 forPage=forPage {
@@ -371,11 +373,6 @@ Xpj=C:/Hyper.Disc/.projects/.js/.xp/xpj.v.01.1 cd=. {
 	}
  }
  m_xp=src\js\modules\net\xp {
-  Empty.module.js
-  Empty2.module.js
-  Required.module.js
-  Sample.module.js
-  SampleMore.module.js
   _All.module.js
 	 algorithm=algorithm {
 		Base64.module.js

@@ -16,22 +16,22 @@ new Module("net.xp.prototype.Array",
 		return $this.toArray(o);
 	},
 
-	toArray : function (o){
-		if (o == null) return null;
-		var ar = [];
-		if (o.length == null) {
-			for (var i in o)
-				if (typeof o[i] != "function") ar.push(o[i]);
-		}
-		else {
-			if (o.concat) return [].concat(o);
+  toArray : function (o){
+    if (o == null) return null;
+    var ar = [];
+    if (o.length == null) {
+      for (var i in o)
+        if (typeof o[i] != "function") ar.push(o[i]);
+    }
+    else {
+      if (o.concat) return [].concat(o);
 
-			for (var j = 0; j < o.length; j++) {
-				ar.push(o[j]);
-			}
-		}
-		return ar;
-	},
+      for (var j = 0; j < o.length; j++) {
+        ar.push(o[j]);
+      }
+    }
+    return ar;
+  },
 
 	getEnumArray : function (){
 		return this;//return this Array when mixed to Array
