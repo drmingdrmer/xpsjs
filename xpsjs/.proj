@@ -1,26 +1,22 @@
 Xpj=C:/Hyper.Disc/.projects/.js/.xp/xpj.v.01.1 cd=. {
  xpJS.iml
 	build=build {
-	 Rakefile.rb
-		changeName.rb
-		genWildchar.rb
+  Rakefile.rb
+  changeName.rb
+  genWildchar.rb
 	}
  src=src CD=. flags=r{
 	tmpTry=. {
-	 blank.html
-		inner.html
-		jj.js
-		new_file.htm
-		new_file2.htm
-		new_file3.htm
-		sample.html
-		test.html
-		test.invoking.iframe.html
-		test__.html
-		test_bla.html
-		test_ife.html
-		test_parser.html
-		tt.css
+   blank.html
+   inner.html
+   jj.js
+   sample.html
+   test.html
+   test.invoking.iframe.html
+   test_bla.html
+   test_ife.html
+   test_parser.html
+   tt.css
 	}
 	images=images {
 	}
@@ -35,191 +31,198 @@ Xpj=C:/Hyper.Disc/.projects/.js/.xp/xpj.v.01.1 cd=. {
    util.js
 		album=album {
 		 forPage=forPage {
-			AlbumBrowser.js
-			 AlbumManager.js
-			 ArticleManager.js
-			 ArticleRender.js
-			 PageFlip.js
-			 PicManager.js
-			 Progress.js
-			 browsePic.page.js
-			 editAlbums.page.js
-			 newCategory.page.js
-			 upload.page.js
+     AlbumBrowser.js
+     AlbumManager.js
+     ArticleManager.js
+     ArticleRender.js
+     PageFlip.js
+     PicManager.js
+     Progress.js
+     browsePic.page.js
+     editAlbums.page.js
+     newCategory.page.js
+     upload.page.js
 			 upload.html=upload.html {
-				FileItemManager.js
-				 UploadManager.js
+      FileItemManager.js
+      UploadManager.js
 			 }
 		 }
 		}
 	 class=class {
-		DynamicForm.js
-		 IframeResizer.js
-		 Properties.js
-		 RPC.js
-		 Shortcut.js
-		 Templator.js
-		 XHR.js
+    DynamicForm.js
+    IframeResizer.js
+    Properties.js
+    RPC.js
+    Shortcut.js
+    Templator.js
+    XHR.js
 	 }
 	 config=config {
 	 }
 	 modules=modules {
 		net=net {
 		 xp=xp {
-			Empty.module.js
-			 Empty2.module.js
-			 Required.module.js
-			 Sample.module.js
-			 SampleMore.module.js
-			 _All.module.js
+      _All.module.js
 			 algorithm=algorithm {
-				Base64.module.js
-				 _All.module.js
+       Base64.module.js
+       HashFunc.module.js
+       _All.module.js
 			 }
 			app=app {
-			 CommandEngine.module.js
-				Runnable.module.js
-				StatusEngine.module.js
-				_All.module.js
+       CommandEngine.module.js
+       Runnable.module.js
+       StatusEngine.module.js
+       _All.module.js
 			}
 			browser=browser {
-			 AnchorCommand.module.js
-				BackForward.module.js
-				BrowserDetect.module.js
-				_All.module.js
+       AnchorCommand.module.js
+       BackForward.module.js
+       BrowserDetect.module.js
+       _All.module.js
 				patch=patch {
-				 _All.module.js
+        _All.module.js
 				}
 			}
 			control=control {
-			 Condition.module.js
-				PeriodicalEngine.module.js
-				Procedure.module.js
-				RunnableTable.module.js
-				_All.module.js
+       Condition.module.js
+       PeriodicalEngine.module.js
+       Procedure.module.js
+       RunnableTable.module.js
+       _All.module.js
 				condition=condition {
-				 Event.module.js
-					Ping.module.js
-					Suite.module.js
-					_All.module.js
+        Event.module.js
+        Ping.module.js
+        Suite.module.js
+        _All.module.js
 				}
 			}
 			core=core {
-			 Enumerable.module.js
-				HashCode.module.js
-				ModuleUtil.module.js
-				_All.module.js
+       Core.module.js
+       Enumerable.module.js
+       HashCode.module.js
+       ModuleUtil.module.js
+       ModuleVars.module.js
+       _All.module.js
 			}
 			data=data {
-			 Map.module.js
-				_All.module.js
+       Map.module.js
+       _All.module.js
 			}
 			dom=dom {
-			 DocRelative.module.js
-				IframeComponent.module.js
-				IframeComponentHost.module.js
-				Template.module.js
-				WindowRelative.module.js
-				_All.module.js
+       DocRelative.module.js
+       IframeComponent.module.js
+       IframeComponentHost.module.js
+       Template.module.js
+       WindowRelative.module.js
+       _All.module.js
 				event=event {
-				 IframeOnload.module.js
-					_All.module.js
+        IframeOnload.module.js
+        _All.module.js
 				}
 			}
 			effect=effect {
-			 _All.module.js
+       _All.module.js
 			}
 			error=error {
-			 ErrorHandle.module.js
-				ErrorThrower.module.js
-				_All.module.js
+       ErrorHandle.module.js
+       ErrorThrower.module.js
+       _All.module.js
 			}
 			event=event {
-			 Event.module.js
-				EventDispatcher.module.js
-				KeyBind.module.js
-				_All.module.js
+       Event.module.js
+       EventDispatcher.module.js
+       KeyBind.module.js
+       _All.module.js
 			}
 			graphic=graphic {
-			 BMPWriter.module.js
-				ColorTable.module.js
-				GifWriter.module.js
-				_All.module.js
+       BMPWriter.module.js
+       ColorOperation.module.js
+       ColorTable.module.js
+       GifWriter.module.js
+       _All.module.js
 			}
 			log=log {
-			 LogInPage.module.js
-				Loggable.module.js
-				proj
+       LogInPage.module.js
+       Loggable.module.js
 			}
 			logic=logic {
-			 Filter.module.js
-				_All.module.js
+       Filter.module.js
+       _All.module.js
 			}
 			math=math {
-			 Math.module.js
-				_All.module.js
+       Math.module.js
+       _All.module.js
 			}
 			net=net {
-			 DyForm.module.js
-				Ijax.module.js
-				XHR.module.js
-				_All.module.js
+       DyForm.module.js
+       Ijax.module.js
+       XHR.module.js
+       _All.module.js
 			}
 			prototype=prototype {
-			 Array.module.js
-				Function.module.js
-				String.module.js
-				_.swp
+       Array.module.js
+       Function.module.js
+       String.module.js
 				str=str {
-				 Color.module.js
-					URL.module.js
+        Color.module.js
+        URL.module.js
 				}
 			}
 			str=str {
-			 Parser.module.js
-				Properties.module.js
-				_All.module.js
+       Parser.module.js
+       Properties.module.js
+       Template.module.js
+       _All.module.js
 			}
 			util=util {
-			 Debuggable.module.js
-				InstanceStatusManager.module.js
-				Times.module.js
-				_All.module.js
+       Array.module.js
+       Debuggable.module.js
+       Function.module.js
+       InstanceStatusManager.module.js
+       String.module.js
+       Times.module.js
+       URL.module.js
+       _All.module.js
 				dom=dom {
-				 $.module.js
-					CSS.module.js
-					Create.module.js
-					JS.module.js
-					Position.module.js
-					Select.module.js
-					_All.module.js
+        $.module.js
+        CSS.module.js
+        Create.module.js
+        JS.module.js
+        Position.module.js
+        Select.module.js
+        _All.module.js
 				}
 			 object=object {
-				Hash.module.js
-				 Object.module.js
-				 _All.module.js
+        Hash.module.js
+        Object.module.js
+        _All.module.js
 			 }
 			 xml=xml {
-				Xml2Obj.module.js
-				 _All.module.js
+        Xml2Obj.module.js
+        _All.module.js
 			 }
 			}
 		 }
 		}
 		test=test {
-		 T2.module.js
+     T2.module.js
 			aa=aa {
-			 Test.module.js
+      Test.module.js
 			}
 		 xp=xp {
+      Empty.module.js
+      Empty2.module.js
+      Required.module.js
+      Sample.module.js
+      SampleMore.module.js
 			core=core {
-			 ModuleUtil.module.js
+       ModuleUtil.module.js
 			}
 		 }
 		}
 	 }
 	 test=test {
-		stringUtil.js
+    stringUtil.js
 	 }
 	}
  }
@@ -228,146 +231,159 @@ Xpj=C:/Hyper.Disc/.projects/.js/.xp/xpj.v.01.1 cd=. {
 	 xp=xp {
     _All.module.js
 		 algorithm=algorithm {
-			Base64.module.js
-			 _All.module.js
+     Base64.module.js
+     HashFunc.module.js
+     _All.module.js
 		 }
 		app=app {
-		 CommandEngine.module.js
-			Runnable.module.js
-			StatusEngine.module.js
-			_All.module.js
+     CommandEngine.module.js
+     Runnable.module.js
+     StatusEngine.module.js
+     _All.module.js
 		}
 		browser=browser {
-		 AnchorCommand.module.js
-			BackForward.module.js
-			BrowserDetect.module.js
-			_All.module.js
+     AnchorCommand.module.js
+     BackForward.module.js
+     BrowserDetect.module.js
+     _All.module.js
 			patch=patch {
-			 _All.module.js
+      _All.module.js
 			}
 		}
 		control=control {
-		 Condition.module.js
-			PeriodicalEngine.module.js
-			Procedure.module.js
-			RunnableTable.module.js
-			_All.module.js
+     Condition.module.js
+     PeriodicalEngine.module.js
+     Procedure.module.js
+     RunnableTable.module.js
+     _All.module.js
 			condition=condition {
-			 Event.module.js
-				Ping.module.js
-				Suite.module.js
-				_All.module.js
+      Event.module.js
+      Ping.module.js
+      Suite.module.js
+      _All.module.js
 			}
 		}
 		core=core {
-		 Enumerable.module.js
-			HashCode.module.js
-			ModuleUtil.module.js
-			_All.module.js
+     Core.module.js
+     Enumerable.module.js
+     HashCode.module.js
+     ModuleUtil.module.js
+     ModuleVars.module.js
+     _All.module.js
 		}
 		data=data {
-		 Map.module.js
-			_All.module.js
+     Map.module.js
+     _All.module.js
 		}
 		dom=dom {
-		 DocRelative.module.js
-			IframeComponent.module.js
-			IframeComponentHost.module.js
-			Template.module.js
-			WindowRelative.module.js
-			_All.module.js
+     DocRelative.module.js
+     IframeComponent.module.js
+     IframeComponentHost.module.js
+     Template.module.js
+     WindowRelative.module.js
+     _All.module.js
 			event=event {
-			 IframeOnload.module.js
-				_All.module.js
+      IframeOnload.module.js
+      _All.module.js
 			}
 		}
 		effect=effect {
-		 _All.module.js
+     _All.module.js
 		}
 		error=error {
-		 ErrorHandle.module.js
-			ErrorThrower.module.js
-			_All.module.js
+     ErrorHandle.module.js
+     ErrorThrower.module.js
+     _All.module.js
 		}
 		event=event {
-		 Event.module.js
-			EventDispatcher.module.js
-			KeyBind.module.js
-			_All.module.js
+     Event.module.js
+     EventDispatcher.module.js
+     KeyBind.module.js
+     _All.module.js
 		}
 		graphic=graphic {
-		 BMPWriter.module.js
-			ColorTable.module.js
-			GifWriter.module.js
-			_All.module.js
+     BMPWriter.module.js
+     ColorOperation.module.js
+     ColorTable.module.js
+     GifWriter.module.js
+     _All.module.js
 		}
 		log=log {
-		 LogInPage.module.js
-			Loggable.module.js
-			proj
+     LogInPage.module.js
+     Loggable.module.js
 		}
 		logic=logic {
-		 Filter.module.js
-			_All.module.js
+     Filter.module.js
+     _All.module.js
 		}
 		math=math {
-		 Math.module.js
-			_All.module.js
+     Math.module.js
+     _All.module.js
 		}
 		net=net {
-		 DyForm.module.js
-			Ijax.module.js
-			XHR.module.js
-			_All.module.js
+     DyForm.module.js
+     Ijax.module.js
+     XHR.module.js
+     _All.module.js
 		}
 		prototype=prototype {
      Array.module.js
      Function.module.js
      String.module.js
 			str=str {
-			 Color.module.js
-				URL.module.js
+      Color.module.js
+      URL.module.js
 			}
 		}
 		str=str {
-		 Parser.module.js
-			Properties.module.js
-			_All.module.js
+     Parser.module.js
+     Properties.module.js
+     Template.module.js
+     _All.module.js
 		}
 		util=util {
-		 Debuggable.module.js
-			InstanceStatusManager.module.js
-			Times.module.js
-			_All.module.js
+     Array.module.js
+     Debuggable.module.js
+     Function.module.js
+     InstanceStatusManager.module.js
+     String.module.js
+     Times.module.js
+     URL.module.js
+     _All.module.js
 			dom=dom {
-			 $.module.js
-				CSS.module.js
-				Create.module.js
-				JS.module.js
-				Position.module.js
-				Select.module.js
-				_All.module.js
+      $.module.js
+      CSS.module.js
+      Create.module.js
+      JS.module.js
+      Position.module.js
+      Select.module.js
+      _All.module.js
 			}
 		 object=object {
-			Hash.module.js
-			 Object.module.js
-			 _All.module.js
+      Hash.module.js
+      Object.module.js
+      _All.module.js
 		 }
 		 xml=xml {
-			Xml2Obj.module.js
-			 _All.module.js
+      Xml2Obj.module.js
+      _All.module.js
 		 }
 		}
 	 }
 	}
 	test=test {
-	 T2.module.js
+   T2.module.js
 		aa=aa {
-		 Test.module.js
+    Test.module.js
 		}
 	 xp=xp {
+    Empty.module.js
+    Empty2.module.js
+    Required.module.js
+    Sample.module.js
+    SampleMore.module.js
 		core=core {
-		 ModuleUtil.module.js
+     ModuleUtil.module.js
 		}
 	 }
 	}
@@ -375,61 +391,64 @@ Xpj=C:/Hyper.Disc/.projects/.js/.xp/xpj.v.01.1 cd=. {
  m_xp=src\js\modules\net\xp {
   _All.module.js
 	 algorithm=algorithm {
-		Base64.module.js
-		 _All.module.js
+   Base64.module.js
+   HashFunc.module.js
+   _All.module.js
 	 }
 	app=app {
-	 CommandEngine.module.js
-		Runnable.module.js
-		StatusEngine.module.js
-		_All.module.js
+   CommandEngine.module.js
+   Runnable.module.js
+   StatusEngine.module.js
+   _All.module.js
 	}
 	browser=browser {
-	 AnchorCommand.module.js
-		BackForward.module.js
-		BrowserDetect.module.js
-		_All.module.js
+   AnchorCommand.module.js
+   BackForward.module.js
+   BrowserDetect.module.js
+   _All.module.js
 		patch=patch {
-		 _All.module.js
+    _All.module.js
 		}
 	}
 	control=control {
-	 Condition.module.js
-		PeriodicalEngine.module.js
-		Procedure.module.js
-		RunnableTable.module.js
-		_All.module.js
+   Condition.module.js
+   PeriodicalEngine.module.js
+   Procedure.module.js
+   RunnableTable.module.js
+   _All.module.js
 		condition=condition {
-		 Event.module.js
-			Ping.module.js
-			Suite.module.js
-			_All.module.js
+    Event.module.js
+    Ping.module.js
+    Suite.module.js
+    _All.module.js
 		}
 	}
 	core=core {
+   Core.module.js
    Enumerable.module.js
    HashCode.module.js
    ModuleUtil.module.js
+   ModuleVars.module.js
    _All.module.js
 	}
 	data=data {
-	 Map.module.js
-		_All.module.js
+   Map.module.js
+   _All.module.js
 	}
 	dom=dom {
-	 DocRelative.module.js
-		IframeComponent.module.js
-		IframeComponentHost.module.js
-		Template.module.js
-		WindowRelative.module.js
-		_All.module.js
+   DocRelative.module.js
+   IframeComponent.module.js
+   IframeComponentHost.module.js
+   Template.module.js
+   WindowRelative.module.js
+   _All.module.js
 		event=event {
-		 IframeOnload.module.js
-			_All.module.js
+    IframeOnload.module.js
+    _All.module.js
 		}
 	}
 	effect=effect {
-	 _All.module.js
+   _All.module.js
 	}
 	error=error {
    ErrorHandle.module.js
@@ -437,29 +456,29 @@ Xpj=C:/Hyper.Disc/.projects/.js/.xp/xpj.v.01.1 cd=. {
    _All.module.js
 	}
 	event=event {
-	 Event.module.js
-		EventDispatcher.module.js
-		KeyBind.module.js
-		_All.module.js
+   Event.module.js
+   EventDispatcher.module.js
+   KeyBind.module.js
+   _All.module.js
 	}
 	graphic=graphic {
-	 BMPWriter.module.js
-		ColorTable.module.js
-		GifWriter.module.js
-		_All.module.js
+   BMPWriter.module.js
+   ColorOperation.module.js
+   ColorTable.module.js
+   GifWriter.module.js
+   _All.module.js
 	}
 	log=log {
-	 LogInPage.module.js
-		Loggable.module.js
-		proj
+   LogInPage.module.js
+   Loggable.module.js
 	}
 	logic=logic {
-	 Filter.module.js
-		_All.module.js
+   Filter.module.js
+   _All.module.js
 	}
 	math=math {
-	 Math.module.js
-		_All.module.js
+   Math.module.js
+   _All.module.js
 	}
 	net=net {
    DyForm.module.js
@@ -471,39 +490,43 @@ Xpj=C:/Hyper.Disc/.projects/.js/.xp/xpj.v.01.1 cd=. {
    Array.module.js
    Function.module.js
    String.module.js
-   _.swp
 		str=str {
-		 Color.module.js
-			URL.module.js
+    Color.module.js
+    URL.module.js
 		}
 	}
 	str=str {
-	 Parser.module.js
-		Properties.module.js
-		_All.module.js
+   Parser.module.js
+   Properties.module.js
+   Template.module.js
+   _All.module.js
 	}
 	util=util {
-	 Debuggable.module.js
-		InstanceStatusManager.module.js
-		Times.module.js
-		_All.module.js
+   Array.module.js
+   Debuggable.module.js
+   Function.module.js
+   InstanceStatusManager.module.js
+   String.module.js
+   Times.module.js
+   URL.module.js
+   _All.module.js
 		dom=dom {
-		 $.module.js
-			CSS.module.js
-			Create.module.js
-			JS.module.js
-			Position.module.js
-			Select.module.js
-			_All.module.js
+    $.module.js
+    CSS.module.js
+    Create.module.js
+    JS.module.js
+    Position.module.js
+    Select.module.js
+    _All.module.js
 		}
 	 object=object {
-		Hash.module.js
-		 Object.module.js
-		 _All.module.js
+    Hash.module.js
+    Object.module.js
+    _All.module.js
 	 }
 	 xml=xml {
-		Xml2Obj.module.js
-		 _All.module.js
+    Xml2Obj.module.js
+    _All.module.js
 	 }
 	}
  }
