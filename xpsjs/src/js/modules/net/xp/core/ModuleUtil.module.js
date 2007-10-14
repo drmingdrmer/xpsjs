@@ -8,6 +8,12 @@ new Module("net.xp.core.ModuleUtil", [
 
   
 return {
+
+  getCurPackage : function (){
+    var mn = getCurPackage.caller.getModName();
+    return mn.replace(/\.[^.]*/, "");
+  }, 
+
   /**
    * @author : drdr.xp | yanbo@staff.sina.com.cn | drdr.xp@gmail.com
    * @description
