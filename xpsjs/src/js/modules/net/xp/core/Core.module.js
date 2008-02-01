@@ -19,10 +19,9 @@ new Module("net.xp.core.Core", [
   "net.xp.core.Enumerable",
   "net.xp.core.ModuleTest"
   ],
-  function ($this, $name) {
+  function ($this, $name, $package) {
     return {
       _$initialize : function () {
-        // window.$M = $this.$M;
       },
 
       /**
@@ -46,7 +45,7 @@ new Module("net.xp.core.Core", [
         
         // try to find in current package. 
         if (m == null) {
-          m = Module.get(getCurPackage()+"."+name);
+          m = Module.get($package + "." + name);
         }
 
         // try to find in external required list 

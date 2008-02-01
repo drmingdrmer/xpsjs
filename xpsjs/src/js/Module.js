@@ -1,5 +1,5 @@
 /**
- *
+ * 
  * @classDescription
  * Module is an object with only functions in it.
  * 
@@ -21,6 +21,8 @@
  * @param {Object} hash function hash.usually an object.
  *
  * @TODO simplify Module access.
+ * @TODO how to simplify reference to other module?
+ * @TODO change hash to 
  */
 window.Module = function (name, modules, hash) {
   if (modules.concat) modules = modules.join(); // array
@@ -30,13 +32,23 @@ window.Module = function (name, modules, hash) {
   hash = hash || {};
 
   this._name = name;
+  this._package = name.replace(/\.[^.]+$/, "");
   this._requiredModules = modules;
   this._externModule = Module.currentRequired || []; //external Module used by this.
   this._externModuleStr = " " + this._externModule.join(" ") + " ";
+  // Is this needed?
+  this._externModTable = {}; // Name to full name map;
+  for (var i= 0; i < this._externModule.length; ++i){
+    var e = this._externModule[i];
+    var nm = e.match(/\.(\w+)$/)[1];
+    this._externModTable[nm] = this._externModTable[nm] || e;
+  }
   Module.currentRequired = null;
 
+
   //provider provides function hashes.
-  if (typeof(hash) == 'function') hash = hash(this, this._name);
+  if (typeof(hash) == 'function')
+    hash = hash(this, this._name, this._package);
 
   for (var i in hash) {
     this[i] = Module.makeModMethod(this, hash[i], i);
@@ -47,30 +59,44 @@ window.Module = function (name, modules, hash) {
   Module.tryToInit();
 };
 
+Module.unimpl = function (){};
+
 Module.makeModMethod = function(mod, func, name){
-  func.isOverridable  = Module.createGetFunc(Module.isOverridable(func));
+  if (func == Module.unimpl) {
+    func = function (){
+      return "unimplement method : " + mod._name + "[" + name + "]";
+    }
+    func.isOverridable  = Module.createGetFunc(true);
+  } else {
+    func.isOverridable  = Module.createGetFunc(Module.isOverridable(func));
+  }
   func.getName        = Module.createGetFunc(name);
   func.getModule      = Module.createGetFunc(mod);
   func.getModName     = Module.createGetFunc(mod._name);
+  func.modName        = mod._name;
   func.isModMethod    = true;
   return func;
 }
+/**
+ * TODO test me
+ */
 Module.releaseModMethod = function(mod, name){
   var func = mod[name];
   if (func == null || !func.isModMethod) return;
 
-  func.isOverridable = null;
-  func.getName       = null;
-  func.getModule     = null;
-  func.getModName    = null;
-  func.isModMethod   = null;
+  delete func.isOverridable ;
+  delete func.getName       ;
+  delete func.getModule     ;
+  delete func.getModName    ;
+  delete func.modName       ;
+  delete func.isModMethod   ;
 }
 
-Module.getHostWin = function () { return Module.loader.getHostWin(); };
+Module.getHostWin = function () { return Module.loader.hostWin; };
 Module.getHostDoc = function () { return Module.loader.getHostDoc(); };
 
 Module.isAlias = function (mod){ return ModuleConfig.alias[mod._name] == true; };
-Module.isMix  =  function (mod){ return ModuleConfig.mix[mod._name] == true; };
+Module.isMix   = function (mod){ return ModuleConfig.mix[mod._name] == true; };
 Module.initedMark = {initedMark : "initedMark"}; //Module instance initialized-mark string
 Module.loader = ModuleLoader ? ModuleLoader.instance : {loadModules : function (){}};
 // Module.moduleRoot = $module;
@@ -101,10 +127,9 @@ Module.isOverridable = function (func) {
 };
 
 Module.createGetFunc = function (value) {
-  return function () {
-    return value
-  };
+  return function () { return value };
 };
+
 Module.get = function (name) {
   try {
     return eval("Module.moduleRoot." + name);
@@ -154,12 +179,15 @@ Module.initModule = function (name) {
     Module.get(md[i]).mixTo(module);
     md.splice(i--,1);
   }
+
   try{
     module.$initialize();
 
     Module.alias(module);   //alias to host win
     Module.mix(module);     //mix to host win
-  }catch (e){ alert(module._name + " : initialize error : "+e); }
+  } catch (e) {
+    alert(module._name + " : initialize error : "+e); 
+  }
 
   Module.initQueue[name] = Module.initedMark;
 };
@@ -216,43 +244,65 @@ Module.fatal = function (msg){
   Module.print(msg,7);
 }
 
-var o = {
-  $initialize : function () {},
 
-  $Constructor : function () {},
+function (proto){
+  var o = {
+    /**
+     * @author : drdr.xp | yanbo@staff.sina.com.cn | drdr.xp@gmail.com
+     * @description
+     *     Initialize current Module when all required-to-mix Module loaded &
+     *     initialized.
+     * @return {Null} 
+     */
+    $initialize : function () {},
 
-  $Alias : function (){},
+    $Constructor : function () {},
 
-  $Mix : function (){},
-  
-  mixTo : function (t) {
-    //alert("mix from "+ this._name+" to "+t._name);
-    var isFunc = typeof t == "function";
-    if (!isFunc && (t.constructor != Module)){
-      alert("illegal mix target : " + t);
-      throw new Error("Module can only be mixed to Function or Module");
-    }
+    $Alias : function (){},
 
-    if (isFunc) t = t.prototype;
+    $Mix : function (){},
 
-    this.copyTo(t);
-  },
-
-  copyTo : function (t){
-    for (var i in this) {
-      if (typeof(this[i]) != "function" || Module.prototype[i] != null) continue;
-      if (t[i] == null)
-        t[i] = this[i];
-      else if (t[i] != this[i] && !this[i].isOverridable()){
-        throw new Error("memeber already exists : " + i + " in : " + (t._name || t.constructor) + " from : " + this._name);
+    mixTo : function (t) {
+      //alert("mix from "+ this._name+" to "+t._name);
+      var isFunc = typeof t == "function";
+      if (!isFunc && (t.constructor != Module)){
+        alert("illegal mix target : " + t);
+        throw new Error("Module can only be mixed to Function or Module");
       }
+
+      if (isFunc) t = t.prototype;
+
+      this.copyTo(t);
+    },
+
+    copyTo : function (t){
+      for (var i in this) {
+        if (typeof(this[i]) != "function" || Module.prototype[i] != null) continue;
+        if (t[i] == null)
+          t[i] = this[i];
+        else if (t[i] != this[i] && !this[i].isOverridable()){
+          throw new Error("memeber already exists : " + i + " in : " + (t._name || t.constructor) + " from : " + this._name);
+        }
+      }
+      return t;
+    }, 
+
+    /**
+     * @author : drdr.xp | yanbo@staff.sina.com.cn | drdr.xp@gmail.com
+     * @description
+     *     Get Global variable of Module.
+     * @return {Object} Global Module variable
+     * TODO Not to add properties to Module.
+     */
+    __ : function (name) {
+      name = name || o.__/* self */.caller.getModName();
+      Module[name] = Module[name] || {};
+      return Module[name];
     }
-    return t;
-  }
-};
+  };
 
-for (var i in o) Module.prototype[i] = o[i];
+  for (var i in o) proto[i] = o[i];
 
-
+}(Module.prototype);
 
 // Module.loader.loadJS("ModuleConfig.js");

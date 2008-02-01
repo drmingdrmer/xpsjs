@@ -3,67 +3,84 @@
 <html>
 
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>JsUnit Assertion Tests</title>
-<link rel="stylesheet" type="text/css" href="../../jsunit/css/jsUnitStyle.css">
-<script language="JavaScript" type="text/javascript" src="../../jsunit/app/jsUnitCore.js"></script>
-<script language="JavaScript" type="text/javascript" src="../../src/js/Loader.js"></script>
-<script language="JavaScript" type="text/javascript">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Module Loader test</title>
+  <script type="text/javascript" src="../js/writeSource.js"></script>
 
-  function setUp() {
+  <script type="application/javascript;version=1.7" src="../../src/js/Loader.js"></script>');
+
+  <!--
+    new-parameter check.
+    load js
+    singleton loader instance
+    onload condition & time
+
+  -->
+  <script type="application/javascript;version=1.7;e4x=1">
+
+    function setUp() {
+      
+    }
+    function setUpPage() {
+      debug("start setup page");
+      var ins = new ModuleLoader({
+        onLoadFinish : function() {
+          setUpPageStatus = "complete";
+        }
+      });
+      loadjs();
+    }
     
-  }
-  function setUpPage() {
-    debug("start setup page");
-    var ins = new ModuleLoader();
-    loadjs();
-  }
-  
-  function loadjs(){
+    function loadjs(){
+      
+      var ins = ModuleLoader.instance;
+      
+      ins.loadJS("test/stringUtil.js");
+      // ins.loadJS("test/stringUtil.js","$tmp");
+      // ins.loadJS("json.js","$tmp");
+      // ins.loadJS("test/stringUtil.js","$xp");
+      ins.loadJS("../../test.suite/finish.js");
+    }
     
-    var ins = ModuleLoader.instance;
+    function tearDown() {
+       
+    }
     
-    ins.loadJS("test/stringUtil.js");
-    // ins.loadJS("test/stringUtil.js","$tmp");
-    // ins.loadJS("json.js","$tmp");
-    // ins.loadJS("test/stringUtil.js","$xp");
-    ins.loadJS("../../test.suite/finish.js");
-  }
-  
-  function tearDown() {
-     
-  }
-  
-  function testLoaderBasic() {
-    assertNotNull("Class Loader loaded in to window", ModuleLoader);
-    assertNotNull("load instance",ModuleLoader.instance);
-    var ins = ModuleLoader.instance;
-    assertNotNull("loader.config object",ins.config);
-    var cfg = ins.config;     
-    assertNotNull("loader.config.path",cfg.path);
-    var path = ins.path;
-    assertNotNull("loader.config.path.base",path.base);
-    assertEquals("loader.path.js","js",path.js);
-    assertEquals("loader.path.modules","js/modules",path.modules);   
-  }
-  
-  function testLoaderMethod(){
-    var ins = ModuleLoader.instance;
-    assertEquals("loader.method = loadJS2","function",typeof(ins.loadJS));
-    assertEquals("loader.method = loadJS","function",typeof(ins.loadJS));
-    assertEquals("loader.method = loadModule","function",typeof(ins.loadModule));
-    assertEquals("loader.method = loadModules","function",typeof(ins.loadModules));
-  }
-  
-  function testLoad(){
-    var ins = ModuleLoader.instance;
+    function testLoaderBasic() {
+      assertNotNull("Module Loader loaded in to window", 
+          window.ModuleLoader);
+
+      assertEquals("loader instance",
+          window.ModuleLoader.instance);
+
+      var ins = ModuleLoader.instance;
+      var ins2 = new ModuleLoader();
+      assertNotNull("loader.config object",ins.config);
+      var cfg = ins.config;     
+      assertNotNull("loader.config.path",cfg.path);
+      var path = ins.path;
+      assertNotNull("loader.config.path.base",path.base);
+      assertEquals("loader.path.js","js",path.js);
+      assertEquals("loader.path.modules","js/modules",path.modules);   
+    }
     
-    assertNotNull("stringutil",$str);
-    // assertNotNull("stringutil",$tmp.$str);
-    // assertNotNull("stringutil",$tmp.$str.trim);
-    // assertNotEquals("$tmp.$str & $str", $str, $tmp.str);
-    // assertNotNull("stringutil",$xp.$str);
-  }
+    function testLoaderMethod(){
+      var ins = ModuleLoader.instance;
+      assertEquals("loader.method = loadJS2","function",typeof(ins.loadJS));
+      assertEquals("loader.method = loadJS","function",typeof(ins.loadJS));
+      assertEquals("loader.method = loadModule","function",typeof(ins.loadModule));
+      assertEquals("loader.method = loadModules","function",typeof(ins.loadModules));
+    }
+    
+    function testLoad(){
+      var ins = ModuleLoader.instance;
+      
+      assertNotNull("stringutil",$str);
+      // assertNotNull("stringutil",$tmp.$str);
+      // assertNotNull("stringutil",$tmp.$str.trim);
+      // assertNotEquals("$tmp.$str & $str", $str, $tmp.str);
+      // assertNotNull("stringutil",$xp.$str);
+    }
 
 
 </script>

@@ -1,4 +1,7 @@
 window.ModuleConfig = window.ModuleConfig || {
+  mixModule : {
+    "net.xp.prototype.String" : ["net.xp.prototype.Array", ""]
+  }
 	alias : {
 //			"net.xp.prototype.String" 		: true,
 //			"net.xp.prototype.str.URL" 		: true,
