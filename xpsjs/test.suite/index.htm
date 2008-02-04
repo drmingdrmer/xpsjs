@@ -1,60 +1,62 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-		<title>test suite index</title>
-		<script>
-			function init(){
-				var testRunner = "../jsunit/testRunner.html";
-        var base = "C:\\Hyper.Disc\\.projects\\.js\\.xp\\xpj.v.01.1";
-        // var base = "/";
-				
-				var as = document.getElementsByTagName("a");
-				for (var i=0;i<as.length;i++){
-					var a = as[i];					
-					a.href=testRunner+"?testPage="+base+"\\"+a.innerHTML+"&autoRun=true&showTestFrame=150";
-				}
-			}
-		</script>
-	</head>
-	<body onload="init();">
-		<ul>
-			<li><a href="">test.suite\suite.html</a></li>
-			
-			<li><a href="">test.suite\core\loader.html</a></li>
-			
-			<li><a href="">test.suite\core\module.basic.html</a></li>
-			
-			<li><a href="">test.suite\core\module.load.html</a></li>
-			
-			<li><a href="">test.suite\core\module.dependence.html</a></li>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>test suite index</title>
+    <script>
+      function init(){
+	var testRunner = "../jsunit/testRunner.html";
+	var base = "C:\\Hyper.Disc\\.projects\\.js\\.xp\\xpj.v.01.1";
+	// var base = "/";
 
-			<li>----</li>
+	var as = document.getElementsByTagName("a");
+	for (var i=0;i<as.length;i++){
+	  var a = as[i];					
+	  a.href=testRunner+"?testPage="+base+"\\"+a.innerHTML+"&autoRun=true&showTestFrame=150";
+	}
+      }
+    </script>
+  </head>
+  <body onload="init();">
+    <ul>
+      <li><a href="">test.suite\suite.html</a></li>
 
-			<li><a href="">test.suite\modules\m.net.xp.core.ModuleUtil.html</a></li>
-			
-			<li><a href="">test.suite\modules\m.net.xp.core.HashCode.html</a></li>
-			
-			<li><a href="">test.suite\modules\m.net.xp.core.Enumerable.html</a></li>
+      <li><a href="">test.suite\core\loader.html</a></li>
 
-			<li>----</li>
+      <li><a href="">test.suite\core\loader.other.path.html</a></li>
 
-			<li><a href="">test.suite\modules\m.net.xp.prototype.Array.html</a></li>
-			
-			<li><a href="">test.suite\modules\m.net.xp.prototype.String.html</a></li>
+      <li><a href="">test.suite\core\module.basic.html</a></li>
 
-			<li><a href="">test.suite\modules\m.net.xp.prototype.Function.html</a></li>
+      <li><a href="">test.suite\core\module.load.html</a></li>
+
+      <li><a href="">test.suite\core\module.dependence.html</a></li>
+
+      <li>----</li>
+
+      <li><a href="">test.suite\modules\m.net.xp.core.ModuleUtil.html</a></li>
+
+      <li><a href="">test.suite\modules\m.net.xp.core.HashCode.html</a></li>
+
+      <li><a href="">test.suite\modules\m.net.xp.core.Enumerable.html</a></li>
+
+      <li>----</li>
+
+      <li><a href="">test.suite\modules\m.net.xp.prototype.Array.html</a></li>
+
+      <li><a href="">test.suite\modules\m.net.xp.prototype.String.html</a></li>
+
+      <li><a href="">test.suite\modules\m.net.xp.prototype.Function.html</a></li>
 
 
-			<li>----</li>
+      <li>----</li>
 
-			<li><a href="">test.suite\modules\m.net.xp.core.Enumerable.html</a></li>
+      <li><a href="">test.suite\modules\m.net.xp.core.Enumerable.html</a></li>
 
-			<li><a href="">test.suite\modules\m.net.xp.dom.IframeComponent.html</a></li>
+      <li><a href="">test.suite\modules\m.net.xp.dom.IframeComponent.html</a></li>
 
-			<li><a href="">test.suite\modules\m.net.xp.dom.Template.html</a></li>
+      <li><a href="">test.suite\modules\m.net.xp.dom.Template.html</a></li>
 
-			<li><a href="">test.suite\modules\m.net.xp.prototype.Function.html</a></li>
-		</ul>
-	</body>
+      <li><a href="">test.suite\modules\m.net.xp.prototype.Function.html</a></li>
+    </ul>
+  </body>
 </html>

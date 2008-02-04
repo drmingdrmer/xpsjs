@@ -22,7 +22,7 @@
  * config : {
  *    path : {
  *        js : String, 
- *        modules : String, 
+ *        module : String, 
  *    }, 
  *    onLoadFinish : Function, 
  *
@@ -38,12 +38,22 @@ window.ModuleLoader = function(config) {
   this.loaded = {};    /* loaded win_name + js pattern */
   this.loadedCount = 0;
 
+  if ("object" != typeof(config) &&
+      "function" != typeof(config)) 
+    config = undefined;
+
+  config = config == null ? {} : config;
+
+  if (config.constructor == Function) 
+    config = {onLoadFinish : config};
+
+
   let cfg = (this.config = (config || {}));
 
   let path = (this.path = cfg.path || {});
   /* path.base = null; */
   path.js = path.js || "js";
-  path.modules = path.modules || (path.js + "/modules");
+  path.module = path.module || (path.js + "/modules");
 
   this.initBaseUrl();
   this.createHolder("$module");
@@ -69,24 +79,30 @@ ModuleLoader.prototype = {
   bind       : function (func, thiz, args){ return function(){func.apply(thiz, args)}; },
 
   createHolder : function (name) {
-    if (window.$module) return;
+    if (!window.$module) {
 
-    let doc = this.getHostDoc();
-    if (this.$(name) != null) return;
+      let doc = this.getHostDoc();
+      if (this.$(name) != null) return;
 
-    var e = doc.createElement("div");
-    e.innerHTML = "<iframe \
-        id='" + name + "' \
-        name='" + name + "' \
-        style='display : block;'><\/iframe>";
-    var ifm = e.firstChild;
-    doc.body.appendChild(ifm);
+      var e = doc.createElement("div");
+      e.innerHTML = "<iframe \
+	id='" + name + "' \
+	name='" + name + "' \
+	style='display : block;'><\/iframe>";
+      var ifm = e.firstChild;
+      doc.body.appendChild(ifm);
+
+    } else {
+      ifm = this.$("$module");
+    }
+
     this.$module = ifm.contentWindow;
 
     let (idoc = this.$module.document) {
       idoc.open();
       idoc.close();
     }
+
     this.$module.ModuleLoader = window.ModuleLoader;
   },
 
@@ -137,6 +153,7 @@ ModuleLoader.prototype = {
     return scriptElement;
   },
 
+  /* TODO test me : default or undefault win name */
   loadJS : function (url, winName) {
     if (url.indexOf("://") == -1) url = this.path.js + "/" +  url;
     url = this.simplifyURL(url);
@@ -147,6 +164,7 @@ ModuleLoader.prototype = {
 
     var win = this.getWinByName(winName);
 
+    /* console.log(url, winName, win); */
     //script element
     var se = this.createScript(win.document, {url:url});
     se.onload = this.bind(this._onFinishLoadOne, this, [se, url]);
@@ -157,9 +175,10 @@ ModuleLoader.prototype = {
     return true;
   },
 
+  /* TODO test incorrect module path  */
   loadModule : function (mName) {
     mName = mName.replace(/\./gi, "/").replace(/\*$/,"_All") + ".module.js";
-    return this.loadJS(this.simplifyURL(this.path.modules + "/" + mName), "$module");
+    return this.loadJS(this.simplifyURL(this.path.module + "/" + mName), "$module");
   },
 
   loadModules : function (ms) {

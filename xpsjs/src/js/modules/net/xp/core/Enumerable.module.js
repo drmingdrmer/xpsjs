@@ -48,13 +48,13 @@ new Module("net.xp.core.Enumerable", [
 
           var params = funcStr.match(/function[^(]*\(([^(]*)/).replace(/\s/g, "").split(",");
           
-          var newFunc = "var ar = this.getEnumArray(), l = ar.length; var r = [];
-          for (var __i = 0; __i < l; __i++) {
-            var e = ar[__i];
-            if (m != null || always) r.push(m);
-          }
-        }
-        return r;"
+          var newFunc = "var ar = this.getEnumArray(), l = ar.length; var r = [];\
+	    for (var __i = 0; __i < l; __i++) {\
+	      var e = ar[__i];\
+	      if (m != null || always) r.push(m);\
+	    }\
+	  }\
+	  return r;"
           
 
 

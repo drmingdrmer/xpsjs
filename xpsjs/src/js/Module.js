@@ -59,7 +59,7 @@ window.Module = function (name, modules, hash) {
   Module.tryToInit();
 };
 
-Module.unimpl = function (){};
+Module.unimpl = function unimpl(){};
 
 Module.makeModMethod = function(mod, func, name){
   if (func == Module.unimpl) {
@@ -223,29 +223,29 @@ Module.applyAll = function (win){
 /**
  * Module logging utils depends on other modules
  */
-Module.print = function (msg, level){ }
+Module.print = function (msg, level){ };
 
 Module.trace = function (msg){
   Module.print(msg,7);
-}
+};
 Module.log = function (msg){
   Module.print(msg,7);
-}
+};
 Module.debug = function (msg){
   Module.print(msg,7);
 }
 Module.warn = function (msg){
   Module.print(msg,7);
-}
+};
 Module.error = function (msg){
   Module.print(msg,7);
-}
+};
 Module.fatal = function (msg){
   Module.print(msg,7);
-}
+};
 
 
-function (proto){
+(function (proto){
   var o = {
     /**
      * @author : drdr.xp | yanbo@staff.sina.com.cn | drdr.xp@gmail.com
@@ -303,6 +303,5 @@ function (proto){
 
   for (var i in o) proto[i] = o[i];
 
-}(Module.prototype);
+})(Module.prototype);
 
-// Module.loader.loadJS("ModuleConfig.js");
