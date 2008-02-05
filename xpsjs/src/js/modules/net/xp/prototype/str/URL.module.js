@@ -82,10 +82,10 @@ return {
 	},
 	
 	getDefaultBase : function (base){
-		this.__().base = base;
+		this.$g().base = base;
 	},
 	
 	setDefaultBase : function (base){
-		this.__().base = base;
+		this.$g().base = base;
 	}
 }});

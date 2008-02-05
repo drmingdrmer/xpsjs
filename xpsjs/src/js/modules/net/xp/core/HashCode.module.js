@@ -24,13 +24,13 @@ var x = new Module("net.xp.core.HashCode",
       }
 
        function generateHashCode(){
-        var g = $this.__();
+        var g = $this.$g();
         return g.hash++;
       }
 
     return {
       $initialize : function (){
-        var g = this.__();
+        var g = this.$g();
         g.hash = 1;
       },
 

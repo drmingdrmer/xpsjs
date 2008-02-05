@@ -29,7 +29,7 @@ return {
 	},
 
 	_defineKeys : function (){
-		var g = this.__();
+		var g = this.$g();
 		var k = g.keys = {
 			a : 65,
 			b : 66,
@@ -78,7 +78,7 @@ return {
 
 	initKeyBind : function (win, delay){
 		var m = this._();
-		if (m.initedMark) return false;
+		if (m._initedMark) return false;
 
 		this.setWorkingWin(win || $this.getHostWin());
 		this.setDelay(delay);
@@ -99,7 +99,7 @@ return {
 			keyOverLaps					: new Error("key definition overlaps elder one")
 		};
 
-		m.initedMark = true;
+		m._initedMark = true;
 		return true;
 	},
 
@@ -107,7 +107,7 @@ return {
 	* ctrl|shift|A
 	*/
 	bindKey : function (keySequence, name){
-		if (!this._().initedMark) throw this.getKeyBindError("notInit");
+		if (!this._()._initedMark) throw this.getKeyBindError("notInit");
 		if (typeof keySequence == "string" ) keySequence = [keySequence];
 		if (keySequence.length > 5) throw this.getKeyBindError("keySequenceIsTooLong");
 

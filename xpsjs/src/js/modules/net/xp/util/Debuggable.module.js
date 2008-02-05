@@ -39,11 +39,11 @@ new Module("net.xp.util.Debuggable",
     return {
       $initialize : function (){
 	this.setDefaultDebugMode(true);
-	this.__().indent = "";
+	this.$g().indent = "";
       },
 
       isDebug : function () {
-	return this._().debuggable || this.__().debuggable;
+	return this._().debuggable || this.$g().debuggable;
       },
 
       setDebug : function (t) {
@@ -55,7 +55,7 @@ new Module("net.xp.util.Debuggable",
       },
 
       setDefaultDebugMode : function (t){
-	var g = this.__();
+	var g = this.$g();
 	g.debuggable = t == true;
       },
 
@@ -80,7 +80,7 @@ new Module("net.xp.util.Debuggable",
 	type = type || "#000";
 	var c = $prv.getLogArea.apply(this);
 	var e = this.$ce("div",null,{
-	    innerHTML : this.__().indent + this.convertHtml(s)
+	    innerHTML : this.$g().indent + this.convertHtml(s)
 	  });
 	e.style.cssText = "white-space:pre; border-bottom:1px solid #ddd; background-color:"+type+";";
 	c.appendChild(e);
@@ -89,11 +89,11 @@ new Module("net.xp.util.Debuggable",
 
 
       indentAdd : function (){
-	this.__().indent +="	";
+	this.$g().indent +="	";
       },
 
       indentDec : function (){
-	var g = this.__();
+	var g = this.$g();
 	g.indent = g.indent.substr(1);
       },
 

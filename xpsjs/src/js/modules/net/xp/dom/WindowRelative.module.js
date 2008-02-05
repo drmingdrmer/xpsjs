@@ -8,7 +8,7 @@ return {
   },
   
   setDefaultWorkingWin : function (win){
-    var g = this.__();
+    var g = this.$g();
     g.win = win;
   },
   
@@ -18,7 +18,7 @@ return {
   },
   
   getWorkingWin : function (){
-    return this._().win || this.__().win;
+    return this._().win || this.$g().win;
   },
   
   $Win : function (win){

@@ -6,7 +6,7 @@ new Module("net.xp.util.String",
 	"net.xp.core.*"
 ], function ($this, $name) { return {
 	$initialize : function () {
-		var g = this.__();
+		var g = this.$g();
 		g.substr = function (start, len) {
 			if (this[start] == "\01") start--;
 			var end = start + len ;

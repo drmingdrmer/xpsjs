@@ -3,7 +3,7 @@ new Module("net.xp.browser.BrowserDetect",
     "net.xp.core.*"
 ],function ($this, $name){return {
 	$initialize : function (){
-		var g = this.__();
+		var g = this.$g();
 
 		var ua = navigator.userAgent;
 		g.IE = (navigator.appName == "Microsoft Internet Explorer");
@@ -31,6 +31,6 @@ new Module("net.xp.browser.BrowserDetect",
 	},
 
 	is : function (browser){
-		return this.__()[browser];
+		return this.$g()[browser];
 	}
 }});

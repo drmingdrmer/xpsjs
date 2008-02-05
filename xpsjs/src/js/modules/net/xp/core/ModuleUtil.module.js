@@ -110,7 +110,7 @@ new Module("net.xp.core.ModuleUtil", [
 
         //take some fucking guess
         var reg = new RegExp("[^\\s]*" + name, "g");
-        var n = Module.initedMdouleStr.match(reg);
+        var n = Module._initedMdouleStr.match(reg);
 
         if (n == null) throw new Error("cant find module with name : "+name);
         if (n.length > 1) throw new Error("more than one modules with the name : " + name);
