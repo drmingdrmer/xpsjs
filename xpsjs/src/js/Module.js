@@ -42,7 +42,7 @@ function Module(name, mixingMods, methods) {
     return false;
   }
 
-  if (Array == mixingMods.constructor){
+  if (mixingMods.join){
     mixingMods = mixingMods.join();
   } else if ("string" != typeof(mixingMods)) {
     throw new Error("invalid mixingMods type : " + mixingMods);
