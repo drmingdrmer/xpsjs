@@ -76,7 +76,7 @@ new Module("net.xp.core.ModuleUtil", [
        * TODO cache the same class with same parameter.
        */
       clz : function (obj) {
-        obj = obj || this.$Constructor;
+        obj = obj || this.$constructor;
         var constr;
         if (typeof(obj) == "object") {
           constr = function () {

@@ -2,51 +2,14 @@
 
 <html>
 
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>JsUnit Assertion Tests</title>
-<link rel="stylesheet" type="text/css" href="../../jsunit/css/jsUnitStyle.css">
-<script language="JavaScript" type="text/javascript" src="../../jsunit/app/jsUnitCore.js"></script>
-<script language="JavaScript" type="text/javascript" src="../../src/js/Loader.js"></script>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Module Class & static function test</title>
+    <script type="text/javascript" src="../js/writeSource.js"></script>
+    <script type="application/javascript;version=1.7" src="../../src/js/Loader.js"></script>');
 
-<script language="JavaScript" type="text/javascript">
+    <script type="application/javascript;version=1.7;e4x=1" src='module.dependence.js'></script>
+  </head>
 
-	function setUp() {
-		
-	}
-	function setUpPage() {
-		var ins = new ModuleLoader();
-		loadjs();
-	}
-	
-	function loadjs(){
-		var ins = ModuleLoader.instance;
-		
-		ins.loadModules([
-			"test.xp.Empty",
-			"test.xp.SampleMore"
-		]);
-		ins.loadJS("../../test.suite/finish.js");
-	}
-	
-	function tearDown() {
-	  
-	}
-	
-	function test_unharmfull_to_object(){
-		//TODO 
-	}
-	
-	
-	
-
-
-</script>
-</head>
-
-<body>
-<div id="sampleDiv"><div id="anotherDiv"></div></div>
-<div id="anotherDiv"></div>
-
-</body>
+  <body></body>
 </html>

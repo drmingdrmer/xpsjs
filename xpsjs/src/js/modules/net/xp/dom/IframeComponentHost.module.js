@@ -29,7 +29,7 @@ return {
 	$initialize : function (){
 	},
 
-	$Constructor : function (win){
+	$constructor : function (win){
 		this.setWorkingWin(win);
 		this.registerDefaultCommand();
 	},

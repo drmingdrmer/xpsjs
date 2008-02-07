@@ -65,17 +65,17 @@
 			},
 			
 			test$g : function (){
-				var g = this.__();
+				var g = this.$g();
 				globalVariable = g;
 			},
 			
 			get$g_t : function (){
-				var g = this.__();
+				var g = this.$g();
 				return g.t;
 			},
 			
 			set$g_t : function (i){
-				var g = this.__();
+				var g = this.$g();
 				g.t = i;
 			}
 			
@@ -177,10 +177,10 @@
 		var tmp = 0;
 		var clzs = function (){
 			this.p = 5;
-			tmp = "initedMark";
+			tmp = "_initedMark";
 		}
 		var z = sm.newInst(clzs);
-		assertEquals("clz inited", "initedMark", tmp);
+		assertEquals("clz inited", "_initedMark", tmp);
 		assertEquals("z.p", 5, z.p);
 		assertTrue("z.sampleMethod is not null", z.sampleMethod != null);
 		assertEquals("z.sampleMethod", z.sampleMethod, sm.sampleMethod);

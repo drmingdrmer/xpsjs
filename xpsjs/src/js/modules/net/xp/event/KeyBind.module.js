@@ -24,7 +24,7 @@ return {
 		$this._defineKeys();
 	},
 
-	$Constructor : function (win){
+	$constructor : function (win){
 		this.initKeyBind(win);
 	},
 

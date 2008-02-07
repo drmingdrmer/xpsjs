@@ -5,7 +5,7 @@ new Module("net.xp.graphic.GifWriter",
 	$initialize : function (){
 	},
 
-	$Constructor : function (){
+	$constructor : function (){
 	},
 
 	setSize : function (o){

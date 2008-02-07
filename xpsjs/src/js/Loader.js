@@ -60,6 +60,7 @@ window.ModuleLoader = function(config) {
 
   this.onload = cfg.onLoadFinish;
 
+  /* console.log(path.js); */
   /* to load */
   this.loadJS("ModuleConfig.js", "$module");
   this.loadJS("Module.js", "$module");
