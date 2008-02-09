@@ -27,7 +27,7 @@
  */
 function Module(name, mixingMods, methods) {
   if (arguments.length < 3) {
-    throw new Error("not enough parameter, only " + arguments.length + " params");
+    throw new Error("not enough parameter to create module [" + name + "], only " + arguments.length + " params");
   }
 
   if ("string" != typeof(name)) {

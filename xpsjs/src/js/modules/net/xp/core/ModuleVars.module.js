@@ -9,7 +9,11 @@
  * @usage : 
  * 
  * @author : drdr.xp | drdr.xp@gmail.com
- * @TODO make Module variables access more efficient. 
+ *
+ *
+ * @done make Module variables access more efficient. 08-02-09 23:05
+ *
+ * @deprecated use this[$n].bla instead.
  * 
  *--------------------------\\\ Variable ///---------------------------*/
 new Module("net.xp.core.ModuleVars", [

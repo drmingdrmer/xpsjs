@@ -14,7 +14,7 @@
  * 
  *--------------------------\\\ Most used module methods ///---------------------------*/
 new Module("net.xp.core.ModuleUtil", [
-  ],function ($this, $name){
+  ],function ($t, $n, $p, $g){
     return {
 
       /**
@@ -56,7 +56,7 @@ new Module("net.xp.core.ModuleUtil", [
 	  var dele = function (){};
 	  dele.prototype = clazz.prototype;
 	  var inst = new dele();            // invoke pseudo constructor
-	  clazz.apply(inst,obj);            // invoke real constructor.
+	  clazz.apply(inst, obj);            // invoke real constructor.
 	  return inst;
 
 	} else {
@@ -94,11 +94,14 @@ new Module("net.xp.core.ModuleUtil", [
        *    get Module by name
        *
        *    rule : 
-       *      only dot and Name to get Module in the same package.
+       *
+       *
+       *
        * @return {Module} 
        */
       $M : function (name){
-	var m = this._get("modHistory", {});
+	var m = this[$n] = this[$n] || {};
+	m = (m.modHistory = m.modHistory || {});
 
 	//get from cache
 	var mod = m[name];
