@@ -2,7 +2,7 @@
  * @Module net.xp.event.KeyBind Implement key binding in a single document.
  * 
  *
- * @author xp | yanbo@staff.sina.com.cn | drdr.xp@gmail.com
+ * @author xp | drdr.xp@gmail.com
  * 
  * @TODO to support key sequence binding.
  * 

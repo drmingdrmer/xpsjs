@@ -10,30 +10,27 @@
  *    Pollution : _$getHashCode()
  * @usage : 
  * 
- * @author : drdr.xp | yanbo@staff.sina.com.cn | drdr.xp@gmail.com
+ * @author : drdr.xp | drdr.xp@gmail.com
  * @copyright  
  * @TODO : 
  * 
  *--------------------------\\\ Hash Code ///---------------------------*/
 var x = new Module("net.xp.core.HashCode",
-[ ], function ($this, $name){ 
+[ ], function ($t, $n, $p, $g){ 
 
       function createHashFunc(){
-        var curCode = this.generateHashCode();
+        var curCode = $g.hash++;
         return function (){ return curCode; };
-      }
-
-       function generateHashCode(){
-        var g = $this.$g();
-        return g.hash++;
       }
 
     return {
       $initialize : function (){
-        var g = this.$g();
-        g.hash = 1;
+        $g.hash = 1;
       },
 
+      /**
+       * TODO simplify hash access
+       */
       hashCode : function (){
         return (this._$getHashCode || (this._$getHashCode = createHashFunc()))();
       }

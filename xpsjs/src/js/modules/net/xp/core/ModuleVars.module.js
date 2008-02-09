@@ -8,8 +8,8 @@
  *   Pollution : this.$getModuleVar()
  * @usage : 
  * 
- * @author : drdr.xp | yanbo@staff.sina.com.cn | drdr.xp@gmail.com
- * TODO make Module variables access more efficient.
+ * @author : drdr.xp | drdr.xp@gmail.com
+ * @TODO make Module variables access more efficient. 
  * 
  *--------------------------\\\ Variable ///---------------------------*/
 new Module("net.xp.core.ModuleVars", [
@@ -18,7 +18,7 @@ new Module("net.xp.core.ModuleVars", [
     return h = {
 
       /**
-       * @author : drdr.xp | yanbo@staff.sina.com.cn | drdr.xp@gmail.com
+       * @author : drdr.xp | drdr.xp@gmail.com
        * @description
        *     Get the object store module-relative variables in this-object.
        * @param {String} name
@@ -35,7 +35,7 @@ new Module("net.xp.core.ModuleVars", [
       },
 
       /**
-       * @author : drdr.xp | yanbo@staff.sina.com.cn | drdr.xp@gmail.com
+       * @author : drdr.xp | drdr.xp@gmail.com
        * @description
        *     Get Module variable
        * @param {String} varName      The variable name to get.
@@ -49,7 +49,7 @@ new Module("net.xp.core.ModuleVars", [
       },
 
       /**
-       * @author : drdr.xp | yanbo@staff.sina.com.cn | drdr.xp@gmail.com
+       * @author : drdr.xp | drdr.xp@gmail.com
        * @description
        *     Set Module variables
        * @param {String} varName variable name

@@ -8,7 +8,7 @@
  *   
  * @usage : 
  * 
- * @author : drdr.xp | yanbo@staff.sina.com.cn | drdr.xp@gmail.com
+ * @author : drdr.xp | drdr.xp@gmail.com
  * @copyright xp 
  * @TODO : 
  * 
@@ -25,7 +25,7 @@ new Module("net.xp.core.Core", [
       },
 
       /**
-       * @author : drdr.xp | yanbo@staff.sina.com.cn | drdr.xp@gmail.com
+       * @author : drdr.xp | drdr.xp@gmail.com
        * @description
        *     Get a Module by name.
        *     Look for Module in current package, and then the required list. 

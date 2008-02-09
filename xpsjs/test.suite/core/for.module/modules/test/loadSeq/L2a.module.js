@@ -1,14 +1,14 @@
 new Module("test.loadSeq.L2a", [
     "test.loadSeq.L3"
-],function ($t, $n, $p, $m, $g){
+],function ($t, $n, $p, $g){
 
-  $m.seq = $m.seq || "";
-  $m.seq += $n + ", ";
+  Module.seq = Module.seq || "";
+  Module.seq += $n + ", ";
 
   return {
     $initialize : function (){
-      $m.int = $m.int || "";
-      $m.int += $n + ", ";
+      Module.int = Module.int || "";
+      Module.int += $n + ", ";
     }
     
   }});

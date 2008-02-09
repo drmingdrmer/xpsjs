@@ -1,6 +1,6 @@
 /**
  * 
- * @author xp yanbo@staff.sina.com.cn | drdr.xp@gmail.com
+ * @author xp drdr.xp@gmail.com
  */
 /**
  * evnets:

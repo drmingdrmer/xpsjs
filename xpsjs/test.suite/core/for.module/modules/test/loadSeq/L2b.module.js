@@ -1,11 +1,11 @@
 new Module("test.loadSeq.L2b", [
-],function ($t, $n, $p, $m, $g){
-  $m.seq = $m.seq || "";
-  $m.seq += $n + ", ";
+],function ($t, $n, $p, $g){
+  Module.seq = Module.seq || "";
+  Module.seq += $n + ", ";
   return {
     $initialize : function (){
-      $m.int = $m.int || "";
-      $m.int += $n + ", ";
+      Module.int = Module.int || "";
+      Module.int += $n + ", ";
     }
     
   }});

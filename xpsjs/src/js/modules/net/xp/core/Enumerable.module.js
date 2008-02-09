@@ -8,7 +8,7 @@
  *   
  * @usage : 
  * 
- * @author : drdr.xp | yanbo@staff.sina.com.cn | drdr.xp@gmail.com
+ * @author : drdr.xp | drdr.xp@gmail.com
  * @TODO : 
  * 
  *--------------------------\\\ Each ///---------------------------*/
@@ -23,7 +23,7 @@ new Module("net.xp.core.Enumerable", [
       },
 
       /**
-       * @author : drdr.xp | yanbo@staff.sina.com.cn | drdr.xp@gmail.com
+       * @author : drdr.xp | drdr.xp@gmail.com
        * @description
        *     Same as each except embadEach create a re-compiled function for
        *     speeding up.

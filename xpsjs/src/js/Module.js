@@ -60,6 +60,7 @@ function Module(name, mixingMods, methods) {
   this._name = name;
   this._package = name.replace(/\.[^.]+$/, "");
   this._mixedMods = mixingMods;
+  this._modsToInit = mixingMods.concat();
   this._reqMods = Module._currentRequired || []; //external Module used by this.
   this._externModuleStr = " " + this._reqMods.join(" ") + " ";
   // TODO Is this needed?
@@ -74,7 +75,7 @@ function Module(name, mixingMods, methods) {
 
   /* provider provides function hashes. */
   if (typeof(methods) == 'function')
-    methods = methods(this, this._name, this._package, Module, Module._$global[name]);
+    methods = methods(this, this._name, this._package, Module._$global[name]);
 
   for (var i in methods) {
     if ('function' == typeof(methods[i])) {
@@ -137,6 +138,20 @@ Module.releaseModMethod = function(mod, name){
 
 Module.isAlias = function (mod){ return ModuleConfig.alias[mod._name] == true; };
 Module.isMix   = function (mod){ return ModuleConfig.mix[mod._name] == true; };
+
+Module.initVar = function (ins, modules /* or more mods */){
+  var mods = arguments;
+  var queue = [];
+  for (var i=1; i<mods.length; ++i){
+    queue.push(mods[i]);
+  }
+
+  var mod;
+  while (mod = queue.shift()){
+    ins[mod._name] = ins[mod._name] || {};
+    queue = queue.concat(mod._mixedMods);
+  }
+}
 
 /**
  * @return true if no object with the specific path
@@ -213,12 +228,17 @@ Module.initModule = function (name, s) {
   if (module == null) throw new Error(name + " hasnt loaded yet");
 
   //try to mix needed module to itself.
-  var md = module._mixedMods;
+  var md = module._modsToInit;
   for (var i = 0; i < md.length; i++) {
     if (Module._initQueue[md[i]] != Module._initedMark)
       Module.initModule(md[i]);
     Module.get(md[i]).mixTo(module);
     md.splice(i--,1);
+  }
+
+  /* TODO to test me */
+  for (var i=0; i<module._mixedMods.length; ++i){
+    module._mixedMods[i] = Module.get(module._mixedMods[i]);
   }
 
   try{
@@ -290,11 +310,11 @@ Module.fatal = function (msg){
 (function (proto){
   var o = {
     /**
-     * @author : drdr.xp | yanbo@staff.sina.com.cn | drdr.xp@gmail.com
+     * @author : drdr.xp | drdr.xp@gmail.com
      * @description
      *     Initialize current Module when all required-to-mix Module loaded &
      *     initialized.
-     * @return {Null} 
+     * @return {Null}
      */
     $initialize  : function () {},
     $constructor : function () {},
@@ -315,22 +335,25 @@ Module.fatal = function (msg){
 
     copyTo : function (t){
       for (var i in this) {
-        if (typeof(this[i]) != "function" || Module.prototype[i] != null) 
+        if (typeof(this[i]) != "function" || Module.prototype[i] != null)
 	  continue;
 
-        if (t[i] == null){
+	/* TODO test me (overridable) */
+	if (t[i] == null || (t[i].isOverridable && t[i].isOverridable())) {
           t[i] = this[i];
-	} 
-	else if (t[i] != this[i] && !this[i].isOverridable()){
+        }
+        else if (t[i] == this[i] || this[i].isOverridable()) { /* ignore */
+	  continue;
+        } 
+	else {
           throw new Error("memeber already exists : " + i + " in : " + (t._name || t.constructor) + " from : " + this._name);
-
         }
       }
       return t;
-    }, 
+    },
 
     /**
-     * @author : drdr.xp | yanbo@staff.sina.com.cn | drdr.xp@gmail.com
+     * @author : drdr.xp | drdr.xp@gmail.com
      * @description
      *     Get Global variable of Module.
      * @return {Object} Global Module variable

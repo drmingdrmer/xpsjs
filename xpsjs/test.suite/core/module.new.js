@@ -81,12 +81,12 @@ function test_module_method_creator(){
 
 
   var $t, $n, $p, $m, obj;
-  function creator($this, $name, $pack, $mod){
+  function creator($this, $name, $pack, $glb){
     /* check parameters */
     $t = $this;
     $n = $name;
     $p = $pack;
-    $m = $mod;
+    $m = $glb;
 
     return obj = {
       pro : 3,
@@ -109,8 +109,8 @@ function test_module_method_creator(){
     "test", 
     $p);
 
-  assertEquals("parameter $mod", 
-    Module, 
+  assertEquals("parameter $glb", 
+    Module._$global["test.Test6"], 
     $m);
 
 
@@ -124,3 +124,5 @@ function test_module_method_creator(){
     obj.fun, 
     y.fun);
 }
+
+
