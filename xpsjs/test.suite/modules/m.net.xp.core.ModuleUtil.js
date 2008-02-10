@@ -235,6 +235,7 @@ function test_mix(){
   var sm = Module.get("test.xp.core.ModuleUtil");
   sm.mix("test.T2");
   var methodTest = Module.get("test.T2").test;
+
   assertEquals("inst.test method",
     methodTest,
     sm.test);

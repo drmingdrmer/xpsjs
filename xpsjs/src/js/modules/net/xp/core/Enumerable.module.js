@@ -35,6 +35,7 @@ new Module("net.xp.core.Enumerable", [
        */
       embadEach : function (inspector){
         var cache = this._get("cacheObj", {});
+        /* TODO dont use hashcode but func.toString(). what if closure problem or function.some_pro? */
         if (!inspector.hashCode) {
           $this.$M("HashCode").mixTo(inspector);
         }

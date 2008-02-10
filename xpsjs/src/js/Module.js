@@ -75,7 +75,7 @@ function Module(name, mixingMods, methods) {
 
   /* provider provides function hashes. */
   if (typeof(methods) == 'function')
-    methods = methods(this, this._name, this._package, Module._$global[name]);
+    methods = methods(this, this._name, this._package, Module._$global[name], Module.moduleRoot);
 
   for (var i in methods) {
     if ('function' == typeof(methods[i])) {

@@ -80,13 +80,14 @@ function test_module_method_creator(){
     x.fun);
 
 
-  var $t, $n, $p, $m, obj;
-  function creator($this, $name, $pack, $glb){
+  var $t, $n, $p, $m, $r, obj;
+  function creator($this, $name, $pack, $glb, $root){
     /* check parameters */
     $t = $this;
     $n = $name;
     $p = $pack;
     $m = $glb;
+    $r = $root;
 
     return obj = {
       pro : 3,
@@ -112,6 +113,10 @@ function test_module_method_creator(){
   assertEquals("parameter $glb", 
     Module._$global["test.Test6"], 
     $m);
+
+  assertEquals("parameter $root", 
+    Module.moduleRoot,
+    $r);
 
 
   assertUndefined("y:no num property taken into module", 
