@@ -2,34 +2,28 @@
 
 <html>
 
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>JsUnit Assertion Tests</title>
-<link rel="stylesheet" type="text/css" href="../../css/jsUnitStyle.css">
-<script language="JavaScript" type="text/javascript" src="../jsunit/app/jsUnitCore.js"></script>
-<script language="JavaScript" type="text/javascript">
-	function suite(){
-		var ts = new top.jsUnitTestSuite();
-		ts.addTestPage("../test.suite/core/loader.html");
-		ts.addTestPage("../test.suite/core/module.basic.html");
-		ts.addTestPage("../test.suite/core/module.load.html");
-		ts.addTestPage("../test.suite/core/module.dependence.html");
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>JsUnit Assertion Tests</title>
+    <link rel="stylesheet" type="text/css" href="../../css/jsUnitStyle.css">
+    <script language="JavaScript" type="text/javascript" src="../jsunit/app/jsUnitCore.js"></script>
+    <script language="JavaScript" type="text/javascript">
+      function suite(){
+	var ts = new top.jsUnitTestSuite();
 
-		ts.addTestPage("../test.suite/modules/m.net.xp.core.Enumerable.html");
-		ts.addTestPage("../test.suite/modules/m.net.xp.core.HashCode.html");
-		ts.addTestPage("../test.suite/modules/m.net.xp.core.ModuleUtil.html");
+	var as = idx.document.getElementsByTagName("a");
 
-		ts.addTestPage("../test.suite/modules/m.net.xp.prototype.Array.html");
-		ts.addTestPage("../test.suite/modules/m.net.xp.prototype.String.html");
-		ts.addTestPage("../test.suite/modules/m.net.xp.prototype.Function.html");
-
-
-		return ts;
+	for (var i=1 /* ignore the suite.html */;i<as.length;i++){
+	  var a = as[i];
+	  ts.addTestPage("../" + a.innerHTML);
+	  console.log(a.innerHTML);
 	}
-</script>
-</head>
+	return ts;
+      }
+    </script>
+  </head>
 
-<body>
-
-</body>
+  <body>
+    <iframe name="idx" src="index.htm"></iframe>
+  </body>
 </html>

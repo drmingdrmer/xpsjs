@@ -67,7 +67,7 @@ function Module(name, mixingMods, methods) {
   this._reqModTable = {}; // Name to full name map;
   for (var i= 0; i < this._reqMods.length; ++i){
     var e = this._reqMods[i];
-    var nm = e.match(/\.(\w+)$/)[1];
+    var nm = e.match(/\.(\w+)$/)[0];
     this._reqModTable[nm] = this._reqModTable[nm] || e;
   }
   Module._currentRequired = null;
@@ -116,6 +116,7 @@ Module.makeModMethod = function(mod, func, name){
   }
   func.getName        = Module.createGetFunc(name);
   func.getModule      = Module.createGetFunc(mod);
+  func.module         = mod;
   func.getModName     = Module.createGetFunc(mod._name);
   func.modName        = mod._name;
   func.isModMethod    = true;
@@ -192,7 +193,7 @@ Module.get = function (name) {
   try {
     return eval("Module.moduleRoot." + name);
   } catch (e) {
-    return null;
+    return undefined;
   }
 };
 

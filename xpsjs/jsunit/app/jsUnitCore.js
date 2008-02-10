@@ -406,11 +406,10 @@ function info() {
     inform(arguments[0], arguments[1]);
 }
 
-/* override firebug function!! */
-/* function debug() { */
-    /* if (top.tracer != null) */
-	/* top.tracer.debug(arguments[0], arguments[1]); */
-/* } */
+function debug() {
+    if (top.tracer != null)
+	top.tracer.debug(arguments[0], arguments[1]);
+}
 
 function setJsUnitTracer(aJsUnitTracer) {
     top.tracer = aJsUnitTracer;
@@ -490,7 +489,7 @@ if (top && typeof(top.xbDEBUG) != 'undefined' && top.xbDEBUG.on && top.testManag
     top.xbDebugTraceFunction('top.testManager.containerTestFrame', 'getStackTrace');
     top.xbDebugTraceFunction('top.testManager.containerTestFrame', 'warn');
     top.xbDebugTraceFunction('top.testManager.containerTestFrame', 'inform');
-    /* top.xbDebugTraceFunction('top.testManager.containerTestFrame', 'debug'); */
+    top.xbDebugTraceFunction('top.testManager.containerTestFrame', 'debug');
     top.xbDebugTraceFunction('top.testManager.containerTestFrame', 'setJsUnitTracer');
     top.xbDebugTraceFunction('top.testManager.containerTestFrame', 'trim');
     top.xbDebugTraceFunction('top.testManager.containerTestFrame', 'isBlank');

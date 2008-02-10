@@ -16,7 +16,6 @@ var errchk1 = {}; /* for check bad param for ModuleLoader */
 var errchk2 = {}; /* for check bad param for ModuleLoader */
 
 function setUpPage() {
-  debug("start setup page");
 
   /**
    * test path generation

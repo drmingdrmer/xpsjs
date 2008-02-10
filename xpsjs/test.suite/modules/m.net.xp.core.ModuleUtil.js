@@ -7,8 +7,8 @@ function create_mods(){
 
   Module.require([
       "test.T2", 
-      "test.ohter_1.ModA", 
-      "test.ohter_2.ModA", 
+      "test.other_1.ModA", 
+      "test.other_2.ModA", 
     ]);
   new Module("test.xp.core.ModuleUtil", [
       "net.xp.core.ModuleUtil"
@@ -21,7 +21,9 @@ function create_mods(){
       novf         : function (){ },
       $constructor : function (a, b, c){
 	this.a = [a, b, c];
-      }
+      },
+      $M_delegate  : function (n) { return this.$M(n);}
+
     });
 
   new Module("test.xp.Sample", [], {
@@ -56,14 +58,15 @@ function create_mods(){
 
 function test_compatable(){
   create_mods();
-  //compatable
-  var clz = function (){
 
-  }
+  //compatable
+  var clz = function (){ }
+
   clz.prototype = {
     sampleMethod : function (){},
     ovf          : function ($overridable){},
-    novf         : function (){}
+    novf         : function (){}, 
+    $M_delegate	 : function (){}
   }
   var sm = Module.get("test.xp.core.ModuleUtil");
   assertTrue("compatable to clz",
@@ -230,18 +233,18 @@ function test_$M(){
   function _test_$M_Name_only(o){
     /* o may be module instance or mixed instance */
 
-    assertEquals("get required Module by NAME only",
+    assertEquals(o+"get required Module by NAME only",
       m_T2,
-      o.$M(".T2"));
+      o.$M_delegate(".T2"));
 
-    assertError("expect an error when get module with same name but different package", 
-      function (){ o.$M(".ModA"); });
+    assertError(o+"expect an error when get module with same name but different package", 
+      function (){ o.$M_delegate(".ModA"); });
 
-    assertNull("get inexistent module with name ", 
-      o.$M(".Inexistence"));
+    assertUndefined(o+"get inexistent module with name ", 
+      o.$M_delegate(".Inexistence"));
 
-    assertError("expect an error when parameter is not a string", 
-      function (){ o.$M({}); });
+    assertError(o+"expect an error when parameter is not a string", 
+      function (){ o.$M_delegate({}); });
   }
 
   _test_$M_Name_only(inst);
@@ -252,18 +255,18 @@ function test_$M(){
   function _test_$M_Partial(o){
     assertEquals("get name with partial path from required Modules", 
       m_T2, 
-      o.$M(".test.T2"));
+      o.$M_delegate(".test.T2"));
 
     assertEquals("get name with partial path from required Modules : .other_1.ModA", 
       m_1, 
-      o.$M(".other_1.ModA"));
+      o.$M_delegate(".other_1.ModA"));
 
     assertEquals("get name with partial path from required Modules : .other_2.ModA", 
       m_2, 
-      o.$M(".other_2.ModA"));
+      o.$M_delegate(".other_2.ModA"));
 
-    assertNull("get name with partial path from required Modules : .inexistence.ModA", 
-      o.$M(".inexistence.ModA"));
+    assertUndefined("get name with partial path from required Modules : .inexistence.ModA", 
+      o.$M_delegate(".inexistence.ModA"));
   }
 
   _test_$M_Partial(inst);
@@ -275,13 +278,13 @@ function test_$M(){
   function _test_$M_Full(o){
     assertEquals("get name with full path", 
       m_T2, 
-      o.$M("test.T2"));
+      o.$M_delegate("test.T2"));
 
-    assertNull("get name with full path but actully a partial path", 
-      o.$M("other_1.ModA"));
+    assertUndefined("get name with full path but actully a partial path", 
+      o.$M_delegate("other_1.ModA"));
 
-    assertNull("get name with partial path from required Modules : .inexistence.ModA", 
-      o.$M("inexistence.ModA"));
+    assertUndefined("get name with partial path from required Modules : .inexistence.ModA", 
+      o.$M_delegate("inexistence.ModA"));
   }
 
   _test_$M_Full(inst);
@@ -297,7 +300,6 @@ function test_mix(){
 
   /* debugger; */
   var sm = new Module ("test.TestMix", ["net.xp.core.ModuleUtil"], {});
-  console.log(sm.mix);
   sm.mix("test.T2");
 
   Module.require(["test.T2"]);
@@ -320,6 +322,9 @@ function test_mix(){
   assertEquals("inst.test method is mixed from test.T2 Module",
     methodTest,
     sm3.test);
+
+  assertNotError("just ignore if no parameter passed", 
+    function (){ sm3.mix(); })
 }
 
 function test_required_module_method(){

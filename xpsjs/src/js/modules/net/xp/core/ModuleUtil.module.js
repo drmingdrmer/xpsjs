@@ -15,7 +15,12 @@
  *--------------------------\\\ Most used module methods ///---------------------------*/
 new Module("net.xp.core.ModuleUtil", [
   ],function ($t, $n, $p, $g){
-    return {
+    var h;
+    return h = {
+
+      toString : function (){
+	return "Mod[" + $n + "] ";
+      }, 
 
       /**
        * @author : drdr.xp | drdr.xp@gmail.com
@@ -94,35 +99,48 @@ new Module("net.xp.core.ModuleUtil", [
        *    get Module by name
        *
        *    rule : 
+       *      $M can only be called from Module methods
        *
        *
        *
        * @return {Module} 
        */
       $M : function (name){
-	var m = this[$n] = this[$n] || {};
-	m = (m.modHistory = m.modHistory || {});
+
+	var modFrom;
+	if (this.constructor == Module)
+	  modFrom = this;
+	else 
+	  modFrom= h.$M.caller.module;
+
+	var m = (modFrom.modHistory = modFrom.modHistory || {});
 
 	//get from cache
 	var mod = m[name];
 	if (mod) return mod;
 
-	//get from normal way
-	mod = Module.get(name);
-	if (mod != null) {
-	  m[name] = mod;
-	  return mod;
+
+	if ('.' == name.charAt(0)) {			/* partial path or name only */
+
+	  mod = Module.get(modFrom._reqModTable[name]);	/* try to get module as name */
+
+	  if (null == mod) {				/* partial path */
+	    
+	    //take some fucking guess
+	    var reg = new RegExp("[^\\s]*" + name, "g");
+	    var n = modFrom._reqModStr.match(reg) || [];
+
+	    if (n.length > 1) throw new Error("more than one modules with the name : " + name);
+	    /* if (n == null) throw new Error("cant find module with name : "+name); */
+
+	    mod = Module.get(n[0]);
+	  }
+
+	} else {		    /* treat as full path */
+	  mod = Module.get(name);
 	}
 
-	//take some fucking guess
-	var reg = new RegExp("[^\\s]*" + name, "g");
-	var n = Module._initedMdouleStr.match(reg);
-
-	if (n == null) throw new Error("cant find module with name : "+name);
-	if (n.length > 1) throw new Error("more than one modules with the name : " + name);
-
-	mod = Module.get(n[0]);
-	m[name] = mod;
+	mod && (m[name] = mod);
 	return mod;
       },
 
@@ -134,7 +152,12 @@ new Module("net.xp.core.ModuleUtil", [
        * @return {Module} This Module
        */
       mix : function (name){
-	this.$M(name).mixTo(this);
+	if (!name) return this;
+
+	if (name.constructor == Module)
+	  name.mixTo(this);
+	else 
+	  this.$M(name).mixTo(this);
 	return this;
       }
 
