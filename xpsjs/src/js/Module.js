@@ -99,9 +99,10 @@ Module.loader = ModuleLoader ? ModuleLoader.instance : {loadModules : function (
 Module.moduleRoot = window;
 Module.getHostWin().Module = Module;
 
-Module._initQueue = {};
+Module._toInitQueue = {};
+Module._inited = {};
 Module._initedMark = {inited : "inited"}; //Module instance initialized-mark string
-Module._initedMdouleStr = "";
+Module._initedMdouleStr = " "; /* the first blank */
 Module._currentRequired = null;
 
 Module.makeModMethod = function(mod, func, name){
@@ -196,7 +197,7 @@ Module.get = function (name) {
 };
 
 Module.queueInitJob = function (name, module) {
-  var m = Module._initQueue[name] = module;
+  var m = Module._toInitQueue[name] = module;
 
   /* load only unloaded module */
   for (var i= 0; i < m._mixedMods.length; ++i){
@@ -213,24 +214,21 @@ Module.require = function (modules) {
 }
 
 Module.tryToInit = function () {
-  try {
-    for (var i in Module._initQueue) {
-      if (Module._initQueue[i] != Module._initedMark)
-        Module.initModule(i);
+    /* console.dir(Module._toInitQueue); */
+
+    for (var i in Module._toInitQueue) {
+      try {
+	Module.initModule(i);
+      } catch (e) { }
     }
 
-    var ar = [];
-    for (var i in Module._initQueue){
-      if (Module._initQueue[i] == Module._initedMark) ar.push(i);
-    }
-    Module._initedMdouleStr = ar.join(' ');
-
-  } catch (e) { }
+    /* console.dir(Module._inited); */
+    /* console.dir(Module._toInitQueue); */
+    /* console.log(Module._initedMdouleStr); */
 };
 
 /**
  * mix needed module to this module. runs recersively.
- * TODO dont keep the inited-mark in init-queue.
  */
 Module.initModule = function (name, s) {
   var module = Module.get(name);
@@ -239,13 +237,14 @@ Module.initModule = function (name, s) {
   //try to mix needed module to itself.
   var md = module._modsToInit;
   for (var i = 0; i < md.length; i++) {
-    if (Module._initQueue[md[i]] != Module._initedMark)
+    if (!Module._inited[md[i]])
       Module.initModule(md[i]);
+
     Module.get(md[i]).mixTo(module);
     md.splice(i--,1);
   }
 
-  /* TODO to test me */
+  /** TODO to test me */
   for (var i=0; i<module._mixedMods.length; ++i){
     module._mixedMods[i] = Module.get(module._mixedMods[i]);
   }
@@ -255,11 +254,15 @@ Module.initModule = function (name, s) {
 
     Module.alias(module);   //alias to host win
     Module.mix(module);     //mix to host win
+
   } catch (e) {
     alert(module._name + " : initialize error : "+e); 
   }
 
-  Module._initQueue[name] = Module._initedMark;
+  Module._inited[name] = true;
+  delete Module._toInitQueue[name];
+  Module._initedMdouleStr += name + " ";
+
 };
 
 /**
@@ -282,7 +285,7 @@ Module.mix = function(module, win){
 
 Module.applyAll = function (win){
   win = win || Module.getHostWin();
-  var q = Module._initQueue;
+  var q = Module._toInitQueue;
   for (var i in q){
     if (q[i] == Module._initedMark){
       Module.alias(Module.get(i),win);

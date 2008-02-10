@@ -37,8 +37,9 @@ function create_mods(){
     });
 
   new Module("test.xp.SampleMore", [
-      "test.xp.Sample", 
-      "test.xp.Empty"
+      "test.xp.Sample"
+      /* ,  */
+      /* "test.xp.Empty" */
     ], {
       ovf : function ($overridable){
 	var more;
@@ -294,7 +295,7 @@ function test_$M(){
 function test_mix(){
   create_mods();
 
-  debugger;
+  /* debugger; */
   var sm = new Module ("test.TestMix", ["net.xp.core.ModuleUtil"], {});
   console.log(sm.mix);
   sm.mix("test.T2");
