@@ -14,7 +14,7 @@ function setUpPage() {
   ins.loadModule("test.xp.Sample");
 }
 
-function test_module_static_member(){
+function test_module_static_members(){
 
   var ldr = ModuleLoader.instance;
 
@@ -126,6 +126,10 @@ function testModule_prototype_method(){
 
   //_$initialize
   assertTrue("test.xp.Sample inited", Module.initedSample);
+}
+
+function test_Module_check_init_status(){
+
 }
 
 

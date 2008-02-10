@@ -2,18 +2,19 @@
  */
 var test_onload_only_form_var = 0;
 var test_trigger_time;
+var onloadEventFlag = false;
+var onloadEventFlag2 = false;
 
 function setUp()    { }
 function tearDown() { }
 
 
 function setUpPage() {
-  debug("start setup page");
 
   /* test for onload-only form */
   function test_job () { test_onload_only_form_var=1; }
   var ins = new ModuleLoader(test_job);
-  ins.onload();
+  ins.onload[0](); /* hack : the first onload callback */
   ModuleLoader.instance = null; /* refresh hack */
 
   /* test standard config form */
@@ -27,17 +28,21 @@ function setUpPage() {
       }
     });
 
+  ins.addOnloadEvent(function (){
+      onloadEventFlag = true;
+    });
+  ins.addOnloadEvent(function (){
+      onloadEventFlag2 = true;
+    });
+
   ins.loadJS("test/stringUtil.js");
   ins.loadJS("test/stringUtil.js", "$module");	  /* load to another window */
 }
-
-
 
 function test_load_time(){
   assertTrue("loaded script executed before onload", 
     test_trigger_time);
 }
-
 
 function test_loader_basic() {
   var ins = ModuleLoader.instance;
@@ -92,4 +97,12 @@ function test_load(){
 
   assertFalse("separate name space", 
     $str == $module.$str);
+}
+
+function test_onload_event(){
+  assertTrue("additional onload event invoked", 
+    onloadEventFlag);
+
+  assertTrue("another additional onload event invoked", 
+    onloadEventFlag2);
 }

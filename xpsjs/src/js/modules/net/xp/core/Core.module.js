@@ -51,7 +51,7 @@ new Module("net.xp.core.Core", [
         // try to find in external required list 
         if (m == null) {
           var reg = new RegExp("[^\\s]*\\." + name, "g");
-          var n = $M.caller.getModule()._externModuleStr.match(reg);
+          var n = $M.caller.getModule()._reqModStr.match(reg);
           m = n != null ? m = Module.get(n[0]) : null;
         }
 

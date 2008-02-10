@@ -62,20 +62,21 @@ function Module(name, mixingMods, methods) {
   this._mixedMods = mixingMods;
   this._modsToInit = mixingMods.concat();
   this._reqMods = Module._currentRequired || []; //external Module used by this.
-  this._externModuleStr = " " + this._reqMods.join(" ") + " ";
+  this._reqModStr = " " + this._reqMods.join(" ") + " ";
   // TODO Is this needed?
-  this._externModTable = {}; // Name to full name map;
+  this._reqModTable = {}; // Name to full name map;
   for (var i= 0; i < this._reqMods.length; ++i){
     var e = this._reqMods[i];
     var nm = e.match(/\.(\w+)$/)[1];
-    this._externModTable[nm] = this._externModTable[nm] || e;
+    this._reqModTable[nm] = this._reqModTable[nm] || e;
   }
   Module._currentRequired = null;
 
 
   /* provider provides function hashes. */
   if (typeof(methods) == 'function')
-    methods = methods(this, this._name, this._package, Module._$global[name], Module.moduleRoot);
+    methods = methods(this, this._name, this._package, Module._$global[name],
+      Module.moduleRoot);
 
   for (var i in methods) {
     if ('function' == typeof(methods[i])) {
@@ -196,7 +197,14 @@ Module.get = function (name) {
 
 Module.queueInitJob = function (name, module) {
   var m = Module._initQueue[name] = module;
-  Module.loader.loadModules(m._mixedMods);
+
+  /* load only unloaded module */
+  for (var i= 0; i < m._mixedMods.length; ++i){
+    var mn = m._mixedMods[i];
+    if (null == Module.get(mn)) {
+      Module.loader.loadModule(mn);
+    }
+  }
 };
 
 Module.require = function (modules) {
@@ -216,12 +224,13 @@ Module.tryToInit = function () {
       if (Module._initQueue[i] == Module._initedMark) ar.push(i);
     }
     Module._initedMdouleStr = ar.join(' ');
-  } catch (e) {
-  }
+
+  } catch (e) { }
 };
 
 /**
  * mix needed module to this module. runs recersively.
+ * TODO dont keep the inited-mark in init-queue.
  */
 Module.initModule = function (name, s) {
   var module = Module.get(name);

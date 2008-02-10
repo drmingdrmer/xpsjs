@@ -21,12 +21,16 @@
 /**
  * config : {
  *    path : {
- *        js : String, 
- *        module : String, 
- *    }, 
- *    onLoadFinish : Function, 
+ *        js : String,
+ *        module : String,
+ *    },
+ *    onLoadFinish : Function,
  *
  * }
+ */
+/**
+ * Changes
+ *    08-02-10 20:08 added multi onload event callback.
  *
  */
 
@@ -39,12 +43,12 @@ window.ModuleLoader = function(config) {
   this.loadedCount = 0;
 
   if ("object" != typeof(config) &&
-      "function" != typeof(config)) 
+      "function" != typeof(config))
     config = undefined;
 
   config = config == null ? {} : config;
 
-  if (config.constructor == Function) 
+  if (config.constructor == Function)
     config = {onLoadFinish : config};
 
 
@@ -58,7 +62,8 @@ window.ModuleLoader = function(config) {
   this.initBaseUrl();
   this.createHolder("$module");
 
-  this.onload = cfg.onLoadFinish;
+  this.onload = [];
+  cfg.onLoadFinish && this.onload.push(cfg.onLoadFinish);
 
   /* console.log(path.js); */
   /* to load */
@@ -134,7 +139,7 @@ ModuleLoader.prototype = {
   },
 
   simplifyURL : function (url) {
-    if (url.indexOf("://") == -1) 
+    if (url.indexOf("://") == -1)
       url = this.path.base + "/" + url;
     while (/\.\.\//.test(url)) url = url.replace(/\/[^\/:]*\/\.\.\//gi, "/");
     return url;
@@ -183,12 +188,17 @@ ModuleLoader.prototype = {
   },
 
   loadModules : function (ms) {
-    if (typeof (ms) == "string") 
+    if (typeof (ms) == "string")
       ms = ms.replace(/[\s\t\r\n]/gi, "").split(",");
     for (let i = 0; i < ms.length; i++) {
       this.loadModule(ms[i]);
     }
   },
+
+  addOnloadEvent : function(fun){
+    fun && this.onload.push(fun);
+  },
+
 
   /**
    * event handler
@@ -199,7 +209,11 @@ ModuleLoader.prototype = {
     if (--this.loadedCount > 0) { return; }
     // alert(this.loadedCount + se + url);
 
-    this.onload();
+    for (var i= 0; i < this.onload.length; ++i){
+      
+      this.onload[i]();
+    }
+    /* this.onload(); */
   }
 }
 
