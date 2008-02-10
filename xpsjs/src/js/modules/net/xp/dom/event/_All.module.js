@@ -1,2 +1,2 @@
-Module.loader.loadModules([
-"net.xp.dom.event.IframeOnload"]);
+new Module("net.xp.dom.event._All",[
+"net.xp.dom.event.IframeOnload"], {});

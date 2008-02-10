@@ -1,5 +1,5 @@
-Module.loader.loadModules([
+new Module("net.xp.graphic._All",[
 "net.xp.graphic.BMPWriter",
-"net.xp.prototype.str.Color",
+"net.xp.graphic.ColorOperation",
 "net.xp.graphic.ColorTable",
-"net.xp.graphic.GifWriter"]);
+"net.xp.graphic.GifWriter"], {});

@@ -19,7 +19,7 @@ def genWild(dir)
 		end
 	}
 
-	allContent = "new Module(\""+dir[$moduleRoot.length+1..-1].gsub(/\//,".")+"._All\",[\n\""+ar.join("\",\n\"")+"\"]);" 
+	allContent = "new Module(\""+dir[$moduleRoot.length+1..-1].gsub(/\//,".")+"._All\",[\n\""+ar.join("\",\n\"")+"\"], {});" 
 
 	f = File.open(dir + "/_All.module.js", "w");
 	f.write(allContent)

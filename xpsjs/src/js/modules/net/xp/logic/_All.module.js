@@ -1,2 +1,2 @@
-Module.loader.loadModules([
-"net.xp.logic.Filter"]);
+new Module("net.xp.logic._All",[
+"net.xp.logic.Filter"], {});

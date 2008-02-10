@@ -1,2 +1,2 @@
-Module.loader.loadModules([
-""]);
+new Module("net.xp.effect._All",[
+""], {});

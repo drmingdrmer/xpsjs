@@ -1,2 +1,2 @@
-Module.loader.loadModules([
-"net.xp.data.Map"]);
+new Module("net.xp.data._All",[
+"net.xp.data.Map"], {});

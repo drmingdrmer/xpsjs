@@ -1,2 +1,2 @@
-Module.loader.loadModules([
-"net.xp.util.xml.Xml2Obj"]);
+new Module("net.xp.util.xml._All",[
+"net.xp.util.xml.Xml2Obj"], {});
