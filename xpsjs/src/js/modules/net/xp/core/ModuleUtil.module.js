@@ -83,11 +83,23 @@ new Module("net.xp.core.ModuleUtil", [
       clz : function (obj) {
 	obj = obj || this.$constructor;
 	var constr;
+	var thiz = this;
 	if (typeof(obj) == "object") {
+	  /* TODO there may be a bug that creating object by this class after obj already changed */
 	  constr = function () {
 	    for (var i in obj) this[i] = obj[i];
+	    Module.initVar(this, thiz);
 	  }
-	} else constr = obj;
+	} else {
+	  constr = function (){
+	    var t = obj.apply(this, arguments);
+	    if (t == null || typeof(t) != "object") 
+	      t = this;
+	    Module.initVar(this, thiz);
+	    return t;
+	  };
+	}
+	
 
 	this.mixTo(constr);
 	return constr;
@@ -143,6 +155,25 @@ new Module("net.xp.core.ModuleUtil", [
 	mod && (m[name] = mod);
 	return mod;
       },
+
+      /**
+       * @author : drdr.xp | yanbo@staff.sina.com.cn | drdr.xp@gmail.com
+       * @description
+       *     Mix module to normal object. and initialize module-relative
+       *     variables
+       * @param {Object} o any object
+       * @return {Module} current module
+       */
+      mix2o : function (o){
+	if (!o) return this;
+	if (this.constructor != Module) 
+	  throw new Error("mix2o can be call from only module");
+
+	this.copyTo(o);
+	Module.initVar(o, this);
+
+	return this;
+      }, 
 
       /**
        * @author : drdr.xp | drdr.xp@gmail.com

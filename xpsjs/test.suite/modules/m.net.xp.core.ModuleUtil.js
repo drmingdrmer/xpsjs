@@ -1,4 +1,22 @@
+/**-------------------------/// ModuleUtil \\\---------------------------
+ *
+ * <b></b>
+ * @version : 1.0
+ * @since : 2008 02 13 16:03:39
+ * 
+ * @description :
+ *   
+ * @usage : 
+ * 
+ * @author : drdr.xp | drdr.xp@gmail.com
+ * @copyright sina.com.cn 
+ * @TODO : mixing module to normal object 
+ * 
+ *--------------------------\\\ ModuleUtil ///---------------------------*/
+
+
 var inited = false;
+
 function create_mods(){
   if (inited) return;
 
@@ -121,21 +139,55 @@ function test_mixTo(){
   } catch(e){}
 }
 
+/* Added clz should initialize module vars automatically	08-02-13 */
 function test_clz(){
   create_mods();
   //clz
   var sm = Module.get("test.xp.core.ModuleUtil");
   var sClz = sm.clz({m:5});
   var sIns = new sClz();
-  assertEquals("eq to 5",
+
+  assertEquals("use object hash as properties list : m = 5",
     5,
     sIns.m);
+
   assertEquals("prototype.sampleMethod",
     sm.sampleMethod,
     sClz.prototype.sampleMethod);
 
+
+  /* test auto-inited module-vars */
+  var mm = new Module("TestClzModVar", 
+    ["net.xp.core.ModuleUtil"], 
+    function ($t, $n, $p, $g, $r, $c){
+      return {
+	getValue : function(){
+	  this[$n].value = this[$n].value || 3;
+	  return ++this[$n].value;
+	}
+      }
+    });
+
+  var clz0 = mm.clz({});
+  var ins0 = new clz0();
+  assertNotError("use this[$n] without init", 
+    function (){ins0.getValue();});
+
+  var clz1 = mm.clz(function (){
+      this.value = 5;
+    });
+  var ins1 = new clz1();
+
+  assertEquals("create class use constructor", 
+    5, 
+    ins1.value);
+
+  assertNotError("use this[$n] without init, creating clz with constructor", 
+    function (){ins1.getValue();});
+
 }
 
+/* TODO newInst should initialize module vars automatically */
 function test_newInst(){
 
   create_mods();
@@ -143,22 +195,27 @@ function test_newInst(){
   //newInst
   var sm = Module.get("test.xp.core.ModuleUtil");
   var x = sm.newInst(null);
+
   assertTrue("x.sampleMethod is not null",
     x.sampleMethod != null);
+
   assertEquals("x.sampleMethod",
     x.sampleMethod,
     sm.sampleMethod);
 
-  var y = sm.newInst({a:5,
-      b:3});
+  var y = sm.newInst({a:5, b:3});
+
   assertEquals("y.a",
     5,
     y.a);
+  
   assertEquals("y.b",
     3,
     y.b);
+
   assertTrue("y.sampleMethod is not null",
     y.sampleMethod != null);
+
   assertEquals("y.sampleMethod",
     y.sampleMethod,
     sm.sampleMethod);
@@ -169,14 +226,18 @@ function test_newInst(){
     tmp = "_initedMark";
   }
   var z = sm.newInst(clzs);
+
   assertEquals("clz inited",
     "_initedMark",
     tmp);
+
   assertEquals("z.p",
     5,
     z.p);
+
   assertTrue("z.sampleMethod is not null",
     z.sampleMethod != null);
+  
   assertEquals("z.sampleMethod",
     z.sampleMethod,
     sm.sampleMethod);
@@ -353,4 +414,84 @@ function test_required_module_method(){
       });
     fail("expect an error but not");
   }catch (e){}
+}
+
+function test_mix2o(){
+  /* test mixing module to normal object */
+
+  new Module("TestMixToObj", 
+    ["net.xp.core.ModuleUtil"], 
+    function ($t, $n, $p, $g, $r, $c){return {
+	getValue : function (){
+	  this[$n] = this[$n] || {};
+	  this[$n].value = this[$n].value || 0;
+	  return ++this[$n].value;
+	}, 
+	getValueSimple : function (){
+	  this[$n].value = this[$n].value || 0;
+	  return ++this[$n].value;
+	}
+      }});
+
+  var m = new Module("TestMixToOjbChild", 
+    ["TestMixToObj"], 
+    function ($t, $n, $p, $g, $r, $c){
+      return {
+	getAnotherValue : function (){
+	  this[$n].value = this[$n].value || 0;
+	  return ++this[$n].value;
+	}
+      }});
+
+  var o = {}, p = {}, q = {getValue : function (){}};
+
+  var or = m.mix2o(o);
+  var pr = m.mix2o(p);
+
+
+  assertError("mix2o cant be called from normal object, but from module only", 
+    function (){o.mix2o(p)});
+
+  assertError("cant override normal object's properties", 
+    function (){m.mix2o(q)});
+
+
+  /* test return value */
+  assertEquals("mix2o returns the original module for o", 
+    m, 
+    or);
+
+  assertEquals("mix2o returns the original module for p", 
+    m, 
+    pr);
+
+  /* test mixed methods */
+  assertEquals("mixed method from ModuleUtil",
+    m.$M, 
+    o.$M);
+
+  assertEquals("mixed method from ModuleUtil",
+    m.getValue, 
+    o.getValue);
+
+  /* test auto added module-relative variable (this.xxx) */
+  assertNotError("this[blabla] already exists", 
+    function (){ o.getValueSimple(); });
+
+  assertEquals("increase value", 
+    2, 
+    o.getValue());
+
+  assertEquals("values from different module will not be confused", 
+    1, 
+    o.getAnotherValue());
+
+
+  assertEquals("increase value for p", 
+    1, 
+    p.getValue());
+
+  assertNotEquals("values from different object will not be confused", 
+    o.getValue(), 
+    p.getValue());
 }

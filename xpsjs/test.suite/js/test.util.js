@@ -15,6 +15,6 @@ function assertNotError(msg, f){
   try {
     f();
   } catch (err) { 
-    fail(msg);
+    fail(msg + " error : " + err);
   }
 }

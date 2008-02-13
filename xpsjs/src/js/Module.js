@@ -73,10 +73,16 @@ function Module(name, mixingMods, methods) {
   Module._currentRequired = null;
 
 
+  /* TODO test me $r, $c for moduleRoot & current package */
   /* provider provides function hashes. */
   if (typeof(methods) == 'function')
-    methods = methods(this, this._name, this._package, Module._$global[name],
-      Module.moduleRoot);
+    methods = methods(
+      this,                            /* current module */
+      this._name,                      /* current module name */
+      this._package,                   /* current package */
+      Module._$global[name],           /* global module storage object */
+      Module.moduleRoot,               /* module root */
+      Module.get(this._package));      /* cuurent package obj */
 
   for (var i in methods) {
     if ('function' == typeof(methods[i])) {
@@ -142,6 +148,7 @@ Module.releaseModMethod = function(mod, name){
 Module.isAlias = function (mod){ return ModuleConfig.alias[mod._name] == true; };
 Module.isMix   = function (mod){ return ModuleConfig.mix[mod._name] == true; };
 
+/* TODO test properties overriding */
 Module.initVar = function (ins, modules /* or more mods */){
   var mods = arguments;
   var queue = [];
@@ -382,4 +389,3 @@ Module.fatal = function (msg){
   for (var i in o) proto[i] = o[i];
 
 })(Module.prototype);
-
