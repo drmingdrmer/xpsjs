@@ -1,6 +1,7 @@
 function func_template(a, b, c){
 
-  var t = func_embed(1, 2);
+  /* var t = func_embed(1, 2); */
+  var t = func_embed();
 
   return t;
 }
