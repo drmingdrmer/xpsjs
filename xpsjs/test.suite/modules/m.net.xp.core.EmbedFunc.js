@@ -1,50 +1,87 @@
-function func_template(a, b, c){
-
-  /* var t = func_embed(1, 2); */
-  var t = func_embed();
-
-  return t;
+function func_template(a, b){
+  return func_embed();
 }
 
-function func_embed(a, b, c){
+function tmpl_for(a, b){
+  var x = 0;
+  for (var i=0; i<10; ++i){
+    x += embed_if(i, b);
+  }
+
+  return x;
+}
+
+function embed_simple(a, b){
   return a + b;
-  return;
+}
+
+function embed_param(a, b){
+  for (var i= 0; i < a; ++i){
+    b += i;
+  }
+  return b;
+}
+
+function embed_if(a, b){
+  if (a>5){
+    return 4;
+  } else {
+    return 10;
+  }
+}
+
+function embed_if_1_ret(a, b){
+  if (a>5){
+    b = 4;
+  } else {
+    b = 10;
+  }
+  return b;
 }
 
 
-var t = 1;
+/**
+ * TODO test mutil return & single return;
+ * TODO set invoking name
+ */
 function test_embed_func(){
   var m = Module.get("net.xp.core.EmbedFunc");
 
-  var nf = m.embedFunc(func_template, func_embed);
+  var new_simp  = m.embedFunc(func_template, embed_simple, "func_embed");
+  var new_param = m.embedFunc(func_template, embed_param , "func_embed");
+  var new_if    = m.embedFunc(func_template, embed_if    , "func_embed");
 
-  var v = nf(1, 2, 3);
+  /* assertEquals("evaluate created function",  */
+    /* embed_simple(1, 2),  */
+    /* new_simp(1, 2)); */
 
-  assertEquals("evaluate created function", 
-    3, 
-    v);
+  /* assertEquals("with parameter",  */
+    /* embed_param(3, 4),  */
+    /* new_param(3, 4)); */
 
+  /* assertEquals("if ",  */
+    /* embed_if(3, 4),  */
+    /* new_if(3, 4)); */
 
-  nf = function (a, b){
-    quitHere:
-    while(1){
-      var _v = a + b;
-      break quitHere;
-    }
+  /* assertEquals("if ",  */
+    /* embed_if(8, 4),  */
+    /* new_if(8, 4)); */
 
-    return _v;
-  }
+  var new_for    = m.embedFunc(tmpl_for, embed_if_1_ret    , "embed_if");
+
+  assertEquals("invoke with parameter ", 
+    tmpl_for(8, 4), 
+    new_for(8, 4));
 
   var t0 = new Date().getTime();
   for (var i= 0; i < 50000; ++i){
-    func_embed();
+    tmpl_for();
   }
   var t1 = new Date().getTime();
   for (var i= 0; i < 50000; ++i){
-    nf();
+    new_for();
   }
   var t2 = new Date().getTime();
   console.log(t1-t0, t2-t1);
-  console.log(t);
 
 }
