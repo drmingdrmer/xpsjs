@@ -5,15 +5,15 @@
     <title>test suite index</title>
     <script>
       function init(){
-	var testRunner = "../jsunit/testRunner.html";
-	var base = "C:\\Hyper.Disc\\.projects\\.js\\.xp\\xpj.v.01.1";
-	// var base = "/";
+        var testRunner = "../jsunit/testRunner.html";
+        var base = "C:\\Hyper.Disc\\.projects\\.js\\.xp\\xpj.v.01.1";
+        // var base = "/";
 
-	var as = document.getElementsByTagName("a");
-	for (var i=0;i<as.length;i++){
-	  var a = as[i];					
-	  a.href=testRunner+"?testPage="+base+"\\"+a.innerHTML+"&autoRun=true&showTestFrame=50";
-	}
+        var as = document.getElementsByTagName("a");
+        for (var i=0;i<as.length;i++){
+          var a = as[i];                                        
+          a.href=testRunner+"?testPage="+base+"\\"+a.innerHTML+"&autoRun=true&showTestFrame=50";
+        }
       }
     </script>
   </head>
@@ -39,6 +39,8 @@
 
       <li><a href="">test.suite\modules\_testTmpl.html?net.xp.core.ModuleUtil</a></li>
 
+      <li><a href="">test.suite\modules\_testTmpl.html?net.xp.core.EmbedFunc</a></li>
+
       <li><a href="">test.suite\modules\m.net.xp.core.Enumerable.html</a></li>
 
       <li>----</li>
@@ -62,3 +64,4 @@
     </ul>
   </body>
 </html>
+
