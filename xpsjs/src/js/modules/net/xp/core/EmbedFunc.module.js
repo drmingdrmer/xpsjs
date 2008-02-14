@@ -44,10 +44,11 @@ new Module("net.xp.core.EmbedFunc", [
 
       var ftparam = getFuncParam(fts);
 
-      var tbody = getFuncBody(fts);
+      var tbody = getFuncBody(fts, false);
       var ebody = getFuncBody(fes, true);
 
-      ebody = ebody.replace(/return (.*);/g, "throw $1;");
+      tbody = "var __return_val__;" + tbody;
+      ebody = ebody.replace(/return (.*);/g, "__return_val__ = $1;break __break_point;");
 
       /* TODO for now no parameter support */
       var invStr = "\\b(" + femb.name + "\\b\\s*\\(\\))";
@@ -55,7 +56,7 @@ new Module("net.xp.core.EmbedFunc", [
 
       var invLineReg = new RegExp(invLineStr, "g");
 
-      var newFB = tbody.replace(invLineReg, "try{" + ebody + "}catch(_ret_val){__return_value__ = _ret_val;} $1 __return_value__ $3");
+      var newFB = tbody.replace(invLineReg, "__break_point:while(1){" + ebody + "}; $1 __return_val__ $3");
       console.log(newFB);
 
       var newFunc = Function.apply(null, ftparam.concat([newFB]));
