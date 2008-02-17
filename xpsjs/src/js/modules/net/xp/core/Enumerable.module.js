@@ -2,7 +2,7 @@
  *
  * <b></b>
  * @version : 1.0
- * @since : 2007 10 20 13:15:54
+ * @since : 2008 01 20 13:15:54
  * 
  * @description :
  *   
@@ -14,8 +14,7 @@
  *--------------------------\\\ Each ///---------------------------*/
 new Module("net.xp.core.Enumerable", [
   "net.xp.core.HashCode"
-  ],
-  function ($this, $name, $package) {
+], function ($t, $n, $p, $g, $r, $c) {
     return {
 
       $initialize : function (){
@@ -37,7 +36,7 @@ new Module("net.xp.core.Enumerable", [
         var cache = this._get("cacheObj", {});
         /* TODO dont use hashcode but func.toString(). what if closure problem or function.some_pro? */
         if (!inspector.hashCode) {
-          $this.$M("HashCode").mixTo(inspector);
+          $t.$M("HashCode").mixTo(inspector);
         }
         var hash = inspector.hashCode();
         if (cache[hash] == null) {
