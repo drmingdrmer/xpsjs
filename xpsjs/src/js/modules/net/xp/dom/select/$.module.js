@@ -47,6 +47,10 @@
  * E ~ F                        an F element preceded by an E element                           General sibling combinator      3
  * 
  *   
+ *
+ *
+ *
+ *
  * @usage : 
  * 
  * @author : drdr.xp | drdr.xp@gmail.com
@@ -55,10 +59,120 @@
  * 
  *--------------------------\\\ Dom select ///---------------------------*/
 new Module("net.xp.dom.select.$", [
-    "net.xp.dom.WindowRelative"
   ], function ($t, $n, $p, $g, $r, $c) {
+    /* private */
+
+    var has_or = /[^\\]\|/;
+
+    function _any(str){ return "(?:"+str+")*"; }
+    function _1more(str){ return "(?:"+str+")+"; }
+    function _01(str){ return "(?:"+str+")?"; }
+    function _or() {
+      var r = [];
+      for (var i= 0; i < arguments.length; ++i){
+	var e = arguments[i];
+	if (has_or.test(e))
+	  r.push("(?:" + e + ")");
+	else 
+	  r.push(e);
+      }
+
+      return r.join("|");
+    }
+
+    /* primitive */
+
+    var w       = "\\s*";
+    var string1 = "\"[^\"]*\"";
+    var string2 = "\'[^']*'";
+    /* var string  = _or(string1, string2); */
+    var string  = string1;
+    /* var num     = "\\d+(\\.\\d+)?"; */
+    var num     = "\\d+";
+    var nmstart = "[a-z_]";
+    var nmchar  = "[\\w-]";
+    var name    = nmchar + "+";
+    var ident   = nmstart + nmchar + "*";
+
+    /* const */
+    var S = "\\s";
+
+    var INCLUDES 	= "~=";
+    var DASHMATCH 	= "\\|=";
+    var PREFIXMATCH 	= "\\^=";
+    var SUFFIXMATCH     = "\\$=";        
+    var SUBSTRINGMATCH  = "\\*=";        
+    var IDENT           = ident;
+    var STRING          = string;
+    var FUNCTION        = ident + "\\(";  
+    var NUMBER          = num;
+    var HASH            = "#" + name;   
+    var PLUS            = w + "\\+";
+    var GREATER         = w + ">";
+    var COMMA           = w + ",";
+    var TILDE           = w + "~";
+    var NOT             = ":not\\(";     
+    var DIMENSION       = num + ident;
+    
+
+    /* lang */
+
+    var _anyS = S + "*";
+
+    var type_selector = IDENT;
+    var universal = "\\*";
+
+    var CLASS = "\\." + IDENT;
+    var functional_pseudo = FUNCTION + _anyS + expression + "\\)";
+    /* var _matches = _or(PREFIXMATCH, SUFFIXMATCH, SUBSTRINGMATCH, "=", INCLUDES, DASHMATCH); */
+    var _matches = "[~|^$*]*=";
+    var attrib = "\\[" + 
+      _01(_anyS + IDENT + _anyS + _matches + _anyS + _or(IDENT, STRING) + _anyS) + "\\]";
+    var pseudo = ":" + _or(IDENT, functional_pseudo);
+
+    var negation_arg = _or(type_selector, universal, HASH, CLASS, attrib, pseudo);
+
+    var negation = NOT + "(?:" + _anyS + negation_arg + _anyS + ")\\)";
+
+    var expression = _1more(_or(PLUS, "-", DIMENSION, NUMBER, IDENT) + _anyS);
+
+    var simple_select_condition = _or(HASH, CLASS, attrib, pseudo, negation);
+
+    var simple_selector_sequence = _or((type_selector + universal), _01(type_selector + universal) + _1more(simple_select_condition));
+
+
+    /* var comb = _or(PLUS + S + "*",  */
+      /* GREATER + S + "*",  */
+      /* TILDE + S + "*",  */
+      /* S); */
+    var comb = "\\s*[+>~\\s]\\s*";
+
+    var sel = _any("(?:" + simple_selector_sequence + ")" + comb);
+
+    /* var sel_grp = sel + _any("," + _anyS + sel); */
+
+
+    function tst(r, s){
+      console.log(r.length, r);
+      var reg = new RegExp(r, "g");
+      console.log(s.match(reg));
+    }
+
+    tst(simple_selector_sequence, " .clz");
+    
+
+
+
+    /* console.log(sel); */
+    /* var reg = new RegExp(sel); */
+
     return {
       $initialize : function (){ },
+
+      /* TODO create default constructor */
+      $constructor : function (){
+
+      }, 
 
       $ : function (id, doc){
         return this.$Doc(doc).getElementById(id);
