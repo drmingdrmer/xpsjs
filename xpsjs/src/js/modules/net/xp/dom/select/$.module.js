@@ -64,6 +64,8 @@ new Module("net.xp.dom.select.$", [
 
     var has_or = /[^\\]\|/;
 
+    function q(str){ return "(" + str + ")";}
+    function g(str){ return "(?:" + str + ")";}
     function _any(str){ return "(?:"+str+")*"; }
     function _1more(str){ return "(?:"+str+")+"; }
     function _01(str){ return "(?:"+str+")?"; }
@@ -106,12 +108,13 @@ new Module("net.xp.dom.select.$", [
     var STRING          = string;
     var FUNCTION        = ident + "\\(";  
     var NUMBER          = num;
-    var HASH            = "#" + name;   
+    var HASH            = "(#)(" + name+")";   
+    /* var HASH            = "#" + name+"";    */
     var PLUS            = w + "\\+";
     var GREATER         = w + ">";
     var COMMA           = w + ",";
     var TILDE           = w + "~";
-    var NOT             = ":not\\(";     
+    var NOT             = "(:not\\()";     
     var DIMENSION       = num + ident;
     
 
@@ -119,52 +122,50 @@ new Module("net.xp.dom.select.$", [
 
     var _anyS = S + "*";
 
-    var type_selector = IDENT;
-    var universal = "\\*";
+    var type_selector     = q(nmstart + nmchar + "*|\\*");
+    var CLASS             = "(\\.)" + "(" + IDENT + ")";
+    var expression        = _1more(_or("\\+", "-", DIMENSION, NUMBER, IDENT) + _anyS);
+    var functional_pseudo = q(FUNCTION) + _anyS + q(expression) + "\\)";
+    var _matches          = "[~|^$*]*=";
+    var attrib            = "(\\[)" + _01(q(IDENT) + _anyS + q(_matches) + _anyS + q(_or(nmchar + "*", STRING))) + "\\]";
+    var pseudo            = "(:)" + _or(functional_pseudo, q(IDENT));
+    var negation_arg      = _or(type_selector, HASH, CLASS, attrib, g(pseudo));
+    var negation          = NOT + "(?:" + _anyS + negation_arg + _anyS + ")\\)";
+    /* var sel_cond	  = _or(HASH, CLASS, attrib, g(negation), q(pseudo)); */
+    var sel_cond	  = _or(q(pseudo));
+    var comb              = "\\s*([+>~\\s])\\s*";
 
-    var CLASS = "\\." + IDENT;
-    var functional_pseudo = FUNCTION + _anyS + expression + "\\)";
-    /* var _matches = _or(PREFIXMATCH, SUFFIXMATCH, SUBSTRINGMATCH, "=", INCLUDES, DASHMATCH); */
-    var _matches = "[~|^$*]*=";
-    var attrib = "\\[" + 
-      _01(_anyS + IDENT + _anyS + _matches + _anyS + _or(IDENT, STRING) + _anyS) + "\\]";
-    var pseudo = ":" + _or(IDENT, functional_pseudo);
+    var selector 	  = type_selector + "?" + _any(sel_cond);
 
-    var negation_arg = _or(type_selector, universal, HASH, CLASS, attrib, pseudo);
-
-    var negation = NOT + "(?:" + _anyS + negation_arg + _anyS + ")\\)";
-
-    var expression = _1more(_or(PLUS, "-", DIMENSION, NUMBER, IDENT) + _anyS);
-
-    var simple_select_condition = _or(HASH, CLASS, attrib, pseudo, negation);
-
-    var simple_selector_sequence = _or((type_selector + universal), _01(type_selector + universal) + _1more(simple_select_condition));
-
-
-    /* var comb = _or(PLUS + S + "*",  */
-      /* GREATER + S + "*",  */
-      /* TILDE + S + "*",  */
-      /* S); */
-    var comb = "\\s*[+>~\\s]\\s*";
-
-    var sel = _any("(?:" + simple_selector_sequence + ")" + comb);
-
-    /* var sel_grp = sel + _any("," + _anyS + sel); */
-
+    /* var sel = _1more("(" + simple_selector_sequence + ")" + "(" + comb + ")"); */
 
     function tst(r, s){
-      console.log(r.length, r);
-      var reg = new RegExp(r, "g");
-      console.log(s.match(reg));
+      /* r = "^(?:" + r +")$"; */
+      var reg = new RegExp(r);
+      console.log(reg.toString());
+      var t = s.match(reg);
+      console.log(t.length);
+      console.log(t.index);
+      console.log(t);
     }
 
-    tst(simple_selector_sequence, " .clz");
-    
+    /* tst(selector, ".clz"); */
+    /* tst(selector, "xp"); */
+    /* tst(selector, "#id"); */
+    /* tst(selector, "[id=5]"); */
+    /* tst(selector, "[class~=\"xp\"]"); */
+    /* tst(selector, "div:first-child"); */
+    tst(_any(sel_cond), ":nth-of-type(odd)");
+    /* tst(selector, ":not(:nth-child(2a+1))"); */
+
+    /* tst(attrib, "[id=5]"); */
 
 
+    function cleanSelector(str){
+      str = str.replace(/^\s*|\s*$/, "");      /* trim */
 
-    /* console.log(sel); */
-    /* var reg = new RegExp(sel); */
+      return str;
+    }
 
     return {
       $initialize : function (){ },
@@ -173,6 +174,12 @@ new Module("net.xp.dom.select.$", [
       $constructor : function (){
 
       }, 
+
+      parseToArray : function (str){
+
+
+      }, 
+
 
       $ : function (id, doc){
         return this.$Doc(doc).getElementById(id);
